@@ -69,6 +69,8 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   // NotificationService().showNotifications(message);
 }
 
+//kugidufgig
+
 class MyApp extends StatelessWidget {
   final _appRouter = AppRouter(authGuard: AuthGuard());
   MyApp({super.key});
