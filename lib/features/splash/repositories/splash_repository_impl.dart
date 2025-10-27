@@ -33,7 +33,7 @@ class SplashRepositoryImpl implements SplashRepository {
     Map<String, dynamic> data = {'token': token};
     return _validateToken(() async {
       final response = await apiRepository.getWithBody(
-        ApiConstants.validateToken,
+        ApiConstants.dashBoard,
         data,
       );
       // final user = ValidateTokenModel.fromJson(response['data']);

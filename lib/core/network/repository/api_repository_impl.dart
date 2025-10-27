@@ -19,7 +19,7 @@ class ApiRepositoryImpl implements ApiRepository {
   final ConnectionChecker _connectionChecker;
 
   ApiRepositoryImpl(this._connectionChecker)
-    : _dio = Dio(BaseOptions(baseUrl: ApiConstants.appStagingBaseUrl)) {
+    : _dio = Dio(BaseOptions(baseUrl: ApiConstants.baseURl)) {
     _dio.interceptors.add(
       NetworkInterceptors(
         retryInterceptor: RetryInterceptor(

@@ -1,10 +1,8 @@
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:starter_app/core/env/env.dart';
 
-import '../../constant/preference_constant.dart';
-import '../../utils/preference_utils.dart';
 import 'retry_interceptor.dart';
 import 'token_interceptor.dart';
 
@@ -27,7 +25,7 @@ class NetworkInterceptors extends Interceptor {
     options.receiveTimeout = const Duration(milliseconds: 30000);
 
     // Log headers for debugging
-    print('Final headers being sent: ${options.headers}');
+    // print('Final headers being sent: ${options.headers}');
 
     handler.next(options);
   }
@@ -62,10 +60,10 @@ class NetworkInterceptors extends Interceptor {
   Map<String, String> _headers() {
     Map<String, String> headers = {};
 
-    final token = getString(PreferenceConstant.token);
-    log("Token from preference: $token");
+    final token = Env.apiKeyValue;
+    // log("Token from preference: $token");
     if (token.isNotEmpty) {
-      print("Authorization Header Set ===> Bearer $token");
+      // print("Authorization Header Set ===> Bearer $token");
       headers["Authorization"] = 'Bearer $token';
     }
 

@@ -11,33 +11,17 @@
 part of 'app_router.dart';
 
 /// generated route for
-/// [LoginPage]
-class LoginRoute extends PageRouteInfo<void> {
-  const LoginRoute({List<PageRouteInfo>? children})
-    : super(LoginRoute.name, initialChildren: children);
+/// [DashboardScreen]
+class DashboardRoute extends PageRouteInfo<void> {
+  const DashboardRoute({List<PageRouteInfo>? children})
+    : super(DashboardRoute.name, initialChildren: children);
 
-  static const String name = 'LoginRoute';
-
-  static PageInfo page = PageInfo(
-    name,
-    builder: (data) {
-      return const LoginPage();
-    },
-  );
-}
-
-/// generated route for
-/// [OnboardingPage]
-class OnboardingRoute extends PageRouteInfo<void> {
-  const OnboardingRoute({List<PageRouteInfo>? children})
-    : super(OnboardingRoute.name, initialChildren: children);
-
-  static const String name = 'OnboardingRoute';
+  static const String name = 'DashboardRoute';
 
   static PageInfo page = PageInfo(
     name,
     builder: (data) {
-      return const OnboardingPage();
+      return const DashboardScreen();
     },
   );
 }

@@ -10,6 +10,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:starter_app/core/helpers/extensions/responsive_extensions.dart';
+import 'package:starter_app/features/dashboard/screens/cubit/dashboard_cubit.dart';
 
 import 'core/connection/global_connectivity_observer.dart';
 import 'core/di/injection.dart';
@@ -85,6 +86,7 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider<LocaleCubit>(create: (_) => LocaleCubit()),
         BlocProvider<ThemeCubit>(create: (_) => ThemeCubit()),
+        BlocProvider(create: (_) => DashboardCubit(sl.get())),
       ],
       child: BlocBuilder<ThemeCubit, AppTheme>(
         builder: (context, themeState) {

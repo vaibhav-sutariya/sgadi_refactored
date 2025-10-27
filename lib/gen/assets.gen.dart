@@ -396,14 +396,11 @@ class $AssetsImagesGen {
 class $AssetsLogoGen {
   const $AssetsLogoGen();
 
-  /// File path: assets/logo/app_logo.png
-  AssetGenImage get appLogo => const AssetGenImage('assets/logo/app_logo.png');
-
   /// File path: assets/logo/splash_icon.svg
   String get splashIcon => 'assets/logo/splash_icon.svg';
 
   /// List of all assets
-  List<dynamic> get values => [appLogo, splashIcon];
+  List<String> get values => [splashIcon];
 }
 
 class $AssetsLottieGen {

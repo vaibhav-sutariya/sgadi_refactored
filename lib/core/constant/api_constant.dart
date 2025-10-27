@@ -1,77 +1,61 @@
 import '../env/env.dart';
 
 class ApiConstants {
-  static const String appStagingBaseUrl = Env.baseUrl;
-  // static const String appStagingBaseUrl = "http://localhost:3000/api/";
-  // vendor
+  // static const String appStagingBaseUrl = Env.baseUrl;
+  // static String apiKeyValue =
+  //     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNjIzOTdkMDMyYzA1MGExOTI2ODFiYTM1IiwidG9rZW4iOlsiNjIzYmVlYzhhZWZmODI1NDJmZDg3ZTU1IiwiNjIzYmVlZTVhZWZmODI1NDJmZDg3ZTViIiwiNjIzYmVlZjZhZWZmODI1NDJmZDg3ZTYyIiwiNjIzYmVmMDNhZWZmODI1NDJmZDg3ZTZhIiwiNjIzYmVmMGZhZWZmODI1NDJmZDg3ZTczIiwiNjIzYmVmMWRhZWZmODI1NDJmZDg3ZTdkIiwiNjIzYmVmMjZhZWZmODI1NDJmZDg3ZTg4IiwiNjIzYmVmMzNhZWZmODI1NDJmZDg3ZTk0IiwiNjIzYmVmM2VhZWZmODI1NDJmZDg3ZWExIiwiNjIzYmVmNDlhZWZmODI1NDJmZDg3ZWFmIiwiNjIzYmVmNWNhZWZmODI1NDJmZDg3ZWJlIiwiNjIzYmVmNmNhZWZmODI1NDJmZDg3ZWNlIiwiNjIzYmVmODFhZWZmODI1NDJmZDg3ZWRmIiwiNjIzYmVmOGRhZWZmODI1NDJmZDg3ZWYxIiwiNjIzYmVmYWFhZWZmODI1NDJmZDg3ZjA0IiwiNjMxMGEwMDU4Y2U0NjcwYjA3ZDNiNGIxIiwiNjMxZGM1NDlmZDVjM2ZlMmU5ZTVkMDFlIiwiNjMyMzA0NzgwZGI1YmEwYjRhOWRjYmQ4IiwiNjMyMzhjZGFiODk5ODFhZDE0NTdhZjU2IiwiNjMyNDE0ODYzNGY4NTYzNDEwMTJkYTc2IiwiNjQxN2UzZWM1MjE4MGU3ZTdmMGExOGQ1IiwiNjQxOTNkYWM2YTY1ZDY4NmVlZjhmMTBhIiwiNjQxOTNlNmM2YTY1ZDY4NmVlZjhmMWFjIiwiNjQxOTNlZTI2YTY1ZDY4NmVlZjhmMjIyIiwiNjQxOTNmNWM2YTY1ZDY4NmVlZjhmMjdjIiwiNjQxOTQwMTY2YTY1ZDY4NmVlZjhmMmVlIiwiNjQxOTQwZWY2YTY1ZDY4NmVlZjhmMzY5IiwiNjQxOTQxMzc2YTY1ZDY4NmVlZjhmM2I5IiwiNjQyNjZmM2M1ZWUxYjZiNTM5NjkyZGYwIiwiNjQyNjc3OGY1ZWUxYjZiNTM5NjkzMGI0IiwiNjQzOGRlNjdkMjcyZjJlZGM4ZTIzYjk0IiwiNjU4NGY3OTFmZjQ1MmNkM2RlZTFjZWQ2IiwiNjU4NGY5NDhmZjQ1MmNkM2RlZTFkMzJjIl0sImlhdCI6MTcwNjA5MTE0OX0.4lGsVz6gKGYkJrqVeO1m1ARuqlGJ9waXzD7Jvk_PXnY";
+  // static String apiKey = "x-access-token";
 
-  static const String registerVendor = "vendors/register";
-  static const String loginVendor = "vendors/login";
-  static const String updateBusinessDetail = "vendors/update-business";
-  static const String confirmImageUpload = "vendors/confirm-image-upload";
-  static const String selectServices = "vendors/select-services";
-  static const String updateVendor = "vendors/update";
-  static const String changePassword = "vendors/change-password";
-  static const String deleteVendor = "vendors/delete/:id";
-  static const String forgotPassword = "vendors/forgot-password";
-  static const String resetPassword = "vendors/reset-password";
-  static const String resendOtp = "vendors/resend-otp";
-  static const String verifyOtp = "vendors/verify-otp";
-  static const String getVendorProfile = "vendors/get-vendor-profile";
-  static const String getImageUrl = "get-image-url";
-  static const String getServices = "services/";
-  static const String updateServices = "services/update-services";
-  static const String deleteServices = "services/delete-services";
-  static const String addServices = "vendors/add-service";
-  static const String vendorCustomServices = "services/get-vendor-routes";
-  static const String verifyRegistrationOtp = "vendors/verify-otp-registration";
-  static const String validateToken = "vendors/validate-token";
+  //static String baseURl = "https://frstg.acqua.travel/authstg/api-v3/";
+  static const String baseURl = Env.baseUrl;
+  static const String ganShaymVijayListing =
+      "${baseURl}publication/gvijay/filter";
+  static const String ganShaymVijayFilter =
+      "${baseURl}publication/gvijay/front";
+  static const String newsFilter = "${baseURl}news/front";
+  static const String newsList = "${baseURl}news/filter";
+  static const String newsCategoryList = "${baseURl}news/category/all";
+  static const String newsDetails = "${baseURl}cms/cms-page-content/level1/";
+  static const String locationScreen = "${baseURl}mandir/filter";
+  static const String appMenuList = "${baseURl}menu/app-menu/all";
+  static const String aboutUs =
+      "${baseURl}cms/cms-page-content/level1/62f425a1669082d78ead093b";
+  static const String contactUs =
+      "${baseURl}cms/cms-page-content/level1/62f43277669082d78ead2389";
+  static const String termsAndConditions =
+      "${baseURl}cms/cms-page-content/level1/6321accd925b2b6069b03ef2";
+  static const String privacyPolicy =
+      "${baseURl}cms/cms-page-content/level1/62f43277669082d78ead2389";
+  static const String dashBoard = "${baseURl}cms/cms-page-content/level1/";
+  static const String quoteList = "${baseURl}quote/filter";
+  static const String niyamList = "${baseURl}publication/nitya-niyam/filter";
+  static const String niyamDetails = "${baseURl}publication/nitya-niyam/all";
+  static const String niyamCategory =
+      "${baseURl}publication/nitya-niyam-category/all";
+  static const String niyamListCategoryWise =
+      "${baseURl}publication/nitya-niyam/category-wise/62ef6bb37284555f9dee4010";
+  static const String locationFilter = "${baseURl}mandir/region/all";
+  static const String getDynamicPageId =
+      "${baseURl}global/shangar-darshan-pageid/68314e140c835f2c9929b319";
+  static const String shangarDarshan = "${baseURl}cms/cms-page-content/level1/";
+  static const String maninagarShangarDarshan =
+      "${baseURl}cms/cms-page-content/level1/";
 
-  // customers
-  static const String addCustomer = "customers/add-customer";
-  static const String addCustomerWork = "customers/add-work";
-  static const String updateCustomer = "customers/update-customers";
-  static const String deleteCustomer = "customers/delete-customers";
-  static const String getAllCustomer = "customers/get-all-customers";
-  static const String getOneCustomer = "customers/get-one-customers/";
-  static const String customerServiceHistory = "customers/customers/";
-  static const String customerSearch = "customers/search";
-  static const String updateCustomerWorkById = "customers/update-customer-work";
-  static const String uploadSignatureUrl = "vendors/upload-signature";
-  static const String getSignatureUrl = "get-signature-url";
-  static const String generateInvoice = "customers/generate-invoice";
-  static const String getCustomerDataForInvoice =
-      "customers/customer-invoice-data/";
-  static const String addPayment = "customers/add-payment";
-
-  // work
-  static const String getCustomers = "work/all-customer";
-  static const String getAllWork = "work/";
-  static const String getOneWork = "work/";
-  static const String addWork = "work/";
-  static const String updateWork = "work/update-work";
-  static const String markAsCompeted = "work/mark-as-completed-work";
-  static const String deleteWork = "work/delete-work";
-  static const String getWorkCounts = "work/get-work-count/get";
-  static const String updateDatePriceCollected =
-      "work/update-date-price-collected";
-  static const String updateNotes = "work/update-notes";
-  static const String deleteAmcSchedule = "work/delete-amc-schedule";
-  static const String getAmcSchedules = "work/get-all-amc-schedules/amc";
-
-  // dashboard
-  static const String getDashboardCounts = "dashboard-stats";
-
-  //reports
-  static const String getReports = "reports/weekly-stats";
-
-  // product
-  static const String createProduct = "products/create-product";
-  static const String updateProduct = "products/update-product";
-  static const String getAllProducts = "products/get-all-products";
-  static const String getOneProduct = "products/get-one-product/";
-  static const String deleteProduct = "products/delete-product";
-  static const String deleteAdditionalImage =
-      "products/additional-image-delete";
-  static const String toggleActiveProduct = "products";
+  static const String liveDarshan = "${baseURl}cms/cms-page-content/level1/";
+  static const String kadiMandir = "${baseURl}cms/cms-page-content/";
+  static const String maninagarMandirLive =
+      "${baseURl}cms/cms-page-content/level1/";
+  static const String liveBroadCast = "${baseURl}livebroadcast/event/front";
+  static const String newsImagesUrl = "${baseURl}publication/image-gallery/";
+  static const String newsVideoUrl = "${baseURl}publication/video/ids/";
+  static const String calenderApi = "${baseURl}calendar/event/";
+  static const String newsTabListUrl = "${baseURl}news/ids/";
+  static const String donateTextUrl =
+      "${baseURl}donations/text/donation-text/66581b79b2a1377922e4bafa";
+  static const String donationType =
+      "${baseURl}donations/fields/payment-field/all";
+  static const String createOrderApi =
+      "https://sgapi.swaminarayangadi.com/api/v1/razorpay/create-order";
+  static const String getOrderApi =
+      "https://sgapi.swaminarayangadi.com/api/v1/razorpay/Get-order";
 }
