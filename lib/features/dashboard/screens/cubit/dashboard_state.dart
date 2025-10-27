@@ -1,61 +1,113 @@
-part of 'dashboard_cubit.dart';
+import 'package:equatable/equatable.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 
-abstract class DashboardState {
-  const DashboardState();
-}
+import '../../../../core/error/failures.dart';
+import '../../model/dashboard_model.dart';
+import '../../model/dynamic_page_id_model.dart';
+import '../../model/maninagar_mandir_shangar_darshan_model.dart';
+import '../../model/maninagar_shangar_darshan_model.dart';
 
-class DashboardInitial extends DashboardState {
-  const DashboardInitial();
-}
+class DashboardState extends Equatable {
+  // 🔹 UI & App Logic
+  final int currentTab;
+  final bool needsUpdate;
+  final String? currentVersion;
+  final RemoteMessage? notification;
 
-class DashboardLoading extends DashboardState {
-  const DashboardLoading();
-}
+  // 🔹 Loading Flags
+  final bool isLoading;
+  final bool isDynamicPageLoading;
+  final bool isManinagarShangarDarshanLoading;
+  final bool isManinagarMandirShangarDarshanLoading;
 
-class DynamicPageIdLoading extends DashboardState {
-  const DynamicPageIdLoading();
-}
+  // 🔹 Data
+  final DashboardModel? dashboardData;
+  final DynamicPageIdModel? dynamicPageData;
+  final ManinagarShangarDarshanModel? maninagarShangarDarshan;
+  final ManinagarMandirShangarDarshanModel? maninagarMandirShangarDarshan;
 
-class ManinagarShangarDarshanLoading extends DashboardState {
-  const ManinagarShangarDarshanLoading();
-}
+  // 🔹 Error
+  final Failure? error;
 
-class ManinagarMandirShangarDarshanLoading extends DashboardState {
-  const ManinagarMandirShangarDarshanLoading();
-}
+  const DashboardState({
+    // Base UI state
+    this.currentTab = 2,
+    this.needsUpdate = false,
+    this.currentVersion,
+    this.notification,
 
-class DashboardLoaded extends DashboardState {
-  const DashboardLoaded();
-}
+    // Loading
+    this.isLoading = false,
+    this.isDynamicPageLoading = false,
+    this.isManinagarShangarDarshanLoading = false,
+    this.isManinagarMandirShangarDarshanLoading = false,
 
-class DynamicPageIdLoaded extends DashboardState {
-  const DynamicPageIdLoaded();
-}
+    // Data
+    this.dashboardData,
+    this.dynamicPageData,
+    this.maninagarShangarDarshan,
+    this.maninagarMandirShangarDarshan,
 
-class ManinagarShangarDarshanLoaded extends DashboardState {
-  const ManinagarShangarDarshanLoaded();
-}
+    // Error
+    this.error,
+  });
 
-class ManinagarMandirShangarDarshanLoaded extends DashboardState {
-  const ManinagarMandirShangarDarshanLoaded();
-}
+  /// Initial State
+  factory DashboardState.initial() => const DashboardState();
 
-class DashboardError extends DashboardState {
-  final Failure failure;
-  const DashboardError(this.failure);
-}
+  /// Copy with for immutability
+  DashboardState copyWith({
+    int? currentTab,
+    bool? needsUpdate,
+    String? currentVersion,
+    RemoteMessage? notification,
+    bool? isLoading,
+    bool? isDynamicPageLoading,
+    bool? isManinagarShangarDarshanLoading,
+    bool? isManinagarMandirShangarDarshanLoading,
+    DashboardModel? dashboardData,
+    DynamicPageIdModel? dynamicPageData,
+    ManinagarShangarDarshanModel? maninagarShangarDarshan,
+    ManinagarMandirShangarDarshanModel? maninagarMandirShangarDarshan,
+    Failure? error,
+  }) {
+    return DashboardState(
+      currentTab: currentTab ?? this.currentTab,
+      needsUpdate: needsUpdate ?? this.needsUpdate,
+      currentVersion: currentVersion ?? this.currentVersion,
+      notification: notification ?? this.notification,
+      isLoading: isLoading ?? this.isLoading,
+      isDynamicPageLoading: isDynamicPageLoading ?? this.isDynamicPageLoading,
+      isManinagarShangarDarshanLoading:
+          isManinagarShangarDarshanLoading ??
+          this.isManinagarShangarDarshanLoading,
+      isManinagarMandirShangarDarshanLoading:
+          isManinagarMandirShangarDarshanLoading ??
+          this.isManinagarMandirShangarDarshanLoading,
+      dashboardData: dashboardData ?? this.dashboardData,
+      dynamicPageData: dynamicPageData ?? this.dynamicPageData,
+      maninagarShangarDarshan:
+          maninagarShangarDarshan ?? this.maninagarShangarDarshan,
+      maninagarMandirShangarDarshan:
+          maninagarMandirShangarDarshan ?? this.maninagarMandirShangarDarshan,
+      error: error,
+    );
+  }
 
-class DynamicPageIdError extends DashboardState {
-  final Failure failure;
-  const DynamicPageIdError(this.failure);
-}
-
-class ManinagarShangarDarshanError extends DashboardState {
-  final Failure failure;
-  const ManinagarShangarDarshanError(this.failure);
-}
-
-class ManinagarMandirShangarDarshanError extends DashboardState {
-  final Failure failure;
-  const ManinagarMandirShangarDarshanError(this.failure);
+  @override
+  List<Object?> get props => [
+    currentTab,
+    needsUpdate,
+    currentVersion,
+    notification,
+    isLoading,
+    isDynamicPageLoading,
+    isManinagarShangarDarshanLoading,
+    isManinagarMandirShangarDarshanLoading,
+    dashboardData,
+    dynamicPageData,
+    maninagarShangarDarshan,
+    maninagarMandirShangarDarshan,
+    error,
+  ];
 }

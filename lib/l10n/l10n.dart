@@ -99,29 +99,365 @@ abstract class S {
     Locale('hi'),
   ];
 
-  /// No description provided for @hello.
+  /// No description provided for @live.
   ///
   /// In en, this message translates to:
-  /// **'Hello'**
-  String get hello;
+  /// **'Live'**
+  String get live;
 
-  /// No description provided for @welcome.
+  /// No description provided for @live_darshan.
   ///
   /// In en, this message translates to:
-  /// **'Welcome to Vendox'**
-  String get welcome;
+  /// **'Live Darshan'**
+  String get live_darshan;
 
-  /// No description provided for @connected.
+  /// No description provided for @live_shangar_darshan.
   ///
   /// In en, this message translates to:
-  /// **'Connected'**
-  String get connected;
+  /// **'Live Shangar Darshan'**
+  String get live_shangar_darshan;
 
-  /// No description provided for @disconnected.
+  /// No description provided for @live_broadcast.
   ///
   /// In en, this message translates to:
-  /// **'Disconnected'**
-  String get disconnected;
+  /// **'Live BroadCast'**
+  String get live_broadcast;
+
+  /// No description provided for @daily_darshan.
+  ///
+  /// In en, this message translates to:
+  /// **'Daily Darshan'**
+  String get daily_darshan;
+
+  /// No description provided for @no_live_darshan_available.
+  ///
+  /// In en, this message translates to:
+  /// **'No Live Darshan Availabel'**
+  String get no_live_darshan_available;
+
+  /// No description provided for @daily_quotes.
+  ///
+  /// In en, this message translates to:
+  /// **'Daily Quotes'**
+  String get daily_quotes;
+
+  /// No description provided for @ghanshyam_vijay.
+  ///
+  /// In en, this message translates to:
+  /// **'Ghanshyam Vijay'**
+  String get ghanshyam_vijay;
+
+  /// No description provided for @guru_parampara.
+  ///
+  /// In en, this message translates to:
+  /// **'Guru Parampara'**
+  String get guru_parampara;
+
+  /// No description provided for @what_they_say.
+  ///
+  /// In en, this message translates to:
+  /// **'WHAT THEY SAY'**
+  String get what_they_say;
+
+  /// No description provided for @view_all.
+  ///
+  /// In en, this message translates to:
+  /// **'View all'**
+  String get view_all;
+
+  /// No description provided for @latest_news.
+  ///
+  /// In en, this message translates to:
+  /// **'Latest News'**
+  String get latest_news;
+
+  /// No description provided for @filter.
+  ///
+  /// In en, this message translates to:
+  /// **'Filter'**
+  String get filter;
+
+  /// No description provided for @reset.
+  ///
+  /// In en, this message translates to:
+  /// **'RESET'**
+  String get reset;
+
+  /// No description provided for @category.
+  ///
+  /// In en, this message translates to:
+  /// **'Category'**
+  String get category;
+
+  /// No description provided for @year.
+  ///
+  /// In en, this message translates to:
+  /// **'Year'**
+  String get year;
+
+  /// No description provided for @apply.
+  ///
+  /// In en, this message translates to:
+  /// **'APPLY'**
+  String get apply;
+
+  /// No description provided for @niyams.
+  ///
+  /// In en, this message translates to:
+  /// **'Niyams'**
+  String get niyams;
+
+  /// No description provided for @play_all.
+  ///
+  /// In en, this message translates to:
+  /// **'Play all'**
+  String get play_all;
+
+  /// No description provided for @select_language.
+  ///
+  /// In en, this message translates to:
+  /// **'Select Language'**
+  String get select_language;
+
+  /// No description provided for @locations.
+  ///
+  /// In en, this message translates to:
+  /// **'Locations'**
+  String get locations;
+
+  /// No description provided for @about_us.
+  ///
+  /// In en, this message translates to:
+  /// **'About Us'**
+  String get about_us;
+
+  /// No description provided for @contact_us.
+  ///
+  /// In en, this message translates to:
+  /// **'Contact Us'**
+  String get contact_us;
+
+  /// No description provided for @terms_and_services.
+  ///
+  /// In en, this message translates to:
+  /// **'Terms & Conditions'**
+  String get terms_and_services;
+
+  /// No description provided for @privacy_policy.
+  ///
+  /// In en, this message translates to:
+  /// **'Privacy Policy'**
+  String get privacy_policy;
+
+  /// No description provided for @settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Settings'**
+  String get settings;
+
+  /// No description provided for @light.
+  ///
+  /// In en, this message translates to:
+  /// **'Light'**
+  String get light;
+
+  /// No description provided for @dark.
+  ///
+  /// In en, this message translates to:
+  /// **'Dark'**
+  String get dark;
+
+  /// No description provided for @theme.
+  ///
+  /// In en, this message translates to:
+  /// **'Theme'**
+  String get theme;
+
+  /// No description provided for @language.
+  ///
+  /// In en, this message translates to:
+  /// **'Language'**
+  String get language;
+
+  /// No description provided for @english.
+  ///
+  /// In en, this message translates to:
+  /// **'English'**
+  String get english;
+
+  /// No description provided for @hindi.
+  ///
+  /// In en, this message translates to:
+  /// **'Hindi'**
+  String get hindi;
+
+  /// No description provided for @gujarati.
+  ///
+  /// In en, this message translates to:
+  /// **'Gujarati'**
+  String get gujarati;
+
+  /// No description provided for @version.
+  ///
+  /// In en, this message translates to:
+  /// **'Version'**
+  String get version;
+
+  /// No description provided for @search_here.
+  ///
+  /// In en, this message translates to:
+  /// **'Search here...'**
+  String get search_here;
+
+  /// No description provided for @head_office.
+  ///
+  /// In en, this message translates to:
+  /// **'HEAD OFFICE'**
+  String get head_office;
+
+  /// No description provided for @phone.
+  ///
+  /// In en, this message translates to:
+  /// **'PHONE'**
+  String get phone;
+
+  /// No description provided for @email.
+  ///
+  /// In en, this message translates to:
+  /// **'EMAIL'**
+  String get email;
+
+  /// No description provided for @website.
+  ///
+  /// In en, this message translates to:
+  /// **'WEBSITE'**
+  String get website;
+
+  /// No description provided for @daily_quote_details.
+  ///
+  /// In en, this message translates to:
+  /// **'Daily Quote Details'**
+  String get daily_quote_details;
+
+  /// No description provided for @news_details.
+  ///
+  /// In en, this message translates to:
+  /// **'News Details'**
+  String get news_details;
+
+  /// No description provided for @media_gallery.
+  ///
+  /// In en, this message translates to:
+  /// **'Media Gallery'**
+  String get media_gallery;
+
+  /// No description provided for @videos.
+  ///
+  /// In en, this message translates to:
+  /// **'Videos'**
+  String get videos;
+
+  /// No description provided for @no_data_found.
+  ///
+  /// In en, this message translates to:
+  /// **'No data found'**
+  String get no_data_found;
+
+  /// No description provided for @darshan.
+  ///
+  /// In en, this message translates to:
+  /// **'Darshan'**
+  String get darshan;
+
+  /// No description provided for @news.
+  ///
+  /// In en, this message translates to:
+  /// **'News'**
+  String get news;
+
+  /// No description provided for @more.
+  ///
+  /// In en, this message translates to:
+  /// **'More'**
+  String get more;
+
+  /// No description provided for @downloaded.
+  ///
+  /// In en, this message translates to:
+  /// **'Downloaded'**
+  String get downloaded;
+
+  /// No description provided for @please_wait.
+  ///
+  /// In en, this message translates to:
+  /// **'Please wait...'**
+  String get please_wait;
+
+  /// No description provided for @select_phone.
+  ///
+  /// In en, this message translates to:
+  /// **'Please select phone number'**
+  String get select_phone;
+
+  /// No description provided for @mandir.
+  ///
+  /// In en, this message translates to:
+  /// **'Mandirs'**
+  String get mandir;
+
+  /// No description provided for @website_link.
+  ///
+  /// In en, this message translates to:
+  /// **'Website Link'**
+  String get website_link;
+
+  /// No description provided for @youtube_link.
+  ///
+  /// In en, this message translates to:
+  /// **'YouTube Link'**
+  String get youtube_link;
+
+  /// No description provided for @share.
+  ///
+  /// In en, this message translates to:
+  /// **'Share'**
+  String get share;
+
+  /// No description provided for @donation.
+  ///
+  /// In en, this message translates to:
+  /// **'Donate'**
+  String get donation;
+
+  /// No description provided for @aadhar.
+  ///
+  /// In en, this message translates to:
+  /// **'Aadhaar'**
+  String get aadhar;
+
+  /// No description provided for @pan.
+  ///
+  /// In en, this message translates to:
+  /// **'PAN'**
+  String get pan;
+
+  /// No description provided for @select_option.
+  ///
+  /// In en, this message translates to:
+  /// **'Select Option'**
+  String get select_option;
+
+  /// No description provided for @success.
+  ///
+  /// In en, this message translates to:
+  /// **'Success'**
+  String get success;
+
+  /// No description provided for @fail.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed'**
+  String get fail;
 }
 
 class _SDelegate extends LocalizationsDelegate<S> {

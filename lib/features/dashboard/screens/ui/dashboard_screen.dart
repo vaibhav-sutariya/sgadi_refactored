@@ -1,15 +1,18 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:starter_app/core/di/injection.dart';
 
-@RoutePage()
+import '../cubit/dashboard_cubit.dart';
+import 'widgets/dashboard_template.dart';
+
 class DashboardScreen extends StatelessWidget {
   const DashboardScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text('dashboard')),
-      body: Center(child: Text('Dashboard Screen')),
+    return BlocProvider(
+      create: (_) => DashboardCubit(sl.get())..initializeDashboard(),
+      child: const DashboardTemplate(),
     );
   }
 }
