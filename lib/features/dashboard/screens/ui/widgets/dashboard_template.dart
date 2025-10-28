@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:starter_app/features/live_screen/screens/live_screen.dart';
@@ -10,7 +12,6 @@ import '../../cubit/dashboard_cubit.dart';
 import '../../cubit/dashboard_state.dart';
 import 'bottom_nav_bar.dart';
 import 'home_fab.dart';
-import 'update_dialog_widget.dart';
 
 class DashboardTemplate extends StatelessWidget {
   const DashboardTemplate({super.key});
@@ -20,25 +21,27 @@ class DashboardTemplate extends StatelessWidget {
     return BlocConsumer<DashboardCubit, DashboardState>(
       listener: (context, state) {
         if (state.needsUpdate) {
-          showDialog(
-            context: context,
-            barrierDismissible: false,
-            builder: (_) => const UpdateDialog(),
-          );
+          // showDialog(
+          //   context: context,
+          //   barrierDismissible: false,
+          //   builder: (_) => const UpdateDialog(),
+          // );
+          log('Update required');
         }
       },
       builder: (context, state) {
         return Scaffold(
+          resizeToAvoidBottomInset: true,
           extendBody: true,
           extendBodyBehindAppBar: true,
           body: IndexedStack(
             index: state.currentTab,
             children: const [
-              LiveScreen(),
-              NewsScreen(),
-              HomeScreen(),
-              NiyamsScreen(),
-              MoreScreen(),
+              LiveScreen(key: PageStorageKey("Location")),
+              NewsScreen(key: PageStorageKey("News")),
+              HomeScreen(key: PageStorageKey("Home")),
+              NiyamsScreen(key: PageStorageKey("Niyam")),
+              MoreScreen(key: PageStorageKey("More")),
             ],
           ),
           floatingActionButton: HomeFab(
@@ -46,11 +49,23 @@ class DashboardTemplate extends StatelessWidget {
           ),
           floatingActionButtonLocation:
               FloatingActionButtonLocation.centerDocked,
-          bottomNavigationBar: BottomNavBar(
-            currentTab: state.currentTab,
-            onTabChange: (index) {
-              context.read<DashboardCubit>().changeTab(index);
-            },
+          bottomNavigationBar: Container(
+            decoration: BoxDecoration(
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.transparent.withOpacity(0.2),
+                  spreadRadius: 5,
+                  blurRadius: 7,
+                  offset: Offset(0, 3), // changes position of shadow
+                ),
+              ],
+            ),
+            child: BottomNavBar(
+              currentTab: state.currentTab,
+              onTabChange: (index) {
+                context.read<DashboardCubit>().changeTab(index);
+              },
+            ),
           ),
         );
       },

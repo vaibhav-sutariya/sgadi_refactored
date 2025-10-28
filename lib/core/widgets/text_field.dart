@@ -81,7 +81,7 @@ class _TextFieldState extends State<TextField> {
       initialValue: widget.initialValue,
       autofillHints: widget.autofillHints,
       controller: widget.controller,
-      cursorColor: context.colors.secondary,
+      cursorColor: context.colors.contactUsColor,
       style: context.textTheme.bodyMedium?.copyWith(
         color: widget.textColor,
         fontSize: 14,
@@ -178,7 +178,7 @@ class _TextFieldState extends State<TextField> {
           borderSide: BorderSide(
             color: widget.isEnableBorder == true
                 ? context.colors.secondary
-                : context.colors.background,
+                : context.colors.backgroundColor,
           ),
         ),
         errorBorder: OutlineInputBorder(

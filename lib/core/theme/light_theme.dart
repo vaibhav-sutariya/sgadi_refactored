@@ -11,11 +11,11 @@ class LightTheme extends AppTheme {
   FilledButtonThemeData get filledButtonTheme => FilledButtonThemeData(
     style: FilledButton.styleFrom(
       backgroundColor: colors.primary,
-      foregroundColor: colors.buttonTextColor,
+      foregroundColor: colors.titleTextColor,
       padding: const EdgeInsets.all(16),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       textStyle: TextStyles.titleLarge,
-      disabledBackgroundColor: colors.surface100,
+      disabledBackgroundColor: colors.titleTextColor,
       disabledForegroundColor: colors.primary,
     ),
   );
@@ -25,17 +25,17 @@ class LightTheme extends AppTheme {
     style:
         OutlinedButton.styleFrom(
           backgroundColor: colors.primary,
-          foregroundColor: colors.buttonTextColor,
+          foregroundColor: colors.tabSelectedTextColor,
           padding: const EdgeInsets.all(16),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(16),
           ),
           textStyle: TextStyles.titleLarge,
-          disabledForegroundColor: colors.surface100,
+          disabledForegroundColor: colors.tabSelectedTextColor,
         ).copyWith(
           side: WidgetStateBorderSide.resolveWith((states) {
             if (states.contains(WidgetState.disabled)) {
-              return BorderSide(color: colors.surface200);
+              return BorderSide(color: colors.primary);
             }
             return BorderSide(color: colors.primary);
           }),
@@ -45,10 +45,10 @@ class LightTheme extends AppTheme {
   @override
   InputDecorationTheme get inputDecorationTheme => InputDecorationTheme(
     filled: true,
-    fillColor: colors.surface50,
-    suffixIconColor: colors.surface500,
+    fillColor: colors.backgroundColor,
+    suffixIconColor: colors.backgroundColor,
     labelStyle: TextStyles.labelMedium.copyWith(
-      color: colors.surface400,
+      color: colors.primary,
       fontWeight: FontWeight.w400,
     ),
     focusedBorder: OutlineInputBorder(
@@ -63,19 +63,41 @@ class LightTheme extends AppTheme {
 
   @override
   AppBarTheme get appBarTheme => AppBarTheme(
-    backgroundColor: colors.background,
-    foregroundColor: colors.surface900,
+    backgroundColor: colors.backgroundColor,
+    foregroundColor: colors.titleTextColor,
     titleTextStyle: TextStyles.labelMedium,
   );
 
   @override
   BottomNavigationBarThemeData get bottomNavigationBarThemeData =>
       BottomNavigationBarThemeData(
-        backgroundColor: colors.background,
-        selectedItemColor: colors.primary,
-        unselectedItemColor: colors.surface500,
-        selectedLabelStyle: TextStyles.bodySmall,
-        unselectedLabelStyle: TextStyles.bodySmall,
+        type: BottomNavigationBarType.fixed,
+        backgroundColor: colors.backgroundColor,
+        elevation: 8,
+        showSelectedLabels: true,
+        showUnselectedLabels: true,
+        selectedItemColor: colors.tabSelectedTextColor,
+        unselectedItemColor: colors.tabTextColor,
+        selectedIconTheme: IconThemeData(
+          size: 26,
+          color: colors.tabSelectedTextColor,
+        ),
+        unselectedIconTheme: IconThemeData(
+          size: 26,
+          color: colors.tabTextColor,
+        ),
+        selectedLabelStyle: TextStyle(
+          fontSize: 14,
+          fontWeight: FontWeight.w400,
+          fontFamily: 'OUTFIT',
+          overflow: TextOverflow.ellipsis,
+        ),
+        unselectedLabelStyle: TextStyle(
+          fontSize: 14,
+          fontWeight: FontWeight.w400,
+          fontFamily: 'OUTFIT',
+          overflow: TextOverflow.ellipsis,
+        ),
       );
 
   @override
@@ -99,7 +121,8 @@ class LightTheme extends AppTheme {
 
   @override
   ThemeData get theme => ThemeData(
-    scaffoldBackgroundColor: colors.background,
+    scaffoldBackgroundColor: colors.backgroundColor,
+    fontFamily: 'OUTFIT',
     useMaterial3: true,
     appBarTheme: appBarTheme,
     filledButtonTheme: filledButtonTheme,
@@ -112,86 +135,53 @@ class LightTheme extends AppTheme {
 
 class LightColors extends AppColors {
   @override
-  Color get primary => const Color(0xFF12BF52);
+  Color get primary => const Color(0xFFFF8240);
 
   @override
-  Color get primary2nd => const Color(0xFF0EA447);
+  Color get secondary => const Color(0xFF13161D);
 
   @override
-  Color get primary3rd => const Color(0xFF0B8C3C);
+  Color get error => const Color(0xFFFF4D4F);
 
   @override
-  Color get primary4th => const Color(0xFF076F30);
+  Color get success => const Color(0xFF52C41A);
 
   @override
-  Color get primary5th => const Color(0xFF055F27);
+  Color get warning => const Color(0xFFFFC107);
 
   @override
-  Color get primary6th => const Color(0xFF034F1E);
+  Color get backgroundColor => const Color(0xFFFFFAF4);
 
   @override
-  Color get secondary => const Color(0x0ff0314B);
+  Color get bottomsheetColor => const Color(0xFFFFFFFF);
 
   @override
-  Color get secondary2nd => const Color(0xFF0C2546);
+  Color get cardBackgroundColor => const Color(0x08000000);
 
   @override
-  Color get secondary3rd => const Color(0xFF09203E);
+  Color get contactUsColor => const Color(0xFF373A40);
 
   @override
-  Color get secondary4th => const Color(0xFF061A33);
+  Color get dividerColor => const Color(0xffF1F1F1);
 
   @override
-  Color get secondary5th => const Color(0xFF04152B);
+  Color get itemTextColor => const Color(0xFF5B5D62);
 
   @override
-  Color get secondary6th => const Color(0xFF021024);
+  Color get moreTextColor => const Color(0xFF373A40);
 
   @override
-  Color get success => const Color(0xFF22C55E);
+  Color get searchColor => const Color(0x06D9D9D9);
 
   @override
-  Color get warning => const Color(0xFFFACC15);
+  Color get selectMenuColor => const Color(0xFFFF8240);
 
   @override
-  Color get error => const Color(0xFFEF4444);
+  Color get tabSelectedTextColor => const Color(0xFFFF8240);
 
   @override
-  Color get surface => const Color(0xFFF8FAFC);
+  Color get tabTextColor => const Color(0xFF777777);
 
   @override
-  Color get surface50 => const Color(0xFFFEFEFE);
-
-  @override
-  Color get surface100 => const Color(0xFFF8FAFC);
-
-  @override
-  Color get surface200 => const Color(0xFFE2E8F0);
-
-  @override
-  Color get surface300 => const Color(0xFFCBD5E1);
-
-  @override
-  Color get surface400 => const Color(0xFF94A3B8);
-
-  @override
-  Color get surface500 => const Color(0xFF64748B);
-
-  @override
-  Color get surface600 => const Color(0xFF475569);
-
-  @override
-  Color get surface700 => const Color(0xFF334155);
-
-  @override
-  Color get surface800 => const Color(0xFF1E293B);
-
-  @override
-  Color get surface900 => const Color(0xFF0F172A);
-
-  @override
-  Color get background => const Color(0xFFFFFFFF);
-
-  @override
-  Color get buttonTextColor => const Color(0xFFFFFFFF);
+  Color get titleTextColor => const Color(0xFF13161D);
 }

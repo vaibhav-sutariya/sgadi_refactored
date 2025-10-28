@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:starter_app/cubit/theme_cubit.dart';
 
 import '../core/style/text_styles.dart';
 
@@ -61,7 +60,7 @@ class SocialButton extends StatelessWidget {
         onPressed: onTap,
         icon: SvgPicture.asset(iconPath),
         style: FilledButton.styleFrom(
-          backgroundColor: context.colors.surface100,
+          // backgroundColor: context.colors.surface100,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(16),
           ),
@@ -74,11 +73,11 @@ class SocialButton extends StatelessWidget {
       label: Text(
         label,
         style: TextStyles.titleLarge.copyWith(
-          color: context.colors.secondary2nd,
+          // color: context.colors.secondary2nd,
         ),
       ),
       style: FilledButton.styleFrom(
-        side: BorderSide(color: context.colors.surface200),
+        // side: BorderSide(color: context.colors.surface200),
       ),
     );
   }

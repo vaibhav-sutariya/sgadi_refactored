@@ -52,7 +52,7 @@ void showCopiedToast(
         child: Container(
           padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
           decoration: BoxDecoration(
-            color: context.colors.surface900.withOpacity(0.9),
+            color: context.colors.backgroundColor.withOpacity(0.9),
             borderRadius: BorderRadius.circular(24),
           ),
           child: Center(

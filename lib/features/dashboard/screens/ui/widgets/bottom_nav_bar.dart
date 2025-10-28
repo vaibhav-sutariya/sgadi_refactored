@@ -17,10 +17,35 @@ class BottomNavBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+
+    // Use correct dynamic colors based on theme
+    final selectedColor = isDark ? linecolor_light : linecolor_light;
+    final unselectedColor = isDark ? tabcolor_light : tabcolor_light;
+
     return BottomNavigationBar(
       currentIndex: currentTab,
       onTap: onTabChange,
       elevation: 0,
+      backgroundColor: theme.colorScheme.surface,
+      type: BottomNavigationBarType.fixed,
+      selectedItemColor: selectedColor,
+      unselectedItemColor: unselectedColor,
+      showUnselectedLabels: true,
+      // 👇 Fix label text jumping (consistent size & weight)
+      selectedLabelStyle: TextStyle(
+        fontSize: 14,
+        fontWeight: FontWeight.w400,
+        fontFamily: 'OUTFIT',
+        overflow: TextOverflow.ellipsis,
+      ),
+      unselectedLabelStyle: TextStyle(
+        fontSize: 14,
+        fontWeight: FontWeight.w400,
+        fontFamily: 'OUTFIT',
+        overflow: TextOverflow.ellipsis,
+      ),
       items: [
         _buildItem(context, Assets.images.livecast, context.loc.live, 0),
         _buildItem(context, Assets.images.news, context.loc.news, 1),
@@ -42,9 +67,9 @@ class BottomNavBar extends StatelessWidget {
         padding: const EdgeInsets.only(bottom: 3),
         child: SvgPicture.asset(
           asset,
-          color: currentTab == index ? linecolor_light : tabcolor_light,
           height: 26,
           width: 26,
+          color: currentTab == index ? linecolor_light : tabcolor_light,
         ),
       ),
       label: label,

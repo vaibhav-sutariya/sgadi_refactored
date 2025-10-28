@@ -4,6 +4,7 @@ class TextStyles {
   static TextStyle headlineLarge = TextStyle(
     fontSize: 48,
     fontWeight: FontWeight.w700,
+    fontFamily: 'OUTFIT',
   );
 
   static TextStyle headlineMedium = headlineLarge.copyWith(fontSize: 40);
@@ -26,6 +27,7 @@ class TextStyles {
 
   static TextStyle labelMedium = labelLarge.copyWith(
     fontWeight: FontWeight.w500,
+    fontFamily: 'OUTFIT',
   );
 
   static TextStyle labelSmall = labelLarge.copyWith(

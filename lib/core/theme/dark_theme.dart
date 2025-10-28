@@ -11,11 +11,11 @@ class DarkTheme extends AppTheme {
   FilledButtonThemeData get filledButtonTheme => FilledButtonThemeData(
     style: FilledButton.styleFrom(
       backgroundColor: colors.primary,
-      foregroundColor: colors.buttonTextColor,
+      foregroundColor: colors.tabSelectedTextColor,
       padding: const EdgeInsets.all(16),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       textStyle: TextStyles.titleLarge,
-      disabledBackgroundColor: colors.surface700,
+      disabledBackgroundColor: colors.titleTextColor,
       disabledForegroundColor: colors.primary,
     ),
   );
@@ -25,17 +25,17 @@ class DarkTheme extends AppTheme {
     style:
         OutlinedButton.styleFrom(
           backgroundColor: colors.primary,
-          foregroundColor: colors.buttonTextColor,
+          foregroundColor: colors.titleTextColor,
           padding: const EdgeInsets.all(16),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(16),
           ),
           textStyle: TextStyles.titleLarge,
-          disabledForegroundColor: colors.surface700,
+          disabledForegroundColor: colors.tabTextColor,
         ).copyWith(
           side: WidgetStateBorderSide.resolveWith((states) {
             if (states.contains(WidgetState.disabled)) {
-              return BorderSide(color: colors.surface600);
+              return BorderSide(color: colors.primary);
             }
             return BorderSide(color: colors.primary);
           }),
@@ -45,10 +45,10 @@ class DarkTheme extends AppTheme {
   @override
   InputDecorationTheme get inputDecorationTheme => InputDecorationTheme(
     filled: true,
-    fillColor: colors.surface900,
-    suffixIconColor: colors.surface300,
+    fillColor: colors.backgroundColor,
+    suffixIconColor: colors.backgroundColor,
     labelStyle: TextStyles.labelMedium.copyWith(
-      color: colors.surface400,
+      color: colors.titleTextColor,
       fontWeight: FontWeight.w400,
     ),
     focusedBorder: OutlineInputBorder(
@@ -63,19 +63,41 @@ class DarkTheme extends AppTheme {
 
   @override
   AppBarTheme get appBarTheme => AppBarTheme(
-    backgroundColor: colors.background,
-    foregroundColor: colors.surface900,
+    backgroundColor: colors.backgroundColor,
+    // foregroundColor: colors.backgroundColor,
     titleTextStyle: TextStyles.labelMedium,
   );
 
   @override
   BottomNavigationBarThemeData get bottomNavigationBarThemeData =>
       BottomNavigationBarThemeData(
-        backgroundColor: colors.background,
-        selectedItemColor: colors.primary,
-        unselectedItemColor: colors.surface500,
-        selectedLabelStyle: TextStyles.bodySmall,
-        unselectedLabelStyle: TextStyles.bodySmall,
+        type: BottomNavigationBarType.fixed,
+        backgroundColor: colors.backgroundColor,
+        elevation: 8,
+        showSelectedLabels: true,
+        showUnselectedLabels: true,
+        selectedItemColor: colors.tabSelectedTextColor,
+        unselectedItemColor: colors.tabTextColor,
+        selectedIconTheme: IconThemeData(
+          size: 26,
+          color: colors.tabSelectedTextColor,
+        ),
+        unselectedIconTheme: IconThemeData(
+          size: 26,
+          color: colors.tabTextColor,
+        ),
+        selectedLabelStyle: TextStyle(
+          fontSize: 14,
+          fontWeight: FontWeight.w400,
+          fontFamily: 'OUTFIT',
+          overflow: TextOverflow.ellipsis,
+        ),
+        unselectedLabelStyle: TextStyle(
+          fontSize: 14,
+          fontWeight: FontWeight.w400,
+          fontFamily: 'OUTFIT',
+          overflow: TextOverflow.ellipsis,
+        ),
       );
 
   @override
@@ -99,12 +121,13 @@ class DarkTheme extends AppTheme {
 
   @override
   ThemeData get theme => ThemeData(
-    scaffoldBackgroundColor: colors.background,
+    scaffoldBackgroundColor: colors.backgroundColor,
+    fontFamily: 'OUTFIT',
     useMaterial3: true,
     brightness: Brightness.dark,
     appBarTheme: AppBarTheme(
-      backgroundColor: colors.background,
-      foregroundColor: colors.surface50,
+      backgroundColor: colors.backgroundColor,
+      foregroundColor: colors.backgroundColor,
       titleTextStyle: TextStyles.labelMedium,
     ),
     filledButtonTheme: filledButtonTheme,
@@ -116,85 +139,52 @@ class DarkTheme extends AppTheme {
 
 class DarkColors extends AppColors {
   @override
-  Color get primary => const Color(0xFFFFFFFF); // white
-  @override
-  Color get primary2nd => const Color(0xFFF5F5F5); // light white
+  Color get primary => const Color(0xFFFF8240);
 
   @override
-  Color get primary3rd => const Color(0xFFE0E0E0); // lighter gray
+  Color get secondary => const Color(0xFF13161D);
 
   @override
-  Color get primary4th => const Color(0xFFBDBDBD); // light gray
+  Color get error => const Color(0xFFFF4D4F);
 
   @override
-  Color get primary5th => const Color(0xFF9E9E9E); // medium gray
+  Color get success => const Color(0xFF52C41A);
 
   @override
-  Color get primary6th => const Color(0xFF757575); // dark gray
+  Color get warning => const Color(0xFFFFC107);
+  @override
+  Color get backgroundColor => const Color(0xFF100D0C);
 
   @override
-  Color get secondary => const Color(0xFFFAFAFA); // accent white
+  Color get bottomsheetColor => const Color(0xFF1C1F26);
 
   @override
-  Color get secondary2nd => const Color(0xFFF0F0F0);
+  Color get cardBackgroundColor => const Color(0x15FFFFFF);
 
   @override
-  Color get secondary3rd => const Color(0xFFE8E8E8);
+  Color get contactUsColor => const Color(0x60FFFFFF);
 
   @override
-  Color get secondary4th => const Color(0xFFD6D6D6);
+  Color get dividerColor => const Color(0x10FFFFFF);
 
   @override
-  Color get secondary5th => const Color(0xFFB0B0B0);
+  Color get itemTextColor => const Color(0xFFEED2AD);
 
   @override
-  Color get secondary6th => const Color(0xFF8C8C8C);
+  Color get moreTextColor => const Color(0xFF9E9A89);
 
   @override
-  Color get success => const Color(0xFF22C55E);
+  Color get searchColor => const Color(0xFFFFFFFF);
 
   @override
-  Color get warning => const Color(0xFFFACC15);
+  Color get selectMenuColor => const Color(0xFFFFFFFF);
 
   @override
-  Color get error => const Color(0xFFEF4444);
+  Color get tabSelectedTextColor => const Color(0xFFFFFFFF);
 
   @override
-  Color get surface => const Color(0xFF0F172A);
+  Color get tabTextColor => const Color(0xFF777777);
 
   @override
-  Color get surface50 => const Color(0xFF1E293B);
-
-  @override
-  Color get surface100 => const Color(0xFF334155);
-
-  @override
-  Color get surface200 => const Color(0xFF475569);
-
-  @override
-  Color get surface300 => const Color(0xFF64748B);
-
-  @override
-  Color get surface400 => const Color(0xFF94A3B8);
-
-  @override
-  Color get surface500 => const Color(0xFFCBD5E1);
-
-  @override
-  Color get surface600 => const Color(0xFFE2E8F0);
-
-  @override
-  Color get surface700 => const Color(0xFFF8FAFC);
-
-  @override
-  Color get surface800 => const Color(0xFFFEFEFE);
-
-  @override
-  Color get surface900 => const Color(0xFFFFFFFF);
-
-  @override
-  Color get background => const Color(0xFF0F172A);
-
-  @override
-  Color get buttonTextColor => const Color(0xFF0F172A);
+  Color get titleTextColor => const Color(0xFFFFFFFF);
 }

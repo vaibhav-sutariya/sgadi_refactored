@@ -41,7 +41,7 @@ class LanguageSwitcher extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: isSelected
                       ? context.colors.primary.withOpacity(0.1)
-                      : context.colors.surface200,
+                      : context.colors.backgroundColor,
                   borderRadius: BorderRadius.circular(8),
                   border: Border.all(
                     color: isSelected
