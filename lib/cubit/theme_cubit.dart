@@ -46,8 +46,9 @@ class ThemeCubit extends Cubit<AppTheme> {
       case 'DarkTheme':
         emit(DarkTheme());
       case 'LightTheme':
-      default:
         emit(LightTheme());
+      default:
+        emit(DarkTheme());
     }
   }
 }

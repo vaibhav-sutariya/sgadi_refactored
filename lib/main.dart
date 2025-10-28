@@ -16,12 +16,15 @@ import 'core/connection/global_connectivity_observer.dart';
 import 'core/di/injection.dart';
 import 'core/routes/app_router.dart';
 import 'core/routes/auth_guard.dart';
+import 'core/services/notification/notification_service.dart';
 import 'core/theme/app_theme.dart';
 import 'core/utils/preference_utils.dart';
 import 'cubit/internet/internet_cubit.dart';
 import 'cubit/locale_cubit.dart';
 import 'cubit/theme_cubit.dart';
 import 'l10n/l10n.dart';
+
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -36,7 +39,7 @@ void main() async {
     // Log initialization error (use logger package in production)
     log('Initialization failed: $e');
   }
-
+  NotificationService().init();
   FlutterError.onError = (errorDetails) {
     FirebaseCrashlytics.instance.recordFlutterFatalError(errorDetails);
   };
@@ -74,6 +77,27 @@ class MyApp extends StatelessWidget {
   final _appRouter = AppRouter(authGuard: AuthGuard());
   MyApp({super.key});
 
+  // This widget is the root of your application.
+  String getYouTubeVideoId(String url) {
+    // Regular expression to match YouTube video ID
+    RegExp regExp = RegExp(
+      r'^.*(?:youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*',
+      caseSensitive: false,
+      multiLine: false,
+    );
+
+    // Match the regular expression with the provided URL
+    RegExpMatch? match = regExp.firstMatch(url);
+
+    // If a match is found, return the video ID
+    if (match != null && match.groupCount >= 1) {
+      return match.group(1)!;
+    }
+
+    // If no match is found, return null
+    return '';
+  }
+
   @override
   Widget build(BuildContext context) {
     context.initResponsive();
@@ -95,7 +119,7 @@ class MyApp extends StatelessWidget {
                 previous?.languageCode != current?.languageCode,
             builder: (context, localeState) {
               return MaterialApp.router(
-                title: 'Vendox',
+                title: 'Swaminarayan Gadi',
                 debugShowCheckedModeBanner: false,
                 theme: themeState.theme,
                 locale: localeState ?? const Locale('en'),
