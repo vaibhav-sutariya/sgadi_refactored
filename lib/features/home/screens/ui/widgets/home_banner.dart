@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:starter_app/gen/assets.gen.dart';
 
-import '../../../../widgets/circle_indicator.dart';
-import '../../../../widgets/error_widget.dart';
-import '../../../dashboard/model/dashboard_model.dart';
+import '../../../../../widgets/circle_indicator.dart';
+import '../../../../../widgets/error_widget.dart';
+import '../../../../dashboard/model/dashboard_model.dart';
 
 class HomeBanner extends StatelessWidget {
   final ImageJson? imageJson;

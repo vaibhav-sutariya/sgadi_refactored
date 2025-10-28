@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../home/screens/home_screen.dart';
+import '../../../../home/screens/ui/home_screen.dart';
 import '../../../../live_screen/screens/live_screen.dart';
 import '../../../../more/screens/more_screen.dart';
 import '../../../../news/screens/news_screen.dart';
