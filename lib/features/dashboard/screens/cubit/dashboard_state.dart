@@ -13,12 +13,14 @@ class DashboardState extends Equatable {
   final bool needsUpdate;
   final String? currentVersion;
   final RemoteMessage? notification;
+  final String? currentDay;
 
-  // 🔹 Loading Flags
+  // 🔹 Loading
   final bool isLoading;
   final bool isDynamicPageLoading;
   final bool isManinagarShangarDarshanLoading;
   final bool isManinagarMandirShangarDarshanLoading;
+  final bool isNavigate;
 
   // 🔹 Data
   final DashboardModel? dashboardData;
@@ -30,41 +32,36 @@ class DashboardState extends Equatable {
   final Failure? error;
 
   const DashboardState({
-    // Base UI state
     this.currentTab = 2,
     this.needsUpdate = false,
     this.currentVersion,
     this.notification,
-
-    // Loading
+    this.currentDay,
     this.isLoading = false,
     this.isDynamicPageLoading = false,
     this.isManinagarShangarDarshanLoading = false,
     this.isManinagarMandirShangarDarshanLoading = false,
-
-    // Data
+    this.isNavigate = false,
     this.dashboardData,
     this.dynamicPageData,
     this.maninagarShangarDarshan,
     this.maninagarMandirShangarDarshan,
-
-    // Error
     this.error,
   });
 
-  /// Initial State
   factory DashboardState.initial() => const DashboardState();
 
-  /// Copy with for immutability
   DashboardState copyWith({
     int? currentTab,
     bool? needsUpdate,
     String? currentVersion,
     RemoteMessage? notification,
+    String? currentDay,
     bool? isLoading,
     bool? isDynamicPageLoading,
     bool? isManinagarShangarDarshanLoading,
     bool? isManinagarMandirShangarDarshanLoading,
+    bool? isNavigate,
     DashboardModel? dashboardData,
     DynamicPageIdModel? dynamicPageData,
     ManinagarShangarDarshanModel? maninagarShangarDarshan,
@@ -76,6 +73,7 @@ class DashboardState extends Equatable {
       needsUpdate: needsUpdate ?? this.needsUpdate,
       currentVersion: currentVersion ?? this.currentVersion,
       notification: notification ?? this.notification,
+      currentDay: currentDay ?? this.currentDay,
       isLoading: isLoading ?? this.isLoading,
       isDynamicPageLoading: isDynamicPageLoading ?? this.isDynamicPageLoading,
       isManinagarShangarDarshanLoading:
@@ -84,6 +82,7 @@ class DashboardState extends Equatable {
       isManinagarMandirShangarDarshanLoading:
           isManinagarMandirShangarDarshanLoading ??
           this.isManinagarMandirShangarDarshanLoading,
+      isNavigate: isNavigate ?? this.isNavigate,
       dashboardData: dashboardData ?? this.dashboardData,
       dynamicPageData: dynamicPageData ?? this.dynamicPageData,
       maninagarShangarDarshan:
@@ -100,6 +99,7 @@ class DashboardState extends Equatable {
     needsUpdate,
     currentVersion,
     notification,
+    currentDay,
     isLoading,
     isDynamicPageLoading,
     isManinagarShangarDarshanLoading,

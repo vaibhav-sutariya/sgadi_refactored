@@ -10,7 +10,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:starter_app/core/helpers/extensions/responsive_extensions.dart';
-import 'package:starter_app/features/dashboard/screens/cubit/dashboard_cubit.dart';
+import 'package:starter_app/features/dashboard/screens/cubit/dashboard_bloc.dart';
 
 import 'core/connection/global_connectivity_observer.dart';
 import 'core/di/injection.dart';
@@ -22,6 +22,7 @@ import 'core/utils/preference_utils.dart';
 import 'cubit/internet/internet_cubit.dart';
 import 'cubit/locale_cubit.dart';
 import 'cubit/theme_cubit.dart';
+import 'features/dashboard/screens/cubit/dashboard_event.dart';
 import 'l10n/l10n.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
@@ -110,7 +111,11 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider<LocaleCubit>(create: (_) => LocaleCubit()),
         BlocProvider<ThemeCubit>(create: (_) => ThemeCubit()),
-        BlocProvider(create: (_) => DashboardCubit(sl.get())),
+        BlocProvider(
+          create: (_) => DashboardBloc(sl.get())
+            ..add(FetchDashboardData('62cdb9a6c9349940e485f50b'))
+            ..add(FetchDynamicPageId()),
+        ),
       ],
       child: BlocBuilder<ThemeCubit, AppTheme>(
         builder: (context, themeState) {
