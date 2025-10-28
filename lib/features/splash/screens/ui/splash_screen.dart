@@ -7,8 +7,8 @@ import '../../../../core/di/injection.dart';
 import '../../../../core/routes/app_router.dart';
 import '../../../../cubit/internet/internet_cubit.dart';
 import '../../../../gen/assets.gen.dart';
-import '../../../dashboard/screens/cubit/dashboard_bloc.dart';
-import '../../../dashboard/screens/cubit/dashboard_state.dart';
+import '../../../dashboard/screens/bloc/dashboard_bloc.dart';
+import '../../../dashboard/screens/bloc/dashboard_state.dart';
 import '../cubit/splash_cubit.dart';
 
 @RoutePage()

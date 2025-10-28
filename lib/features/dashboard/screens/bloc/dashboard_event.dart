@@ -39,6 +39,13 @@ class FetchManinagarShangarDarshan extends DashboardEvent {
   List<Object?> get props => [maninagarPageId];
 }
 
+class FetchCalenderData extends DashboardEvent {
+  const FetchCalenderData();
+
+  @override
+  List<Object?> get props => [];
+}
+
 class FetchManinagarMandirShangarDarshan extends DashboardEvent {
   final String maninagarMandirPageId;
   const FetchManinagarMandirShangarDarshan(this.maninagarMandirPageId);

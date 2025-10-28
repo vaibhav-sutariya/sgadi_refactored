@@ -8,9 +8,9 @@ import '../../../../live_screen/screens/live_screen.dart';
 import '../../../../more/screens/more_screen.dart';
 import '../../../../news/screens/news_screen.dart';
 import '../../../../niyams/screens/niyams_screen.dart';
-import '../../cubit/dashboard_bloc.dart';
-import '../../cubit/dashboard_event.dart';
-import '../../cubit/dashboard_state.dart';
+import '../../bloc/dashboard_bloc.dart';
+import '../../bloc/dashboard_event.dart';
+import '../../bloc/dashboard_state.dart';
 import 'bottom_nav_bar.dart';
 import 'home_fab.dart';
 

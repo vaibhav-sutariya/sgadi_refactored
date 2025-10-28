@@ -1,4 +1,5 @@
 import 'package:fpdart/fpdart.dart';
+import 'package:starter_app/features/dashboard/model/calender_model.dart';
 import 'package:starter_app/features/dashboard/model/maninagar_shangar_darshan_model.dart';
 
 import '../../../core/error/failures.dart';
@@ -18,4 +19,8 @@ abstract interface class DashboardRepository {
 
   Future<Either<Failure, ManinagarMandirShangarDarshanModel>>
   fetchManinagarMandirShangarDarshan({required String maninagarMandirPageId});
+
+  Future<Either<Failure, CalenderModel>> fetchCalenderData({
+    required DateTime date,
+  });
 }

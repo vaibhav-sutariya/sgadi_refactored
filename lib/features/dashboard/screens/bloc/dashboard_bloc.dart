@@ -22,6 +22,7 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
     on<FetchManinagarMandirShangarDarshan>(
       _onFetchManinagarMandirShangarDarshan,
     );
+    on<FetchCalenderData>(_onFetchCalenderData);
     on<NotificationReceived>(_onNotificationReceived);
   }
 
@@ -114,6 +115,28 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
         state.copyWith(
           isManinagarMandirShangarDarshanLoading: false,
           maninagarMandirShangarDarshan: data,
+        ),
+      ),
+    );
+  }
+
+  Future<void> _onFetchCalenderData(
+    FetchCalenderData event,
+    Emitter<DashboardState> emit,
+  ) async {
+    emit(state.copyWith(isCalenderLoading: true, error: null));
+    DateTime currentDate = DateTime.now();
+
+    // Assuming there's a method in the repository to fetch calender data.
+    final result = await _repository.fetchCalenderData(date: currentDate);
+
+    result.fold(
+      (failure) =>
+          emit(state.copyWith(isCalenderLoading: false, error: failure)),
+      (data) => emit(
+        state.copyWith(
+          isCalenderLoading: false,
+          currentDay: data.data!.calender![0].indianDate.toString(),
         ),
       ),
     );

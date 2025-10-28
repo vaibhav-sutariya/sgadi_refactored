@@ -5,12 +5,12 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_swiper_view/flutter_swiper_view.dart';
-import 'package:starter_app/features/dashboard/screens/cubit/dashboard_bloc.dart';
+import 'package:starter_app/features/dashboard/screens/bloc/dashboard_bloc.dart';
 
 import '../../../core/constant/app_colors.dart';
 import '../../../widgets/donate_button_fab.dart';
 import '../../dashboard/model/dashboard_model.dart';
-import '../../dashboard/screens/cubit/dashboard_state.dart';
+import '../../dashboard/screens/bloc/dashboard_state.dart';
 import 'widgets/home_banner.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -123,7 +123,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           child: Padding(
                             padding: EdgeInsets.all(8),
                             child: Text(
-                              'jjhsab' ?? "".toString(),
+                              dashboardCubit.state.currentDay ?? '',
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 fontSize: 12,

@@ -20,6 +20,7 @@ class DashboardState extends Equatable {
   final bool isDynamicPageLoading;
   final bool isManinagarShangarDarshanLoading;
   final bool isManinagarMandirShangarDarshanLoading;
+  final bool isCalenderLoading;
   final bool isNavigate;
 
   // 🔹 Data
@@ -41,6 +42,7 @@ class DashboardState extends Equatable {
     this.isDynamicPageLoading = false,
     this.isManinagarShangarDarshanLoading = false,
     this.isManinagarMandirShangarDarshanLoading = false,
+    this.isCalenderLoading = false,
     this.isNavigate = false,
     this.dashboardData,
     this.dynamicPageData,
@@ -61,6 +63,7 @@ class DashboardState extends Equatable {
     bool? isDynamicPageLoading,
     bool? isManinagarShangarDarshanLoading,
     bool? isManinagarMandirShangarDarshanLoading,
+    bool? isCalenderLoading,
     bool? isNavigate,
     DashboardModel? dashboardData,
     DynamicPageIdModel? dynamicPageData,
@@ -82,6 +85,7 @@ class DashboardState extends Equatable {
       isManinagarMandirShangarDarshanLoading:
           isManinagarMandirShangarDarshanLoading ??
           this.isManinagarMandirShangarDarshanLoading,
+      isCalenderLoading: isCalenderLoading ?? this.isCalenderLoading,
       isNavigate: isNavigate ?? this.isNavigate,
       dashboardData: dashboardData ?? this.dashboardData,
       dynamicPageData: dynamicPageData ?? this.dynamicPageData,
@@ -104,6 +108,7 @@ class DashboardState extends Equatable {
     isDynamicPageLoading,
     isManinagarShangarDarshanLoading,
     isManinagarMandirShangarDarshanLoading,
+    isCalenderLoading,
     dashboardData,
     dynamicPageData,
     maninagarShangarDarshan,

@@ -1,5 +1,6 @@
 import 'package:fpdart/fpdart.dart';
 import 'package:injectable/injectable.dart';
+import 'package:intl/intl.dart';
 import 'package:starter_app/core/constant/api_constant.dart';
 import 'package:starter_app/features/dashboard/repositories/dashboard_repository.dart';
 
@@ -9,6 +10,7 @@ import '../../../core/error/failures.dart';
 import '../../../core/network/repository/api_repository.dart';
 import '../../../core/network/repository/api_repository_impl.dart';
 import '../../../core/utils/isolate_parser.dart';
+import '../model/calender_model.dart';
 import '../model/dashboard_model.dart';
 import '../model/dynamic_page_id_model.dart';
 import '../model/maninagar_mandir_shangar_darshan_model.dart';
@@ -89,6 +91,25 @@ class DashboardRepositoryImpl implements DashboardRepository {
         response['data'],
       );
       return maninagarMandirShangarDarshanData;
+    });
+  }
+
+  @override
+  Future<Either<Failure, CalenderModel>> fetchCalenderData({
+    required DateTime date,
+  }) async {
+    ApiRepository apiRepository = ApiRepositoryImpl(sl.get());
+    final formattedDate = DateFormat('yyyy-MM-dd').format(date);
+    return _performRequest(() async {
+      final response = await apiRepository.getWithPath(
+        ApiConstants.calenderApi,
+        "$formattedDate/$formattedDate",
+      );
+      final calenderData = await IsolateParser.parse(
+        (json) => CalenderModel.fromJson(json),
+        response['data'],
+      );
+      return calenderData;
     });
   }
 
