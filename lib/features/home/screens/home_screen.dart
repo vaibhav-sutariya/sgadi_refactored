@@ -22,6 +22,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final messaging = FirebaseMessaging.instance;
+
   @override
   void initState() {
     super.initState();
@@ -31,11 +32,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Future<void> getPermission() async {
     final settings = await messaging.requestPermission(
       alert: true,
-      announcement: false,
       badge: true,
-      carPlay: false,
-      criticalAlert: false,
-      provisional: false,
       sound: true,
     );
     if (kDebugMode) {
@@ -45,87 +42,77 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final dashboardCubit = context.read<DashboardBloc>();
+    final dashboardBloc = context.read<DashboardBloc>();
 
     return SafeArea(
       child: Scaffold(
-        floatingActionButton: DonateButtonFab(),
+        floatingActionButton: const DonateButtonFab(),
         extendBody: true,
         extendBodyBehindAppBar: true,
         resizeToAvoidBottomInset: true,
-        body: BlocSelector<DashboardBloc, DashboardState, bool>(
-          selector: (state) => state.isLoading,
-          builder: (context, isLoading) {
-            if (isLoading) {
+        body: BlocBuilder<DashboardBloc, DashboardState>(
+          buildWhen: (previous, current) =>
+              previous.dashboardData != current.dashboardData ||
+              previous.isLoading != current.isLoading,
+          builder: (context, state) {
+            if (state.isLoading) {
               return const Center(child: CircularProgressIndicator());
             }
+
+            final dashboardData = state.dashboardData;
+            if (dashboardData == null) {
+              return const Center(child: Text("No data available"));
+            }
+
+            // Collect active banner images
+            final List<ImageJson> bannerImages = [
+              for (final element in dashboardData.data ?? [])
+                if (element.tSlider == "full")
+                  for (final image in element.imageJson ?? [])
+                    if (image.imageStatus != "inactive") image,
+            ];
+
             return SingleChildScrollView(
               child: Column(
                 children: [
-                  // Your home screen content goes here
+                  // Banner with overlay (kept Stack)
                   Stack(
+                    clipBehavior: Clip.none,
                     children: [
-                      AspectRatio(
-                        aspectRatio: 16 / 15,
-                        child: BlocBuilder<DashboardBloc, DashboardState>(
-                          buildWhen: (previous, current) =>
-                              previous.dashboardData != current.dashboardData,
-                          builder: (context, state) {
-                            if (state.isLoading) {
-                              return const Center(
-                                child: CircularProgressIndicator(),
-                              );
-                            }
-
-                            final dashboardData = state.dashboardData;
-                            if (dashboardData == null) {
-                              return const Center(
-                                child: Text("No data available"),
-                              );
-                            }
-
-                            // Now safely use dashboardData
-                            List<ImageJson> listBannerImage = [];
-                            for (final element in dashboardData.data ?? []) {
-                              if (element.tSlider == "full") {
-                                for (final image in element.imageJson ?? []) {
-                                  if (image.imageStatus != "inactive") {
-                                    listBannerImage.add(image);
-                                  }
-                                }
-                              }
-                            }
-
-                            return Swiper(
-                              autoplay: true,
-                              autoplayDelay: 8000,
-                              fade: 0.9,
-                              scale: 0.9,
-                              itemCount: listBannerImage.length,
-                              itemBuilder: (context, index) => HomeBanner(
-                                imageJson: listBannerImage[index],
-                                currentDay: state.currentDay ?? "",
-                              ),
-                            );
-                          },
+                      SizedBox(
+                        height: MediaQuery.of(context).size.width,
+                        width: double.infinity,
+                        child: Swiper(
+                          autoplay: true,
+                          autoplayDelay: 8000,
+                          fade: 0.9,
+                          scale: 0.9,
+                          itemCount: bannerImages.length,
+                          itemBuilder: (context, index) => HomeBanner(
+                            imageJson: bannerImages[index],
+                            currentDay: state.currentDay ?? "",
+                          ),
                         ),
                       ),
+                      // Current Day card overlay
                       Positioned(
                         left: 18,
-                        bottom: 0,
+                        bottom: -16, // slightly overlaps the banner
                         child: Card(
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(16),
                           ),
                           color: Colors.white,
-                          shadowColor: Colors.white,
                           elevation: 4,
                           child: Padding(
-                            padding: EdgeInsets.all(8),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 12,
+                              vertical: 8,
+                            ),
                             child: Text(
-                              dashboardCubit.state.currentDay ?? '',
+                              dashboardBloc.state.currentDay ?? '',
                               textAlign: TextAlign.center,
-                              style: TextStyle(
+                              style: const TextStyle(
                                 fontSize: 12,
                                 color: title_light,
                                 fontWeight: FontWeight.w500,
@@ -137,7 +124,6 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ],
                   ),
-                  // Add more widgets as needed
                 ],
               ),
             );

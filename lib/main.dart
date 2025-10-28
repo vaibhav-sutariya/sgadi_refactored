@@ -29,6 +29,7 @@ final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
   await Firebase.initializeApp();
   FirebaseFirestore.instance.settings = const Settings(
     persistenceEnabled: true,
@@ -57,15 +58,18 @@ void main() async {
   );
 
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-  SystemChrome.setSystemUIOverlayStyle(
-    const SystemUiOverlayStyle(
-      statusBarColor: Colors.white,
-      statusBarIconBrightness: Brightness.dark,
-      statusBarBrightness: Brightness.light,
+
+  runApp(
+    AnnotatedRegion<SystemUiOverlayStyle>(
+      value: const SystemUiOverlayStyle(
+        statusBarColor: Color(0xFF100D0C),
+        // statusBarColor: Colors.transparent,
+        statusBarIconBrightness: Brightness.light,
+        statusBarBrightness: Brightness.dark,
+      ),
+      child: MyApp(),
     ),
   );
-
-  runApp(MyApp());
 }
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
