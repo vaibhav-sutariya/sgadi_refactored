@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 
-import '../../../dashboard/model/maninagar_shangar_darshan_model.dart';
-import '../../model/shangar_darshan_model.dart';
+import '../../../../dashboard/model/maninagar_shangar_darshan_model.dart';
+import '../../../model/shangar_darshan_model.dart';
 
 class HomeState extends Equatable {
   final bool isLoading;

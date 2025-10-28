@@ -1,9 +1,11 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:starter_app/features/home/screens/bloc/home_bloc.dart';
-import 'package:starter_app/features/home/screens/bloc/home_state.dart';
+import 'package:starter_app/features/home/screens/home_screen/bloc/home_bloc.dart';
+import 'package:starter_app/features/home/screens/home_screen/bloc/home_state.dart';
 
-import '../../../../../widgets/daily_darshan_widget.dart';
+import '../../../../../../core/routes/app_router.dart';
+import '../../../../../../widgets/daily_darshan_widget.dart';
 
 class HomeDarshanList extends StatelessWidget {
   const HomeDarshanList({super.key});
@@ -56,9 +58,9 @@ class HomeDarshanList extends StatelessWidget {
                 margin: const EdgeInsets.only(right: 16),
                 child: GestureDetector(
                   onTap: () {
-                    // Navigator.of(context).push(
-                    //   MaterialPageRoute(builder: (_) => const DailyScreen()),
-                    // );
+                    context.router.push(
+                      DailyDarshanRoute(homeBloc: context.read<HomeBloc>()),
+                    );
                   },
                   child: DailyDarshanWidget(name: name, image: image),
                 ),

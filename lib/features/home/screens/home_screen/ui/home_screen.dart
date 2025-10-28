@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:auto_route/auto_route.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -7,12 +8,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_swiper_view/flutter_swiper_view.dart';
 import 'package:starter_app/core/helpers/extensions/locale_extensions.dart';
 import 'package:starter_app/features/dashboard/screens/bloc/dashboard_bloc.dart';
-import 'package:starter_app/features/home/screens/bloc/home_bloc.dart';
+import 'package:starter_app/features/home/screens/home_screen/bloc/home_bloc.dart';
 
-import '../../../../core/constant/app_colors.dart';
-import '../../../../widgets/donate_button_fab.dart';
-import '../../../dashboard/model/dashboard_model.dart';
-import '../../../dashboard/screens/bloc/dashboard_state.dart';
+import '../../../../../core/constant/app_colors.dart';
+import '../../../../../core/routes/app_router.dart';
+import '../../../../../widgets/donate_button_fab.dart';
+import '../../../../dashboard/model/dashboard_model.dart';
+import '../../../../dashboard/screens/bloc/dashboard_state.dart';
 import '../bloc/home_event.dart';
 import 'widgets/home_banner.dart';
 import 'widgets/home_darshan_list.dart';
@@ -139,18 +141,11 @@ class _HomeScreenState extends State<HomeScreen> {
                         children: [
                           GestureDetector(
                             onTap: () async {
-                              // Navigator.of(context).push(
-                              //   MaterialPageRoute(
-                              //     builder: (context) => DailyScreen(
-                              //       // shangarDarshanModel:
-                              //       //     dashboardViewModel!
-                              //       //         .shangarDarshanModel,
-                              //       // listLiveDarshanResponse:
-                              //       //     dashboardViewModel!
-                              //       //         .listLiveDarshsanResponse!,
-                              //     ),
-                              //   ),
-                              // );
+                              context.router.push(
+                                DailyDarshanRoute(
+                                  homeBloc: context.read<HomeBloc>(),
+                                ),
+                              );
                             },
                             child: Text(
                               "${context.loc.daily_darshan} (Live)",
