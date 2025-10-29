@@ -1,5 +1,6 @@
 import 'package:fpdart/fpdart.dart';
 import 'package:starter_app/features/dashboard/model/calender_model.dart';
+import 'package:starter_app/features/dashboard/model/daily_quote_model.dart';
 import 'package:starter_app/features/dashboard/model/maninagar_shangar_darshan_model.dart';
 
 import '../../../core/error/failures.dart';
@@ -27,5 +28,10 @@ abstract interface class DashboardRepository {
 
   Future<Either<Failure, LiveBroadcastModel>> fetchLiveBroadcastData({
     required String timezone,
+  });
+
+  Future<Either<Failure, DailyQuoteModel>> fetchDailyQuoteData({
+    required Map<String, dynamic> data,
+    required int randomNumber,
   });
 }

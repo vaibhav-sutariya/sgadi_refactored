@@ -120,7 +120,8 @@ class MyApp extends StatelessWidget {
             ..add(FetchDashboardData('62cdb9a6c9349940e485f50b'))
             ..add(FetchLiveBroadcastData())
             ..add(FetchCalenderData())
-            ..add(FetchDynamicPageId()),
+            ..add(FetchDynamicPageId())
+            ..add(FetchDailyQuoteData()),
         ),
       ],
       child: BlocBuilder<ThemeCubit, AppTheme>(

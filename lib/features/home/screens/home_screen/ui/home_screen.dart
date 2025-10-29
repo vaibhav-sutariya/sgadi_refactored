@@ -15,6 +15,7 @@ import '../../../../../core/routes/app_router.dart';
 import '../../../../../cubit/theme_cubit.dart';
 import '../../../../dashboard/model/dashboard_model.dart';
 import '../../../../dashboard/screens/bloc/dashboard_state.dart';
+import '../../daily_quote_screen/widgets/daily_quote_widget.dart';
 import '../bloc/home_event.dart';
 import 'widgets/donate_button_fab.dart';
 import 'widgets/home_banner.dart';
@@ -186,6 +187,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     const SizedBox(height: 12),
 
                     HomeDarshanList(),
+
+                    DailyQuoteWidget(),
                   ],
                 ),
               );

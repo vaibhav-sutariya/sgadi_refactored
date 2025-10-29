@@ -2,6 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 
 import '../../../../core/error/failures.dart';
+import '../../model/daily_quote_model.dart';
 import '../../model/dashboard_model.dart';
 import '../../model/dynamic_page_id_model.dart';
 import '../../model/live_broadcast_model.dart';
@@ -24,6 +25,7 @@ class DashboardState extends Equatable {
   final bool isCalenderLoading;
   final bool isNavigate;
   final bool isLiveBroadcastLoading;
+  final bool isDailyQuoteLoading;
 
   // 🔹 Data
   final DashboardModel? dashboardData;
@@ -32,6 +34,8 @@ class DashboardState extends Equatable {
   final ManinagarMandirShangarDarshanModel? maninagarMandirShangarDarshan;
   final LiveBroadcastModel? liveBroadcastData;
   final int? liveBroadcastIndex;
+  final List<DailyQuoteDatum>? dailyQuoteList;
+  final DailyQuoteDatum? dailyQuoteData;
 
   // 🔹 Error
   final Failure? error;
@@ -49,12 +53,15 @@ class DashboardState extends Equatable {
     this.isCalenderLoading = false,
     this.isNavigate = false,
     this.isLiveBroadcastLoading = false,
+    this.isDailyQuoteLoading = false,
     this.dashboardData,
     this.dynamicPageData,
     this.maninagarShangarDarshan,
     this.maninagarMandirShangarDarshan,
     this.liveBroadcastData,
     this.liveBroadcastIndex,
+    this.dailyQuoteData,
+    this.dailyQuoteList,
     this.error,
   });
 
@@ -73,12 +80,15 @@ class DashboardState extends Equatable {
     bool? isCalenderLoading,
     bool? isNavigate,
     bool? isLiveBroadcastLoading,
+    bool? isDailyQuoteLoading,
     DashboardModel? dashboardData,
     DynamicPageIdModel? dynamicPageData,
     ManinagarShangarDarshanModel? maninagarShangarDarshan,
     ManinagarMandirShangarDarshanModel? maninagarMandirShangarDarshan,
     LiveBroadcastModel? liveBroadcastData,
     int? liveBroadcastIndex,
+    List<DailyQuoteDatum>? dailyQuoteList,
+    DailyQuoteDatum? dailyQuoteData,
     Failure? error,
   }) {
     return DashboardState(
@@ -99,6 +109,7 @@ class DashboardState extends Equatable {
       isNavigate: isNavigate ?? this.isNavigate,
       isLiveBroadcastLoading:
           isLiveBroadcastLoading ?? this.isLiveBroadcastLoading,
+      isDailyQuoteLoading: isDailyQuoteLoading ?? this.isDailyQuoteLoading,
       dashboardData: dashboardData ?? this.dashboardData,
       dynamicPageData: dynamicPageData ?? this.dynamicPageData,
       maninagarShangarDarshan:
@@ -107,6 +118,8 @@ class DashboardState extends Equatable {
           maninagarMandirShangarDarshan ?? this.maninagarMandirShangarDarshan,
       liveBroadcastData: liveBroadcastData ?? this.liveBroadcastData,
       liveBroadcastIndex: liveBroadcastIndex ?? this.liveBroadcastIndex,
+      dailyQuoteData: dailyQuoteData ?? this.dailyQuoteData,
+      dailyQuoteList: dailyQuoteList ?? this.dailyQuoteList,
       error: error,
     );
   }
@@ -124,12 +137,15 @@ class DashboardState extends Equatable {
     isManinagarMandirShangarDarshanLoading,
     isLiveBroadcastLoading,
     isCalenderLoading,
+    isDailyQuoteLoading,
     dashboardData,
     dynamicPageData,
     maninagarShangarDarshan,
     maninagarMandirShangarDarshan,
     liveBroadcastData,
     liveBroadcastIndex,
+    dailyQuoteData,
+    dailyQuoteList,
     error,
   ];
 }

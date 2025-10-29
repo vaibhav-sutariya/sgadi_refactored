@@ -2,10 +2,12 @@ import 'package:auto_route/auto_route.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
+import '../../features/dashboard/model/daily_quote_model.dart';
 import '../../features/dashboard/model/maninagar_shangar_darshan_model.dart';
 import '../../features/dashboard/screens/ui/dashboard_screen.dart';
 import '../../features/home/screens/daily_darshan_screen/ui/daily_darshan_images.dart';
 import '../../features/home/screens/daily_darshan_screen/ui/daily_darshan_screen.dart';
+import '../../features/home/screens/daily_quote_screen/quote_details_screen.dart';
 import '../../features/home/screens/home_screen/bloc/home_bloc.dart';
 import '../../features/home/screens/home_screen/ui/widgets/youtube_screen.dart';
 import '../../features/splash/screens/ui/splash_screen.dart';
@@ -25,5 +27,6 @@ class AppRouter extends RootStackRouter {
     AutoRoute(page: DailyDarshanRoute.page),
     AutoRoute(page: DailyDarshanImagesRoute.page),
     AutoRoute(page: YoutubeRoute.page),
+    AutoRoute(page: QuoteDetailsRoute.page),
   ];
 }

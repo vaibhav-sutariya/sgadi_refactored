@@ -1,10 +1,12 @@
 import 'dart:developer';
 import 'dart:io';
+import 'dart:math' hide log;
 
 import 'package:bloc/bloc.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:starter_app/features/dashboard/model/daily_quote_model.dart';
 
 import '../../repositories/dashboard_repository.dart';
 import 'dashboard_event.dart';
@@ -28,6 +30,7 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
     on<UpdateLiveBroadcastIndex>((event, emit) {
       emit(state.copyWith(liveBroadcastIndex: event.index));
     });
+    on<FetchDailyQuoteData>(_onFetchDailyQuoteData);
   }
 
   Future<void> _onInitializeDashboard(
@@ -180,6 +183,64 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
         ),
       ),
     );
+  }
+
+  Future<void> _onFetchDailyQuoteData(
+    FetchDailyQuoteData event,
+    Emitter<DashboardState> emit,
+  ) async {
+    emit(state.copyWith(isDailyQuoteLoading: true, error: null));
+
+    try {
+      final random = Random();
+      final Map<String, String> data = {
+        "page": "1",
+        "recordPerPage": "10",
+        "sortType": "desc",
+        "sortField": "publishOn",
+      };
+
+      final result = await _repository.fetchDailyQuoteData(
+        data: data,
+        randomNumber: random.nextInt(15) + 1,
+      );
+
+      result.fold(
+        (failure) {
+          emit(state.copyWith(isDailyQuoteLoading: false, error: failure));
+        },
+        (fetchedData) {
+          // Safely extract inner list from model
+          final List<DailyQuoteDatum> newItems = List<DailyQuoteDatum>.from(
+            fetchedData.data?.data ?? [],
+          );
+
+          // Merge existing and new quotes into a modifiable list
+          final List<DailyQuoteDatum> updatedList = [
+            ...?state.dailyQuoteList,
+            ...newItems,
+          ];
+
+          // Pick a random quote safely
+          DailyQuoteDatum? randomQuote;
+          if (updatedList.isNotEmpty) {
+            randomQuote = updatedList[random.nextInt(updatedList.length)];
+          }
+
+          emit(
+            state.copyWith(
+              isDailyQuoteLoading: false,
+              dailyQuoteList: updatedList,
+              dailyQuoteData: randomQuote,
+              error: null,
+            ),
+          );
+        },
+      );
+    } catch (e, stack) {
+      log('Daily quote fetch error: $e\n$stack');
+      emit(state.copyWith(isDailyQuoteLoading: false, error: null));
+    }
   }
 
   void _onNotificationReceived(

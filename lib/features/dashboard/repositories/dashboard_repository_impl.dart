@@ -11,6 +11,7 @@ import '../../../core/network/repository/api_repository.dart';
 import '../../../core/network/repository/api_repository_impl.dart';
 import '../../../core/utils/isolate_parser.dart';
 import '../model/calender_model.dart';
+import '../model/daily_quote_model.dart';
 import '../model/dashboard_model.dart';
 import '../model/dynamic_page_id_model.dart';
 import '../model/live_broadcast_model.dart';
@@ -129,6 +130,25 @@ class DashboardRepositoryImpl implements DashboardRepository {
         response['data'],
       );
       return liveBroadcastData;
+    });
+  }
+
+  @override
+  Future<Either<Failure, DailyQuoteModel>> fetchDailyQuoteData({
+    required Map<String, dynamic> data,
+    required int randomNumber,
+  }) async {
+    ApiRepository apiRepository = ApiRepositoryImpl(sl.get());
+    return _performRequest(() async {
+      final response = await apiRepository.getWithBody(
+        ApiConstants.quoteList,
+        data,
+      );
+      final dailyQuoteData = await IsolateParser.parse(
+        (json) => DailyQuoteModel.fromJson(json),
+        response['data'],
+      );
+      return dailyQuoteData;
     });
   }
 

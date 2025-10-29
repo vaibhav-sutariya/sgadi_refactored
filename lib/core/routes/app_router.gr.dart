@@ -151,6 +151,56 @@ class DashboardRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
+/// [QuoteDetailsScreen]
+class QuoteDetailsRoute extends PageRouteInfo<QuoteDetailsRouteArgs> {
+  QuoteDetailsRoute({
+    Key? key,
+    required DailyQuoteDatum? dailyQuoteData,
+    List<PageRouteInfo>? children,
+  }) : super(
+         QuoteDetailsRoute.name,
+         args: QuoteDetailsRouteArgs(key: key, dailyQuoteData: dailyQuoteData),
+         initialChildren: children,
+       );
+
+  static const String name = 'QuoteDetailsRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      final args = data.argsAs<QuoteDetailsRouteArgs>();
+      return QuoteDetailsScreen(
+        key: args.key,
+        dailyQuoteData: args.dailyQuoteData,
+      );
+    },
+  );
+}
+
+class QuoteDetailsRouteArgs {
+  const QuoteDetailsRouteArgs({this.key, required this.dailyQuoteData});
+
+  final Key? key;
+
+  final DailyQuoteDatum? dailyQuoteData;
+
+  @override
+  String toString() {
+    return 'QuoteDetailsRouteArgs{key: $key, dailyQuoteData: $dailyQuoteData}';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (other is! QuoteDetailsRouteArgs) return false;
+    return key == other.key && dailyQuoteData == other.dailyQuoteData;
+  }
+
+  @override
+  int get hashCode => key.hashCode ^ dailyQuoteData.hashCode;
+}
+
+/// generated route for
 /// [SplashPage]
 class SplashRoute extends PageRouteInfo<void> {
   const SplashRoute({List<PageRouteInfo>? children})

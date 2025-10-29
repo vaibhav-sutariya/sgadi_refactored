@@ -66,6 +66,13 @@ class UpdateLiveBroadcastIndex extends DashboardEvent {
   const UpdateLiveBroadcastIndex(this.index);
 }
 
+class FetchDailyQuoteData extends DashboardEvent {
+  const FetchDailyQuoteData();
+
+  @override
+  List<Object?> get props => [];
+}
+
 // 🔹 Notification event
 class NotificationReceived extends DashboardEvent {
   final RemoteMessage message;

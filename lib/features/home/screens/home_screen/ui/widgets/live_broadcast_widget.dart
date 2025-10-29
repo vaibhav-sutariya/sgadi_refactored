@@ -73,7 +73,9 @@ class LiveBroadcastWidget extends StatelessWidget {
                   return Center(
                     child: AnimatedSmoothIndicator(
                       activeIndex: liveBroadcastIndex ?? 0,
-                      count: broadcastList.length,
+                      count: broadcastList
+                          .where((item) => item.status == "active")
+                          .length,
                       effect: ExpandingDotsEffect(
                         dotHeight: 8,
                         dotWidth: 8,
@@ -99,10 +101,14 @@ class LiveBroadcastWidget extends StatelessWidget {
                 },
                 fade: 0.9,
                 scale: 0.9,
-                itemCount: broadcastList.length,
+                itemCount: broadcastList
+                    .where((item) => item.status == "active")
+                    .length,
                 itemBuilder: (context, i) {
                   final item = broadcastList[i];
-                  return BroadCastPageItem(liveBroadcastData: item);
+                  return item.status == "active"
+                      ? BroadCastPageItem(liveBroadcastData: item)
+                      : SizedBox.shrink();
                 },
               ),
             ),
