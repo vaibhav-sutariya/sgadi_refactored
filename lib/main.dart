@@ -118,8 +118,9 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           create: (_) => DashboardBloc(sl.get())
             ..add(FetchDashboardData('62cdb9a6c9349940e485f50b'))
-            ..add(FetchDynamicPageId())
-            ..add(FetchCalenderData()),
+            ..add(FetchLiveBroadcastData())
+            ..add(FetchCalenderData())
+            ..add(FetchDynamicPageId()),
         ),
       ],
       child: BlocBuilder<ThemeCubit, AppTheme>(

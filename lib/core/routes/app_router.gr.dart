@@ -17,7 +17,7 @@ class DailyDarshanImagesRoute extends PageRouteInfo<DailyDarshanImagesArgs> {
     Key? key,
     required List<LiveJson> liveJsonList,
     required int? index,
-    required int? subindex,
+    required int? subIndex,
     List<PageRouteInfo>? children,
   }) : super(
          DailyDarshanImagesRoute.name,
@@ -25,12 +25,12 @@ class DailyDarshanImagesRoute extends PageRouteInfo<DailyDarshanImagesArgs> {
            key: key,
            liveJsonList: liveJsonList,
            index: index,
-           subindex: subindex,
+           subIndex: subIndex,
          ),
          initialChildren: children,
        );
 
-  static const String name = 'DailyDarshanImagesRoute';
+  static const String name = 'DailyDarshanImages';
 
   static PageInfo page = PageInfo(
     name,
@@ -40,7 +40,7 @@ class DailyDarshanImagesRoute extends PageRouteInfo<DailyDarshanImagesArgs> {
         key: args.key,
         liveJsonList: args.liveJsonList,
         index: args.index,
-        sub_index: args.subindex,
+        subIndex: args.subIndex,
       );
     },
   );
@@ -51,7 +51,7 @@ class DailyDarshanImagesArgs {
     this.key,
     required this.liveJsonList,
     required this.index,
-    required this.subindex,
+    required this.subIndex,
   });
 
   final Key? key;
@@ -60,11 +60,11 @@ class DailyDarshanImagesArgs {
 
   final int? index;
 
-  final int? subindex;
+  final int? subIndex;
 
   @override
   String toString() {
-    return 'DailyDarshanImagesArgs{key: $key, liveJsonList: $liveJsonList, index: $index, subindex: $subindex}';
+    return 'DailyDarshanImagesArgs{key: $key, liveJsonList: $liveJsonList, index: $index, subIndex: $subIndex}';
   }
 
   @override
@@ -74,7 +74,7 @@ class DailyDarshanImagesArgs {
     return key == other.key &&
         const ListEquality().equals(liveJsonList, other.liveJsonList) &&
         index == other.index &&
-        subindex == other.subindex;
+        subIndex == other.subIndex;
   }
 
   @override
@@ -82,7 +82,7 @@ class DailyDarshanImagesArgs {
       key.hashCode ^
       const ListEquality().hash(liveJsonList) ^
       index.hashCode ^
-      subindex.hashCode;
+      subIndex.hashCode;
 }
 
 /// generated route for
@@ -164,4 +164,87 @@ class SplashRoute extends PageRouteInfo<void> {
       return WrappedRoute(child: const SplashPage());
     },
   );
+}
+
+/// generated route for
+/// [YoutubeScreen]
+class YoutubeRoute extends PageRouteInfo<YoutubeRouteArgs> {
+  YoutubeRoute({
+    Key? key,
+    required String? title,
+    required String videoId,
+    required bool? fromLive,
+    required String? slug,
+    List<PageRouteInfo>? children,
+  }) : super(
+         YoutubeRoute.name,
+         args: YoutubeRouteArgs(
+           key: key,
+           title: title,
+           videoId: videoId,
+           fromLive: fromLive,
+           slug: slug,
+         ),
+         initialChildren: children,
+       );
+
+  static const String name = 'YoutubeRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      final args = data.argsAs<YoutubeRouteArgs>();
+      return YoutubeScreen(
+        key: args.key,
+        title: args.title,
+        videoId: args.videoId,
+        fromLive: args.fromLive,
+        slug: args.slug,
+      );
+    },
+  );
+}
+
+class YoutubeRouteArgs {
+  const YoutubeRouteArgs({
+    this.key,
+    required this.title,
+    required this.videoId,
+    required this.fromLive,
+    required this.slug,
+  });
+
+  final Key? key;
+
+  final String? title;
+
+  final String videoId;
+
+  final bool? fromLive;
+
+  final String? slug;
+
+  @override
+  String toString() {
+    return 'YoutubeRouteArgs{key: $key, title: $title, videoId: $videoId, fromLive: $fromLive, slug: $slug}';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (other is! YoutubeRouteArgs) return false;
+    return key == other.key &&
+        title == other.title &&
+        videoId == other.videoId &&
+        fromLive == other.fromLive &&
+        slug == other.slug;
+  }
+
+  @override
+  int get hashCode =>
+      key.hashCode ^
+      title.hashCode ^
+      videoId.hashCode ^
+      fromLive.hashCode ^
+      slug.hashCode;
 }

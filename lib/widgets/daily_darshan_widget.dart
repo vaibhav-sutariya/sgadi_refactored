@@ -2,6 +2,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:starter_app/cubit/theme_cubit.dart';
+import 'package:starter_app/gen/assets.gen.dart';
 
 import 'circle_indicator.dart';
 import 'error_widget.dart';
@@ -85,7 +87,7 @@ class _DailyDarshanWidgetState extends State<DailyDarshanWidget> {
                       child: ClipRRect(
                         borderRadius: BorderRadius.all(Radius.circular(18)),
                         child: SvgPicture.asset(
-                          "assets/images/live_gradient.svg",
+                          Assets.images.liveGradient,
                           fit: BoxFit.fill,
                         ),
                       ),
@@ -102,6 +104,7 @@ class _DailyDarshanWidgetState extends State<DailyDarshanWidget> {
           style: Theme.of(context).textTheme.bodySmall?.copyWith(
             fontSize: 14,
             fontWeight: FontWeight.w500,
+            color: context.colors.titleTextColor,
           ),
         ),
       ],

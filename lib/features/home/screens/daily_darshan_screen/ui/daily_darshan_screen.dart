@@ -14,7 +14,7 @@ import '../../../../../widgets/back_button.dart';
 import '../../../../dashboard/model/maninagar_shangar_darshan_model.dart';
 import '../../home_screen/bloc/home_bloc.dart';
 import '../../home_screen/bloc/home_state.dart';
-import 'widgets/daily_darshab_widget1.dart';
+import 'widgets/daily_darshan_widget1.dart';
 import 'widgets/subtab_selected_widget.dart';
 import 'widgets/subtab_unselected_widget.dart';
 import 'widgets/tab_selected.dart';
@@ -183,7 +183,7 @@ class _DailyDarshanScreenState extends State<DailyDarshanScreen> {
                 DailyDarshanImagesRoute(
                   index: i,
                   liveJsonList: filteredList,
-                  subindex: subIndex,
+                  subIndex: subIndex,
                 ),
               );
               // Navigator.of(context).push(

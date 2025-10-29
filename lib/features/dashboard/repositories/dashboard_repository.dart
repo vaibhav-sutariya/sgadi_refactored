@@ -5,6 +5,7 @@ import 'package:starter_app/features/dashboard/model/maninagar_shangar_darshan_m
 import '../../../core/error/failures.dart';
 import '../model/dashboard_model.dart';
 import '../model/dynamic_page_id_model.dart';
+import '../model/live_broadcast_model.dart';
 import '../model/maninagar_mandir_shangar_darshan_model.dart';
 
 abstract interface class DashboardRepository {
@@ -22,5 +23,9 @@ abstract interface class DashboardRepository {
 
   Future<Either<Failure, CalenderModel>> fetchCalenderData({
     required DateTime date,
+  });
+
+  Future<Either<Failure, LiveBroadcastModel>> fetchLiveBroadcastData({
+    required String timezone,
   });
 }

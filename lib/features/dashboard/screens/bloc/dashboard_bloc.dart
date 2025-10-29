@@ -22,8 +22,12 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
     on<FetchManinagarMandirShangarDarshan>(
       _onFetchManinagarMandirShangarDarshan,
     );
+    on<FetchLiveBroadcastData>(_onFetchLiveBroadcastData);
     on<FetchCalenderData>(_onFetchCalenderData);
     on<NotificationReceived>(_onNotificationReceived);
+    on<UpdateLiveBroadcastIndex>((event, emit) {
+      emit(state.copyWith(liveBroadcastIndex: event.index));
+    });
   }
 
   Future<void> _onInitializeDashboard(
@@ -116,6 +120,42 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
           isManinagarMandirShangarDarshanLoading: false,
           maninagarMandirShangarDarshan: data,
         ),
+      ),
+    );
+  }
+
+  Future<void> _onFetchLiveBroadcastData(
+    FetchLiveBroadcastData event,
+    Emitter<DashboardState> emit,
+  ) async {
+    emit(state.copyWith(isLiveBroadcastLoading: true, error: null));
+    String convertTimezoneOffsetToDecimal(String offset) {
+      // Split the time into hours, minutes, and seconds
+      List<String> parts = offset.split(':');
+      int hours = int.parse(parts[0]);
+      int minutes = int.parse(parts[1]);
+
+      // Convert to decimal time
+      double decimalTime = hours + (minutes / 60);
+      var stringtimeZone = decimalTime.toString().replaceFirst('-', '');
+      log('Converted Time Zone: $stringtimeZone');
+      return stringtimeZone;
+    }
+
+    var timeZoneName = convertTimezoneOffsetToDecimal(
+      DateTime.now().timeZoneOffset.toString(),
+    );
+    log('Current Time Zone: $timeZoneName');
+
+    final result = await _repository.fetchLiveBroadcastData(
+      timezone: timeZoneName,
+    );
+
+    result.fold(
+      (failure) =>
+          emit(state.copyWith(isLiveBroadcastLoading: false, error: failure)),
+      (data) => emit(
+        state.copyWith(isLiveBroadcastLoading: false, liveBroadcastData: data),
       ),
     );
   }

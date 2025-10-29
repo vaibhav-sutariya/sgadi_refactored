@@ -4,6 +4,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import '../../../../core/error/failures.dart';
 import '../../model/dashboard_model.dart';
 import '../../model/dynamic_page_id_model.dart';
+import '../../model/live_broadcast_model.dart';
 import '../../model/maninagar_mandir_shangar_darshan_model.dart';
 import '../../model/maninagar_shangar_darshan_model.dart';
 
@@ -22,12 +23,15 @@ class DashboardState extends Equatable {
   final bool isManinagarMandirShangarDarshanLoading;
   final bool isCalenderLoading;
   final bool isNavigate;
+  final bool isLiveBroadcastLoading;
 
   // 🔹 Data
   final DashboardModel? dashboardData;
   final DynamicPageIdModel? dynamicPageData;
   final ManinagarShangarDarshanModel? maninagarShangarDarshan;
   final ManinagarMandirShangarDarshanModel? maninagarMandirShangarDarshan;
+  final LiveBroadcastModel? liveBroadcastData;
+  final int? liveBroadcastIndex;
 
   // 🔹 Error
   final Failure? error;
@@ -44,10 +48,13 @@ class DashboardState extends Equatable {
     this.isManinagarMandirShangarDarshanLoading = false,
     this.isCalenderLoading = false,
     this.isNavigate = false,
+    this.isLiveBroadcastLoading = false,
     this.dashboardData,
     this.dynamicPageData,
     this.maninagarShangarDarshan,
     this.maninagarMandirShangarDarshan,
+    this.liveBroadcastData,
+    this.liveBroadcastIndex,
     this.error,
   });
 
@@ -65,10 +72,13 @@ class DashboardState extends Equatable {
     bool? isManinagarMandirShangarDarshanLoading,
     bool? isCalenderLoading,
     bool? isNavigate,
+    bool? isLiveBroadcastLoading,
     DashboardModel? dashboardData,
     DynamicPageIdModel? dynamicPageData,
     ManinagarShangarDarshanModel? maninagarShangarDarshan,
     ManinagarMandirShangarDarshanModel? maninagarMandirShangarDarshan,
+    LiveBroadcastModel? liveBroadcastData,
+    int? liveBroadcastIndex,
     Failure? error,
   }) {
     return DashboardState(
@@ -87,12 +97,16 @@ class DashboardState extends Equatable {
           this.isManinagarMandirShangarDarshanLoading,
       isCalenderLoading: isCalenderLoading ?? this.isCalenderLoading,
       isNavigate: isNavigate ?? this.isNavigate,
+      isLiveBroadcastLoading:
+          isLiveBroadcastLoading ?? this.isLiveBroadcastLoading,
       dashboardData: dashboardData ?? this.dashboardData,
       dynamicPageData: dynamicPageData ?? this.dynamicPageData,
       maninagarShangarDarshan:
           maninagarShangarDarshan ?? this.maninagarShangarDarshan,
       maninagarMandirShangarDarshan:
           maninagarMandirShangarDarshan ?? this.maninagarMandirShangarDarshan,
+      liveBroadcastData: liveBroadcastData ?? this.liveBroadcastData,
+      liveBroadcastIndex: liveBroadcastIndex ?? this.liveBroadcastIndex,
       error: error,
     );
   }
@@ -108,11 +122,14 @@ class DashboardState extends Equatable {
     isDynamicPageLoading,
     isManinagarShangarDarshanLoading,
     isManinagarMandirShangarDarshanLoading,
+    isLiveBroadcastLoading,
     isCalenderLoading,
     dashboardData,
     dynamicPageData,
     maninagarShangarDarshan,
     maninagarMandirShangarDarshan,
+    liveBroadcastData,
+    liveBroadcastIndex,
     error,
   ];
 }

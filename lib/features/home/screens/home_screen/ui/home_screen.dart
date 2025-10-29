@@ -12,12 +12,14 @@ import 'package:starter_app/features/home/screens/home_screen/bloc/home_bloc.dar
 
 import '../../../../../core/constant/app_colors.dart';
 import '../../../../../core/routes/app_router.dart';
+import '../../../../../cubit/theme_cubit.dart';
 import '../../../../../widgets/donate_button_fab.dart';
 import '../../../../dashboard/model/dashboard_model.dart';
 import '../../../../dashboard/screens/bloc/dashboard_state.dart';
 import '../bloc/home_event.dart';
 import 'widgets/home_banner.dart';
 import 'widgets/home_darshan_list.dart';
+import 'widgets/live_broadcast_widget.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -111,6 +113,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               borderRadius: BorderRadius.circular(16),
                             ),
                             color: Colors.white,
+                            shadowColor: Colors.white,
                             elevation: 4,
                             child: Padding(
                               padding: EdgeInsets.all(8),
@@ -130,6 +133,25 @@ class _HomeScreenState extends State<HomeScreen> {
                       ],
                     ),
                     SizedBox(height: 20),
+
+                    // BlocSelector<ThemeCubit, AppTheme, bool>(
+                    //   selector: (state) => state is DarkTheme,
+                    //   builder: (context, isDark) {
+                    //     return CupertinoSwitch(
+                    //       thumbIcon: WidgetStateProperty.all(
+                    //         Icon(
+                    //           isDark ? Icons.nightlight_round : Icons.wb_sunny,
+                    //           color: isDark ? Colors.yellow : Colors.orange,
+                    //         ),
+                    //       ),
+                    //       value: isDark,
+                    //       onChanged: (value) => context.toggleTheme(),
+                    //       activeTrackColor: context.colors.primary,
+                    //       thumbColor: context.colors.dividerColor,
+                    //     );
+                    //   },
+                    // ),
+                    LiveBroadcastWidget(),
                     Padding(
                       padding: const EdgeInsets.only(
                         left: 16,
@@ -153,6 +175,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   ?.copyWith(
                                     fontSize: 15,
                                     decoration: TextDecoration.underline,
+                                    color: context.colors.titleTextColor,
                                   ),
                             ),
                           ),

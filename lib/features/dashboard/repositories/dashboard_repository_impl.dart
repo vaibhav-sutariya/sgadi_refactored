@@ -13,6 +13,7 @@ import '../../../core/utils/isolate_parser.dart';
 import '../model/calender_model.dart';
 import '../model/dashboard_model.dart';
 import '../model/dynamic_page_id_model.dart';
+import '../model/live_broadcast_model.dart';
 import '../model/maninagar_mandir_shangar_darshan_model.dart';
 import '../model/maninagar_shangar_darshan_model.dart';
 
@@ -110,6 +111,24 @@ class DashboardRepositoryImpl implements DashboardRepository {
         response['data'],
       );
       return calenderData;
+    });
+  }
+
+  @override
+  Future<Either<Failure, LiveBroadcastModel>> fetchLiveBroadcastData({
+    required String timezone,
+  }) async {
+    ApiRepository apiRepository = ApiRepositoryImpl(sl.get());
+    return _performRequest(() async {
+      final response = await apiRepository.getWithPath(
+        ApiConstants.liveBroadCast,
+        '/$timezone?sortField=publishOn&sortType=desc&recordPerPage=20&siteAccess=623beec8aeff82542fd87e55',
+      );
+      final liveBroadcastData = await IsolateParser.parse(
+        (json) => LiveBroadcastModel.fromJson(json),
+        response['data'],
+      );
+      return liveBroadcastData;
     });
   }
 

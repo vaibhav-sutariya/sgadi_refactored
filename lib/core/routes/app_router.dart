@@ -8,6 +8,7 @@ import '../../features/home/screens/daily_darshan_screen/ui/daily_darshan_images
 import '../../features/home/screens/daily_darshan_screen/ui/daily_darshan_screen.dart';
 import '../../features/home/screens/home_screen/bloc/home_bloc.dart';
 import '../../features/splash/screens/ui/splash_screen.dart';
+import '../../widgets/youtube_screen.dart';
 import 'auth_guard.dart';
 
 part 'app_router.gr.dart';
@@ -23,5 +24,6 @@ class AppRouter extends RootStackRouter {
     AutoRoute(page: DashboardRoute.page),
     AutoRoute(page: DailyDarshanRoute.page),
     AutoRoute(page: DailyDarshanImagesRoute.page),
+    AutoRoute(page: YoutubeRoute.page),
   ];
 }

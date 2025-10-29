@@ -54,6 +54,18 @@ class FetchManinagarMandirShangarDarshan extends DashboardEvent {
   List<Object?> get props => [maninagarMandirPageId];
 }
 
+class FetchLiveBroadcastData extends DashboardEvent {
+  const FetchLiveBroadcastData();
+
+  @override
+  List<Object?> get props => [];
+}
+
+class UpdateLiveBroadcastIndex extends DashboardEvent {
+  final int index;
+  const UpdateLiveBroadcastIndex(this.index);
+}
+
 // 🔹 Notification event
 class NotificationReceived extends DashboardEvent {
   final RemoteMessage message;

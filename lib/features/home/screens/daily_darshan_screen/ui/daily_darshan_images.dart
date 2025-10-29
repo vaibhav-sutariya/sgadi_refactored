@@ -21,14 +21,14 @@ import '../../../../dashboard/model/maninagar_shangar_darshan_model.dart';
 @RoutePage()
 class DailyDarshanImages extends StatefulWidget {
   final List<LiveJson> liveJsonList;
-  final int? sub_index;
+  final int? subIndex;
   final int? index;
 
   const DailyDarshanImages({
     super.key,
     required this.liveJsonList,
     required this.index,
-    required this.sub_index,
+    required this.subIndex,
   });
 
   @override
@@ -54,7 +54,7 @@ class _DailyDarshanImagesState extends State<DailyDarshanImages> {
   @override
   Widget build(BuildContext context) {
     final List<LiveJson> list = widget.liveJsonList;
-    final int subIndex = widget.sub_index ?? 0;
+    final int subIndex = widget.subIndex ?? 0;
 
     return Scaffold(
       appBar: AppBar(
