@@ -10,6 +10,7 @@ class HomeState extends Equatable {
   final ShangarDarshanModel? shangarDarshanModel;
   final List<String> homeScreenImageList;
   final List<String> homeScreenNameList;
+  final List<Map<String, String>> timings;
 
   const HomeState({
     this.isLoading = false,
@@ -18,6 +19,7 @@ class HomeState extends Equatable {
     this.shangarDarshanModel,
     this.homeScreenImageList = const [],
     this.homeScreenNameList = const [],
+    this.timings = const [],
   });
 
   HomeState copyWith({
@@ -27,6 +29,7 @@ class HomeState extends Equatable {
     ShangarDarshanModel? shangarDarshanModel,
     List<String>? homeScreenImageList,
     List<String>? homeScreenNameList,
+    List<Map<String, String>>? timings,
   }) {
     return HomeState(
       isLoading: isLoading ?? this.isLoading,
@@ -35,6 +38,7 @@ class HomeState extends Equatable {
       shangarDarshanModel: shangarDarshanModel ?? this.shangarDarshanModel,
       homeScreenImageList: homeScreenImageList ?? this.homeScreenImageList,
       homeScreenNameList: homeScreenNameList ?? this.homeScreenNameList,
+      timings: timings ?? this.timings,
     );
   }
 
@@ -44,5 +48,8 @@ class HomeState extends Equatable {
     darshanList,
     errorMessage,
     shangarDarshanModel,
+    homeScreenImageList,
+    homeScreenNameList,
+    timings,
   ];
 }

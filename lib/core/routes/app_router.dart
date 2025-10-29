@@ -1,7 +1,10 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
+import '../../features/dashboard/model/maninagar_shangar_darshan_model.dart';
 import '../../features/dashboard/screens/ui/dashboard_screen.dart';
+import '../../features/home/screens/daily_darshan_screen/ui/daily_darshan_images.dart';
 import '../../features/home/screens/daily_darshan_screen/ui/daily_darshan_screen.dart';
 import '../../features/home/screens/home_screen/bloc/home_bloc.dart';
 import '../../features/splash/screens/ui/splash_screen.dart';
@@ -19,5 +22,6 @@ class AppRouter extends RootStackRouter {
     AutoRoute(page: SplashRoute.page, initial: true),
     AutoRoute(page: DashboardRoute.page),
     AutoRoute(page: DailyDarshanRoute.page),
+    AutoRoute(page: DailyDarshanImagesRoute.page),
   ];
 }

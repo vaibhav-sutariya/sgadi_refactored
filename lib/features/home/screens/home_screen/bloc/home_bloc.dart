@@ -28,9 +28,16 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       final List<LiveJson> filtered = [];
       final List<String> homeImages = [];
       final List<String> homeNames = [];
+      final List<Map<String, String>> timings = [];
 
       // Parse and process
-      await _processDarshanData(model, filtered, homeImages, homeNames);
+      await _processDarshanData(
+        model,
+        filtered,
+        homeImages,
+        homeNames,
+        timings,
+      );
 
       emit(
         state.copyWith(
@@ -38,6 +45,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
           darshanList: filtered,
           homeScreenImageList: homeImages,
           homeScreenNameList: homeNames,
+          timings: timings,
           shangarDarshanModel: ShangarDarshanModel(
             data: [
               ShangarDarshanData(
@@ -69,6 +77,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     List<LiveJson> filtered,
     List<String> homeImages,
     List<String> homeNames,
+    List<Map<String, String>> timings,
   ) async {
     if (model.data == null || model.data!.isEmpty) return;
 
@@ -114,7 +123,10 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
       // Optional: parse timings (kept for future use)
       for (final item in validItems) {
-        await _fetchTimingsAndTitles(item.desc ?? '');
+        if (item.desc != null) {
+          final itemTimings = await _fetchTimingsAndTitles(item.desc!);
+          timings.addAll(itemTimings);
+        }
       }
     }
   }
