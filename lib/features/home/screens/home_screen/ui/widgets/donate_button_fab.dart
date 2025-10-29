@@ -5,8 +5,8 @@ import 'package:flutter_svg/svg.dart';
 import 'package:starter_app/core/helpers/extensions/locale_extensions.dart';
 import 'package:starter_app/cubit/theme_cubit.dart';
 
-import '../core/constant/app_colors.dart';
-import '../gen/assets.gen.dart';
+import '../../../../../../core/constant/app_colors.dart';
+import '../../../../../../gen/assets.gen.dart';
 
 class DonateButtonFab extends StatelessWidget {
   const DonateButtonFab({super.key});

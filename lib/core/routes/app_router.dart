@@ -7,8 +7,8 @@ import '../../features/dashboard/screens/ui/dashboard_screen.dart';
 import '../../features/home/screens/daily_darshan_screen/ui/daily_darshan_images.dart';
 import '../../features/home/screens/daily_darshan_screen/ui/daily_darshan_screen.dart';
 import '../../features/home/screens/home_screen/bloc/home_bloc.dart';
+import '../../features/home/screens/home_screen/ui/widgets/youtube_screen.dart';
 import '../../features/splash/screens/ui/splash_screen.dart';
-import '../../widgets/youtube_screen.dart';
 import 'auth_guard.dart';
 
 part 'app_router.gr.dart';

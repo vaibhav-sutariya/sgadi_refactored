@@ -7,11 +7,11 @@ import 'package:starter_app/core/helpers/extensions/locale_extensions.dart';
 import 'package:starter_app/gen/assets.gen.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
-import '../core/constant/app_colors.dart';
-import '../core/utils/utils.dart';
-import '../widgets/rounded_button.dart';
-import 'appbar_title.dart';
-import 'back_button.dart';
+import '../../../../../../core/constant/app_colors.dart';
+import '../../../../../../core/utils/utils.dart';
+import '../../../../../../widgets/appbar_title.dart';
+import '../../../../../../widgets/back_button.dart';
+import '../../../../../../widgets/rounded_button.dart';
 
 @RoutePage()
 class YoutubeScreen extends StatefulWidget {

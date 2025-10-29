@@ -12,7 +12,7 @@ import '../../../../../../core/utils/utils.dart';
 import '../../../../../../widgets/circle_indicator.dart';
 import '../../../../../../widgets/error_widget.dart';
 import '../../../../../../widgets/rounded_button.dart';
-import '../../../../../../widgets/youtube_screen.dart';
+import 'youtube_screen.dart';
 
 class BroadCastPageItem extends StatefulWidget {
   final Datum liveBroadcastData;

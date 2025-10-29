@@ -5,8 +5,8 @@ import 'package:flutter_svg/svg.dart';
 import 'package:starter_app/cubit/theme_cubit.dart';
 import 'package:starter_app/gen/assets.gen.dart';
 
-import 'circle_indicator.dart';
-import 'error_widget.dart';
+import '../../../../../../widgets/circle_indicator.dart';
+import '../../../../../../widgets/error_widget.dart';
 
 class DailyDarshanWidget extends StatefulWidget {
   final String? name;

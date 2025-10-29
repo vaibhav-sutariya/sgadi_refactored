@@ -5,7 +5,7 @@ import 'package:starter_app/features/home/screens/home_screen/bloc/home_bloc.dar
 import 'package:starter_app/features/home/screens/home_screen/bloc/home_state.dart';
 
 import '../../../../../../core/routes/app_router.dart';
-import '../../../../../../widgets/daily_darshan_widget.dart';
+import 'daily_darshan_widget.dart';
 
 class HomeDarshanList extends StatelessWidget {
   const HomeDarshanList({super.key});
