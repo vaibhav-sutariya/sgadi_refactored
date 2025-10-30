@@ -19,8 +19,7 @@ class _ViewAllWidgetState extends State<ViewAllWidget> {
         Text(
           context.loc.view_all,
           style: Theme.of(context).textTheme.displayMedium?.copyWith(
-            fontSize: 15,
-            decoration: TextDecoration.underline,
+            fontSize: 14,
             color: context.colors.titleTextColor,
           ),
         ),

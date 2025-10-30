@@ -2,6 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:starter_app/features/home/model/ghanshyam_vijay_model.dart';
 
 import '../../../../../core/error/failures.dart';
+import '../ui/ghanshyam_vijay_screen.dart';
 
 class GhanshyamVijayState extends Equatable {
   // 🔹 Loading
@@ -12,6 +13,14 @@ class GhanshyamVijayState extends Equatable {
   final List<GhanshyamVijayDatum>? ghanshyamVijayList;
   final GhanshyamVijayModel? ghanshyamVijayData;
 
+  // 🔹 Pagination
+  final int page;
+  final bool hasReachedEnd;
+
+  // 🔹 Filter
+  final String? selectedYear;
+  final List<YearResponse>? yearsList;
+
   // 🔹 Error
   final Failure? error;
 
@@ -21,15 +30,35 @@ class GhanshyamVijayState extends Equatable {
     this.ghanshyamVijayList,
     this.ghanshyamVijayData,
     this.error,
+    this.page = 1,
+    this.hasReachedEnd = false,
+    this.selectedYear,
+    this.yearsList,
   });
 
-  factory GhanshyamVijayState.initial() => const GhanshyamVijayState();
+  factory GhanshyamVijayState.initial() {
+    int currentYear = DateTime.now().year;
+    var list = List.generate(
+      currentYear - 1941,
+      (i) => 1942 + i,
+    ).reversed.map((e) => YearResponse(selected: false, year: e)).toList();
+    return GhanshyamVijayState(
+      ghanshyamVijayList: [],
+      page: 1,
+      hasReachedEnd: false,
+      yearsList: list,
+    );
+  }
 
   GhanshyamVijayState copyWith({
     bool? isLoading,
     bool? isMoreLoading,
     List<GhanshyamVijayDatum>? ghanshyamVijayList,
     GhanshyamVijayModel? ghanshyamVijayData,
+    int? page,
+    bool? hasReachedEnd,
+    String? selectedYear,
+    List<YearResponse>? yearsList,
     Failure? error,
   }) {
     return GhanshyamVijayState(
@@ -37,6 +66,10 @@ class GhanshyamVijayState extends Equatable {
       isMoreLoading: isMoreLoading ?? this.isMoreLoading,
       ghanshyamVijayList: ghanshyamVijayList ?? this.ghanshyamVijayList,
       ghanshyamVijayData: ghanshyamVijayData ?? this.ghanshyamVijayData,
+      page: page ?? this.page,
+      hasReachedEnd: hasReachedEnd ?? this.hasReachedEnd,
+      selectedYear: selectedYear ?? this.selectedYear,
+      yearsList: yearsList ?? this.yearsList,
       error: error,
     );
   }
@@ -47,6 +80,10 @@ class GhanshyamVijayState extends Equatable {
     isMoreLoading,
     ghanshyamVijayList,
     ghanshyamVijayData,
+    page,
+    hasReachedEnd,
+    selectedYear,
+    yearsList,
     error,
   ];
 }

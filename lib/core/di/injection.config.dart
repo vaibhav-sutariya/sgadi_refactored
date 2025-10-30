@@ -17,6 +17,10 @@ import 'package:starter_app/features/dashboard/repositories/dashboard_repository
     as _i316;
 import 'package:starter_app/features/dashboard/repositories/dashboard_repository_impl.dart'
     as _i866;
+import 'package:starter_app/features/home/repositories/home_repository.dart'
+    as _i839;
+import 'package:starter_app/features/home/repositories/home_repository_impl.dart'
+    as _i708;
 import 'package:starter_app/features/splash/repositories/splash_repository.dart'
     as _i452;
 import 'package:starter_app/features/splash/repositories/splash_repository_impl.dart'
@@ -35,6 +39,7 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i316.DashboardRepository>(
       () => _i866.DashboardRepositoryImpl.new(),
     );
+    gh.factory<_i839.HomeRepository>(() => _i708.HomeRepositoryImpl.new());
     gh.factory<_i452.SplashRepository>(() => _i119.SplashRepositoryImpl.new());
     return this;
   }

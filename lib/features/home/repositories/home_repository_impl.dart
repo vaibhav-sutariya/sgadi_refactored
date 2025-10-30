@@ -1,4 +1,5 @@
 import 'package:fpdart/fpdart.dart';
+import 'package:injectable/injectable.dart';
 import 'package:starter_app/features/home/repositories/home_repository.dart';
 
 import '../../../core/constant/api_constant.dart';
@@ -10,6 +11,7 @@ import '../../../core/network/repository/api_repository_impl.dart';
 import '../../../core/utils/isolate_parser.dart';
 import '../model/ghanshyam_vijay_model.dart';
 
+@Injectable(as: HomeRepository)
 class HomeRepositoryImpl implements HomeRepository {
   static final HomeRepositoryImpl _instance = HomeRepositoryImpl._internal();
 

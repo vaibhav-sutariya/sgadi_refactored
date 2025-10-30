@@ -8,6 +8,9 @@ import '../../features/dashboard/screens/ui/dashboard_screen.dart';
 import '../../features/home/screens/daily_darshan_screen/ui/daily_darshan_images.dart';
 import '../../features/home/screens/daily_darshan_screen/ui/daily_darshan_screen.dart';
 import '../../features/home/screens/daily_quote_screen/quote_details_screen.dart';
+import '../../features/home/screens/ghanshyam_vijay/bloc/ghanshyam_vijay_bloc.dart';
+import '../../features/home/screens/ghanshyam_vijay/ui/ghanshyam_vijay_screen.dart';
+import '../../features/home/screens/ghanshyam_vijay/ui/ghanshyamvijay_details.dart';
 import '../../features/home/screens/home_screen/bloc/home_bloc.dart';
 import '../../features/home/screens/home_screen/ui/widgets/youtube_screen.dart';
 import '../../features/splash/screens/ui/splash_screen.dart';
@@ -28,5 +31,7 @@ class AppRouter extends RootStackRouter {
     AutoRoute(page: DailyDarshanImagesRoute.page),
     AutoRoute(page: YoutubeRoute.page),
     AutoRoute(page: QuoteDetailsRoute.page),
+    AutoRoute(page: GhanshyamVijayDetailsRoute.page),
+    AutoRoute(page: GhanshyamVijayRoute.page),
   ];
 }

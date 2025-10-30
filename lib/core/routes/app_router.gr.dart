@@ -151,6 +151,124 @@ class DashboardRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
+/// [GhanshyamVijayDetails]
+class GhanshyamVijayDetailsRoute
+    extends PageRouteInfo<GhanshyamVijayDetailsArgs> {
+  GhanshyamVijayDetailsRoute({
+    Key? key,
+    required String? pdfFile,
+    required String? imageUrl,
+    List<PageRouteInfo>? children,
+  }) : super(
+         GhanshyamVijayDetailsRoute.name,
+         args: GhanshyamVijayDetailsArgs(
+           key: key,
+           pdfFile: pdfFile,
+           imageUrl: imageUrl,
+         ),
+         initialChildren: children,
+       );
+
+  static const String name = 'GhanshyamVijayDetailsRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      final args = data.argsAs<GhanshyamVijayDetailsArgs>();
+      return GhanshyamVijayDetails(
+        key: args.key,
+        pdfFile: args.pdfFile,
+        imageUrl: args.imageUrl,
+      );
+    },
+  );
+}
+
+class GhanshyamVijayDetailsArgs {
+  const GhanshyamVijayDetailsArgs({
+    this.key,
+    required this.pdfFile,
+    required this.imageUrl,
+  });
+
+  final Key? key;
+
+  final String? pdfFile;
+
+  final String? imageUrl;
+
+  @override
+  String toString() {
+    return 'GhanshyamVijayDetailsArgs{key: $key, pdfFile: $pdfFile, imageUrl: $imageUrl}';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (other is! GhanshyamVijayDetailsArgs) return false;
+    return key == other.key &&
+        pdfFile == other.pdfFile &&
+        imageUrl == other.imageUrl;
+  }
+
+  @override
+  int get hashCode => key.hashCode ^ pdfFile.hashCode ^ imageUrl.hashCode;
+}
+
+/// generated route for
+/// [GhanshyamVijayScreen]
+class GhanshyamVijayRoute extends PageRouteInfo<GhanshyamVijayRouteArgs> {
+  GhanshyamVijayRoute({
+    Key? key,
+    required GhanshyamVijayBloc ghanshyamVijayBloc,
+    List<PageRouteInfo>? children,
+  }) : super(
+         GhanshyamVijayRoute.name,
+         args: GhanshyamVijayRouteArgs(
+           key: key,
+           ghanshyamVijayBloc: ghanshyamVijayBloc,
+         ),
+         initialChildren: children,
+       );
+
+  static const String name = 'GhanshyamVijayRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      final args = data.argsAs<GhanshyamVijayRouteArgs>();
+      return GhanshyamVijayScreen(
+        key: args.key,
+        ghanshyamVijayBloc: args.ghanshyamVijayBloc,
+      );
+    },
+  );
+}
+
+class GhanshyamVijayRouteArgs {
+  const GhanshyamVijayRouteArgs({this.key, required this.ghanshyamVijayBloc});
+
+  final Key? key;
+
+  final GhanshyamVijayBloc ghanshyamVijayBloc;
+
+  @override
+  String toString() {
+    return 'GhanshyamVijayRouteArgs{key: $key, ghanshyamVijayBloc: $ghanshyamVijayBloc}';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (other is! GhanshyamVijayRouteArgs) return false;
+    return key == other.key && ghanshyamVijayBloc == other.ghanshyamVijayBloc;
+  }
+
+  @override
+  int get hashCode => key.hashCode ^ ghanshyamVijayBloc.hashCode;
+}
+
+/// generated route for
 /// [QuoteDetailsScreen]
 class QuoteDetailsRoute extends PageRouteInfo<QuoteDetailsRouteArgs> {
   QuoteDetailsRoute({
