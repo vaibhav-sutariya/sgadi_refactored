@@ -151,6 +151,78 @@ class DashboardRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
+/// [FullScreenVideoScreen]
+class FullRouteVideoRoute extends PageRouteInfo<FullRouteVideoRouteArgs> {
+  FullRouteVideoRoute({
+    Key? key,
+    required String id,
+    required LiveShangarDarshanBloc bloc,
+    String? title,
+    List<PageRouteInfo>? children,
+  }) : super(
+         FullRouteVideoRoute.name,
+         args: FullRouteVideoRouteArgs(
+           key: key,
+           id: id,
+           bloc: bloc,
+           title: title,
+         ),
+         initialChildren: children,
+       );
+
+  static const String name = 'FullRouteVideoRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      final args = data.argsAs<FullRouteVideoRouteArgs>();
+      return FullScreenVideoScreen(
+        key: args.key,
+        id: args.id,
+        bloc: args.bloc,
+        title: args.title,
+      );
+    },
+  );
+}
+
+class FullRouteVideoRouteArgs {
+  const FullRouteVideoRouteArgs({
+    this.key,
+    required this.id,
+    required this.bloc,
+    this.title,
+  });
+
+  final Key? key;
+
+  final String id;
+
+  final LiveShangarDarshanBloc bloc;
+
+  final String? title;
+
+  @override
+  String toString() {
+    return 'FullRouteVideoRouteArgs{key: $key, id: $id, bloc: $bloc, title: $title}';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (other is! FullRouteVideoRouteArgs) return false;
+    return key == other.key &&
+        id == other.id &&
+        bloc == other.bloc &&
+        title == other.title;
+  }
+
+  @override
+  int get hashCode =>
+      key.hashCode ^ id.hashCode ^ bloc.hashCode ^ title.hashCode;
+}
+
+/// generated route for
 /// [GhanshyamVijayDetails]
 class GhanshyamVijayDetailsRoute
     extends PageRouteInfo<GhanshyamVijayDetailsArgs> {
@@ -266,6 +338,22 @@ class GhanshyamVijayRouteArgs {
 
   @override
   int get hashCode => key.hashCode ^ ghanshyamVijayBloc.hashCode;
+}
+
+/// generated route for
+/// [LiveShangarDarshanScreen]
+class LiveShangarDarshanRoute extends PageRouteInfo<void> {
+  const LiveShangarDarshanRoute({List<PageRouteInfo>? children})
+    : super(LiveShangarDarshanRoute.name, initialChildren: children);
+
+  static const String name = 'LiveShangarDarshanRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      return const LiveShangarDarshanScreen();
+    },
+  );
 }
 
 /// generated route for

@@ -9,6 +9,8 @@ import '../../../core/error/failures.dart';
 import '../../../core/network/repository/api_repository.dart';
 import '../../../core/network/repository/api_repository_impl.dart';
 import '../../../core/utils/isolate_parser.dart';
+import '../../maninagar_live/model/maninagar_shangar_darshan_model.dart';
+import '../model/all_shangar_darshan_model.dart';
 import '../model/ghanshyam_vijay_model.dart';
 
 @Injectable(as: HomeRepository)
@@ -37,6 +39,39 @@ class HomeRepositoryImpl implements HomeRepository {
       );
 
       return ghanshyamVijayData;
+    });
+  }
+
+  @override
+  Future<Either<Failure, AllShangarDarshanModel>> fetchShangarDarshanData({
+    required String id,
+  }) async {
+    ApiRepository apiRepository = ApiRepositoryImpl(sl.get());
+    return _performRequest(() async {
+      final response = await apiRepository.get(
+        '${ApiConstants.shangarDarshan}$id',
+      );
+      final shangarDarshanData = await IsolateParser.parse(
+        (json) => AllShangarDarshanModel.fromJson(json),
+        response['data'],
+      );
+      return shangarDarshanData;
+    });
+  }
+
+  @override
+  Future<Either<Failure, ManinagarShangarDarshanModel>>
+  fetchMandirShangarDarshanData({required String id}) async {
+    ApiRepository apiRepository = ApiRepositoryImpl(sl.get());
+    return _performRequest(() async {
+      final response = await apiRepository.get(
+        '${ApiConstants.shangarDarshan}$id',
+      );
+      final mandirShangarDarshanData = await IsolateParser.parse(
+        (json) => ManinagarShangarDarshanModel.fromJson(json),
+        response['data'],
+      );
+      return mandirShangarDarshanData;
     });
   }
 

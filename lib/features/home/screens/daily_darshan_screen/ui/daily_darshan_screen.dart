@@ -92,6 +92,9 @@ class _DailyDarshanScreenState extends State<DailyDarshanScreen> {
                     actions: [
                       AppbarActionWidget(
                         name: context.loc.live_shangar_darshan,
+                        onTap: () {
+                          context.router.push(const LiveShangarDarshanRoute());
+                        },
                       ),
                     ],
                   ),

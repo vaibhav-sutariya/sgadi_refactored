@@ -12,6 +12,9 @@ import '../../features/home/screens/ghanshyam_vijay/ui/ghanshyam_vijay_screen.da
 import '../../features/home/screens/ghanshyam_vijay/ui/ghanshyamvijay_details.dart';
 import '../../features/home/screens/home_screen/bloc/home_bloc.dart';
 import '../../features/home/screens/home_screen/ui/widgets/youtube_screen.dart';
+import '../../features/home/screens/live_shangar_darshan/bloc/live_shangar_darshan_bloc.dart';
+import '../../features/home/screens/live_shangar_darshan/ui/full_screen_video.dart';
+import '../../features/home/screens/live_shangar_darshan/ui/live_shangar_darshan_screen.dart';
 import '../../features/maninagar_live/model/maninagar_shangar_darshan_model.dart';
 import '../../features/splash/screens/ui/splash_screen.dart';
 import '../../widgets/webview_screen.dart';
@@ -35,5 +38,7 @@ class AppRouter extends RootStackRouter {
     AutoRoute(page: GhanshyamVijayDetailsRoute.page),
     AutoRoute(page: GhanshyamVijayRoute.page),
     AutoRoute(page: WebViewRoute.page),
+    AutoRoute(page: LiveShangarDarshanRoute.page),
+    AutoRoute(page: FullRouteVideoRoute.page),
   ];
 }
