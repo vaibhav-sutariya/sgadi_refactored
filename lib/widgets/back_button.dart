@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:starter_app/cubit/theme_cubit.dart';
 
 import '../gen/assets.gen.dart';
 
@@ -24,9 +25,7 @@ class BackButtonWidget extends StatelessWidget {
             child: SvgPicture.asset(
               Assets.images.back,
               height: 16,
-              color: Theme.of(context).brightness == Brightness.dark
-                  ? const Color(0xFF7D7F84)
-                  : const Color(0xFF373A40),
+              color: context.colors.titleTextColor,
               width: 16,
             ),
           ),

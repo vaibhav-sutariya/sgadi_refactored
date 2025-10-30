@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:starter_app/cubit/theme_cubit.dart';
 
 class AppbarActionWidget extends StatelessWidget {
   final String name;
@@ -20,9 +21,10 @@ class AppbarActionWidget extends StatelessWidget {
             ),
             child: Text(
               name,
-              style: Theme.of(
-                context,
-              ).textTheme.displayMedium?.copyWith(fontSize: 12),
+              style: Theme.of(context).textTheme.displayMedium?.copyWith(
+                fontSize: 12,
+                color: context.colors.titleTextColor,
+              ),
             ),
           ),
         ),

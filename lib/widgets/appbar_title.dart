@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:starter_app/cubit/theme_cubit.dart';
 
 class AppbarTitle extends StatelessWidget {
   final String title;
@@ -9,9 +10,10 @@ class AppbarTitle extends StatelessWidget {
     return Text(
       title,
       maxLines: 1,
-      style: Theme.of(
-        context,
-      ).textTheme.labelLarge?.copyWith(overflow: TextOverflow.ellipsis),
+      style: Theme.of(context).textTheme.labelLarge?.copyWith(
+        overflow: TextOverflow.ellipsis,
+        color: context.colors.titleTextColor,
+      ),
     );
   }
 }
