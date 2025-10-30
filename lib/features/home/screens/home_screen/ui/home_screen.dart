@@ -1,21 +1,17 @@
 import 'dart:developer';
 
-import 'package:auto_route/auto_route.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_swiper_view/flutter_swiper_view.dart';
 import 'package:starter_app/core/di/injection.dart';
-import 'package:starter_app/core/helpers/extensions/locale_extensions.dart';
 import 'package:starter_app/features/dashboard/screens/bloc/dashboard_bloc.dart';
 import 'package:starter_app/features/home/screens/ghanshyam_vijay/bloc/ghanshyam_vijay_bloc.dart';
 import 'package:starter_app/features/home/screens/ghanshyam_vijay/bloc/ghanshyam_vijay_event.dart';
 import 'package:starter_app/features/home/screens/home_screen/bloc/home_bloc.dart';
 
 import '../../../../../core/constant/app_colors.dart';
-import '../../../../../core/routes/app_router.dart';
-import '../../../../../cubit/theme_cubit.dart';
 import '../../../../dashboard/model/dashboard_model.dart';
 import '../../../../dashboard/screens/bloc/dashboard_state.dart';
 import '../../daily_quote_screen/widgets/daily_quote_widget.dart';
@@ -56,8 +52,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final dashboardBloc = context.read<DashboardBloc>();
-
     return BlocProvider(
       create: (context) =>
           GhanshyamVijayBloc(sl.get())..add(FetchGhanshyamVijayData()),
@@ -157,40 +151,6 @@ class _HomeScreenState extends State<HomeScreen> {
                           SizedBox(height: 20),
 
                           LiveBroadcastWidget(),
-                          Padding(
-                            padding: const EdgeInsets.only(
-                              left: 16,
-                              right: 16,
-                              top: 8,
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                GestureDetector(
-                                  onTap: () async {
-                                    context.router.push(
-                                      DailyDarshanRoute(
-                                        homeBloc: context.read<HomeBloc>(),
-                                      ),
-                                    );
-                                  },
-                                  child: Text(
-                                    "${context.loc.daily_darshan} (Live)",
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .displayMedium
-                                        ?.copyWith(
-                                          fontSize: 15,
-                                          decoration: TextDecoration.underline,
-                                          color: context.colors.titleTextColor,
-                                        ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-
-                          const SizedBox(height: 12),
 
                           HomeDarshanList(),
 
