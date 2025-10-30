@@ -1,21 +1,22 @@
 import 'dart:async';
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:auto_route/auto_route.dart';
-import 'package:cached_network_image/cached_network_image.dart'
-    hide DownloadProgress;
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_pdfview/flutter_pdfview.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:native_flutter_downloader/native_flutter_downloader.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:starter_app/core/helpers/extensions/locale_extensions.dart';
+import 'package:starter_app/gen/assets.gen.dart';
 
 import '../../../../../core/utils/utils.dart';
-import '../../../../../gen/assets.gen.dart';
 import '../../../../../widgets/appbar_title.dart';
 import '../../../../../widgets/back_button.dart';
+import '../../../../../widgets/circle_indicator.dart';
 import '../../../../../widgets/error_widget.dart';
 
 @RoutePage()
@@ -34,116 +35,129 @@ class GhanshyamVijayDetails extends StatefulWidget {
 }
 
 class _GhanshyamVijayDetailsState extends State<GhanshyamVijayDetails> {
-  String? remotePDFpath;
-  bool downloading = true;
+  String remotePDFpath = "";
+  bool? downloading = true;
+  late StreamSubscription progressStream;
   String downloadPercentage = "0";
-  StreamSubscription<DownloadProgress>? progressStream;
-  int? _downloadId;
+  int progress = 0;
 
   @override
   void initState() {
     super.initState();
-    _startDownload(widget.pdfFile ?? "");
+    print("pdf file${widget.pdfFile}");
+
+    downloadFile(widget.pdfFile.toString());
   }
 
-  Future<void> _startDownload(String fileUrl) async {
-    if (fileUrl.isEmpty) return;
-    log("Starting download for: $fileUrl");
-
+  Future<void> downloadFile(String imageUrl) async {
     try {
+      String fileUrl = widget.pdfFile.toString();
       final filename = fileUrl.substring(fileUrl.lastIndexOf("/") + 1);
-
-      final dir = Platform.isAndroid
-          ? Directory("/storage/emulated/0/Download/Swaminarayan Gadi")
-          : await getApplicationDocumentsDirectory();
-
-      if (!await dir.exists()) {
-        await dir.create(recursive: true);
+      Directory dir;
+      if (Platform.isAndroid) {
+        dir = Directory("/storage/emulated/0/Download/Swaminarayan Gadi");
+      } else {
+        dir = await getApplicationDocumentsDirectory();
       }
-
-      final file = File("${dir.path}/$filename");
+      print("${dir.path}/$filename");
+      File file = File("${dir.path}/$filename");
       if (await file.exists()) {
-        // File already downloaded
         setState(() {
           downloading = false;
           remotePDFpath = file.path;
         });
-        return;
-      }
+      } else {
+        String fileName = imageUrl.substring(imageUrl.lastIndexOf("/") + 1);
 
-      // Start download
-      final downloadId = await NativeFlutterDownloader.download(
-        fileUrl,
-        fileName: filename,
-        savedFilePath: dir.path,
-      );
-      _downloadId = downloadId;
+        String? savePath = await getFilePath(fileName, dir);
 
-      // Attach to this specific download ID
-      progressStream = NativeFlutterDownloader.progressStream.listen((
-        event,
-      ) async {
-        if (!mounted) return;
+        await NativeFlutterDownloader.download(
+          fileUrl,
+          fileName: fileName,
+          savedFilePath: dir.path,
+        );
 
-        if (event.downloadId != _downloadId) return; // ignore others
-
-        switch (event.status) {
-          case DownloadStatus.running:
-            setState(() {
-              downloadPercentage = event.progress.toString();
-              log("Download progress: $downloadPercentage%");
-            });
-            break;
-
-          case DownloadStatus.successful:
-            final filePath = "${dir.path}/$filename";
-            final exists = await File(filePath).exists();
-            if (exists) {
+        progressStream = NativeFlutterDownloader.progressStream.listen((
+          event,
+        ) async {
+          if (event.status == DownloadStatus.successful) {
+            if (mounted) {
               setState(() {
                 downloading = false;
-                remotePDFpath = filePath;
+                remotePDFpath = savePath;
               });
-              log("Download completed: $filePath");
+              /*if (Platform.isIOS) {
+                final filename = widget.gvData!.pdfFile
+                    .toString()
+                    .substring(widget.gvData!.pdfFile!.lastIndexOf("/") + 1);
+                shareFile(remotePDFpath, filename);
+              } else {
+                showToast("File downloaded successfully");
+              }*/
             }
-            break;
+          } else if (event.status == DownloadStatus.running) {
+            debugPrint('event.progress: ${event.progress}');
+            if (mounted && int.parse(downloadPercentage) < event.progress) {
+              setState(() {
+                downloadPercentage = event.progress.toString();
+              });
+            }
+          } else if (event.status == DownloadStatus.failed) {
+            debugPrint('event: ${event.statusReason?.message}');
+            debugPrint('Download failed');
+          } else if (event.status == DownloadStatus.paused) {
+            debugPrint('Download paused');
+            Future.delayed(
+              const Duration(milliseconds: 250),
+              () => NativeFlutterDownloader.attachDownloadProgress(
+                event.downloadId,
+              ),
+            );
+          } else if (event.status == DownloadStatus.pending) {
+            debugPrint('Download pending');
+          }
+        });
 
-          case DownloadStatus.failed:
-            showToast("Download failed. Please try again.");
-            break;
-
-          default:
-            break;
-        }
-      });
+        /*  await dio.download(imageUrl, savePath, onReceiveProgress: (rec, total) {
+          setState(() {
+            double percentage = (rec / total) * 100;
+            downloadPercentage = percentage.toInt().toString();
+            print("download percentage$downloadPercentage");
+            if (rec == total) {
+              downloading = false;
+              remotePDFpath = savePath;
+            }
+          });
+        });*/
+      }
     } catch (e) {
-      debugPrint("Error in download: $e");
-      showToast("Something went wrong while downloading.");
+      print("imageUJRl$imageUrl");
+      print(e.toString());
     }
   }
 
   @override
   void dispose() {
-    progressStream?.cancel();
+    progressStream.cancel();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
     return Scaffold(
       appBar: AppBar(
-        leading: const BackButtonWidget(),
+        leading: BackButtonWidget(),
         title: AppbarTitle(title: context.loc.ghanshyam_vijay),
         actions: [
           GestureDetector(
             onTap: () async {
-              if (remotePDFpath == null) return;
-              final filename = widget.pdfFile!.split('/').last;
               if (Platform.isIOS) {
-                shareFile(remotePDFpath!, filename);
+                final filename = widget.pdfFile.toString().substring(
+                  widget.pdfFile!.lastIndexOf("/") + 1,
+                );
+                shareFile(remotePDFpath, filename);
               } else {
-                showToast("File saved to Downloads folder");
+                showToast("File downloaded successfully");
               }
             },
             child: Card(
@@ -154,7 +168,7 @@ class _GhanshyamVijayDetailsState extends State<GhanshyamVijayDetails> {
                 padding: const EdgeInsets.all(10.0),
                 child: SvgPicture.asset(
                   Assets.images.download,
-                  color: theme.brightness == Brightness.dark
+                  color: Theme.of(context).brightness == Brightness.dark
                       ? const Color(0xFF7D7F84)
                       : const Color(0xFF373A40),
                   height: 24,
@@ -166,52 +180,84 @@ class _GhanshyamVijayDetailsState extends State<GhanshyamVijayDetails> {
         ],
       ),
       body: SafeArea(
-        child: downloading
-            ? _buildDownloadingView(context)
-            : _buildPdfView(context),
-      ),
-    );
-  }
-
-  Widget _buildDownloadingView(BuildContext context) {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          CachedNetworkImage(
-            imageUrl: widget.imageUrl ?? "",
-            placeholder: (context, url) => const CircularProgressIndicator(),
-            errorWidget: (context, url, error) => const CacheErrorWidget(),
-          ),
-          const SizedBox(height: 16),
-          Text(
-            "$downloadPercentage% ${context.loc.downloaded}...",
-            style: Theme.of(context).textTheme.titleMedium?.copyWith(
-              fontWeight: FontWeight.w500,
-              fontSize: 15,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            SizedBox(height: 4),
+            Visibility(
+              visible: downloading == true,
+              child: Expanded(
+                child: Center(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      // CircularProgressIndicator(
+                      //   color: linecolor_light,
+                      // ),
+                      SizedBox(height: 12),
+                      CachedNetworkImage(
+                        imageUrl: widget.imageUrl.toString(),
+                        placeholder: (context, url) =>
+                            const CacheProgressBarWidget(),
+                        errorWidget: (context, url, error) =>
+                            const CacheErrorWidget(),
+                      ),
+                      Text(
+                        "$downloadPercentage% ${context.loc.downloaded}...",
+                        style: Theme.of(context).textTheme.titleMedium
+                            ?.copyWith(
+                              fontWeight: FontWeight.w500,
+                              fontSize: 15,
+                            ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
             ),
-          ),
-        ],
+            if (downloading == false) ...[
+              Expanded(
+                child: PDFView(
+                  filePath: remotePDFpath,
+                  enableSwipe: true,
+                  swipeHorizontal: true,
+                  autoSpacing: true,
+                  pageFling: true,
+                  pageSnap: true,
+                  fitEachPage: true,
+                  defaultPage: 0,
+                  fitPolicy: FitPolicy.BOTH,
+                  preventLinkNavigation: false, // if set to tru
+                ),
+              ),
+              /*Expanded(
+                    child: SfPdfViewer.file(
+                  File(remotePDFpath),
+                  pageLayoutMode: PdfPageLayoutMode.single,
+                  scrollDirection: PdfScrollDirection.horizontal,
+                ))*/
+            ],
+          ],
+        ),
       ),
     );
   }
 
-  Widget _buildPdfView(BuildContext context) {
-    if (remotePDFpath == null || remotePDFpath!.isEmpty) {
-      return const Center(child: Text("PDF file not found"));
-    }
+  Future<bool> checkAndRequestStoragePermission() async {
+    DeviceInfoPlugin plugin = DeviceInfoPlugin();
 
-    return PDFView(
-      key: ValueKey(remotePDFpath), // important to rebuild correctly
-      filePath: remotePDFpath!,
-      enableSwipe: true,
-      swipeHorizontal: true,
-      autoSpacing: true,
-      pageFling: true,
-      pageSnap: true,
-      fitEachPage: true,
-      fitPolicy: FitPolicy.BOTH,
-      preventLinkNavigation: false,
-    );
+    AndroidDeviceInfo android = await plugin.androidInfo;
+
+    if (android.version.sdkInt < 33) {
+      var status = await Permission.storage.status;
+      if (!status.isGranted) {
+        status = await Permission.storage.request();
+      }
+      return status.isGranted;
+    } else {
+      return true;
+    }
   }
 }

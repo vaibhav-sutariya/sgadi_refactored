@@ -30,7 +30,7 @@ class DailyDarshanImagesRoute extends PageRouteInfo<DailyDarshanImagesArgs> {
          initialChildren: children,
        );
 
-  static const String name = 'DailyDarshanImages';
+  static const String name = 'DailyDarshanImagesRoute';
 
   static PageInfo page = PageInfo(
     name,
@@ -169,7 +169,7 @@ class GhanshyamVijayDetailsRoute
          initialChildren: children,
        );
 
-  static const String name = 'GhanshyamVijayDetailsRoute';
+  static const String name = 'GhanshyamVijayDetails';
 
   static PageInfo page = PageInfo(
     name,
