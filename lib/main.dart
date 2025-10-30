@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:native_flutter_downloader/native_flutter_downloader.dart';
 import 'package:starter_app/core/helpers/extensions/responsive_extensions.dart';
 import 'package:starter_app/features/dashboard/screens/bloc/dashboard_bloc.dart';
 
@@ -42,6 +43,7 @@ void main() async {
     log('Initialization failed: $e');
   }
   NotificationService().init();
+  NativeFlutterDownloader.initialize();
   FlutterError.onError = (errorDetails) {
     FirebaseCrashlytics.instance.recordFlutterFatalError(errorDetails);
   };
