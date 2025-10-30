@@ -2,9 +2,9 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:starter_app/features/maninagar_live/screens/bloc/maninagar_live_bloc.dart';
 
 import '../../../../home/screens/home_screen/ui/home_screen.dart';
-import '../../../../maninagar_live/screens/ui/maninagar_live_screen.dart';
 import '../../../../more/screens/more_screen.dart';
 import '../../../../news/screens/news_screen.dart';
 import '../../../../niyams/screens/niyams_screen.dart';
@@ -15,7 +15,8 @@ import 'bottom_nav_bar.dart';
 import 'home_fab.dart';
 
 class DashboardTemplate extends StatelessWidget {
-  const DashboardTemplate({super.key});
+  final ManinagarLiveBloc maninagarLiveBloc;
+  const DashboardTemplate({super.key, required this.maninagarLiveBloc});
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +40,7 @@ class DashboardTemplate extends StatelessWidget {
             body: IndexedStack(
               index: state.currentTab,
               children: const [
-                LiveScreen(key: PageStorageKey("Location")),
+                MoreScreen(key: PageStorageKey("More")),
                 NewsScreen(key: PageStorageKey("News")),
                 HomeScreen(key: PageStorageKey("Home")),
                 NiyamsScreen(key: PageStorageKey("Niyam")),
@@ -65,6 +66,7 @@ class DashboardTemplate extends StatelessWidget {
                 ],
               ),
               child: BottomNavBar(
+                maninagarLiveBloc: maninagarLiveBloc,
                 currentTab: state.currentTab,
                 onTabChange: (index) {
                   context.read<DashboardBloc>().add(ChangeTabEvent(index));

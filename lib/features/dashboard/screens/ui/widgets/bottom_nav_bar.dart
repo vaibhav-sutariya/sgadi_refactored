@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:starter_app/core/helpers/extensions/locale_extensions.dart';
+import 'package:starter_app/features/maninagar_live/screens/bloc/maninagar_live_bloc.dart';
 import 'package:starter_app/gen/assets.gen.dart';
 
 import '../../../../../core/constant/app_colors.dart';
+import '../../../../maninagar_live/screens/ui/maninagar_live_screen.dart';
 
 class BottomNavBar extends StatelessWidget {
+  final ManinagarLiveBloc maninagarLiveBloc;
   final int currentTab;
   final ValueChanged<int> onTabChange;
 
@@ -13,6 +16,7 @@ class BottomNavBar extends StatelessWidget {
     super.key,
     required this.currentTab,
     required this.onTabChange,
+    required this.maninagarLiveBloc,
   });
 
   @override
@@ -26,7 +30,22 @@ class BottomNavBar extends StatelessWidget {
 
     return BottomNavigationBar(
       currentIndex: currentTab,
-      onTap: onTabChange,
+      onTap: (value) {
+        if (value == 0) {
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) => ManinagarLiveScreen(
+                bloc: maninagarLiveBloc,
+                showManinagarDarshan: true,
+                // index: 0,
+                // listLiveJson: liveJson,
+              ),
+            ),
+          );
+        } else {
+          onTabChange(value);
+        }
+      },
       elevation: 0,
       backgroundColor: theme.colorScheme.surface,
       type: BottomNavigationBarType.fixed,
