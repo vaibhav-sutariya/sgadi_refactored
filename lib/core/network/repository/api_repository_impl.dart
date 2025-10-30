@@ -84,9 +84,25 @@ class ApiRepositoryImpl implements ApiRepository {
   Future<Map<String, dynamic>> getWithBody(
     String methodName,
     dynamic data,
-  ) async => _makeRequest(
-    () => _dio.get(methodName, data: data).then(_returnResponse),
-  );
+  ) async => _makeRequest(() async {
+    String queryString = '';
+    if (data is Map<String, dynamic>) {
+      final params = data.map((k, v) => MapEntry(k, v?.toString() ?? ''));
+      queryString = Uri(queryParameters: params).query;
+    } else if (data != null) {
+      queryString = data.toString();
+    }
+
+    final urlWithParameters = queryString.isNotEmpty
+        ? '$methodName?$queryString'
+        : methodName;
+
+    if (kDebugMode) {
+      print('url with params: $urlWithParameters');
+    }
+
+    return _dio.get(urlWithParameters).then(_returnResponse);
+  });
 
   @override
   Future<Map<String, dynamic>> patch(

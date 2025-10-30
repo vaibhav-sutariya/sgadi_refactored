@@ -2,7 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:starter_app/features/home/model/ghanshyam_vijay_model.dart';
 
 import '../../../../../core/error/failures.dart';
-import '../ui/ghanshyam_vijay_screen.dart';
+import '../models/year_response_model.dart';
 
 class GhanshyamVijayState extends Equatable {
   // 🔹 Loading

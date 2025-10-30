@@ -2,10 +2,10 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:starter_app/core/constant/app_colors.dart';
 import 'package:starter_app/core/helpers/extensions/locale_extensions.dart';
 import 'package:starter_app/gen/assets.gen.dart';
 
-import '../../../../../core/constant/app_colors.dart';
 import '../../../../../widgets/appbar_title.dart';
 import '../../../../../widgets/back_button.dart';
 import '../../../../../widgets/custom_chip.dart';
@@ -27,41 +27,31 @@ class GhanshyamVijayScreen extends StatefulWidget {
 
 class _GhanshyamVijayScreenState extends State<GhanshyamVijayScreen> {
   final ScrollController _scrollController = ScrollController();
-
   bool showSearch = false;
-  int page = 1;
-  bool _isMoreLoading = false;
-  String? year;
-  List<YearResponse> yearsList = [];
 
   @override
   void initState() {
     super.initState();
-    _generateYearList();
+    // Trigger initial load
+    widget.ghanshyamVijayBloc.add(const FetchGhanshyamVijayData(page: 2));
     _scrollController.addListener(_onScroll);
   }
 
-  void _generateYearList() {
-    int currentYear = DateTime.now().year;
-    final list = List.generate(currentYear - 1941, (index) => 1942 + index);
-    yearsList = list.reversed
-        .map((e) => YearResponse(selected: false, year: e))
-        .toList();
-  }
-
   void _onScroll() {
-    if (_scrollController.position.pixels ==
-        _scrollController.position.maxScrollExtent) {
-      final bloc = context.read<GhanshyamVijayBloc>();
-      if (!_isMoreLoading && !(bloc.state.isMoreLoading)) {
-        setState(() => _isMoreLoading = true);
-        page++;
-        bloc.add(FetchGhanshyamVijayData(page: page, year: year));
-        Future.delayed(const Duration(seconds: 1), () {
-          if (mounted) setState(() => _isMoreLoading = false);
-        });
+    if (_isBottom && !widget.ghanshyamVijayBloc.state.isMoreLoading) {
+      final currentState = widget.ghanshyamVijayBloc.state;
+      if (!currentState.hasReachedEnd && !(currentState.isLoading)) {
+        widget.ghanshyamVijayBloc.add(LoadMoreGhanshyamVijay());
       }
     }
+  }
+
+  bool get _isBottom {
+    if (!_scrollController.hasClients) return false;
+    final maxScroll = _scrollController.position.maxScrollExtent;
+    final currentScroll = _scrollController.offset;
+    // Trigger pagination slightly before reaching the end
+    return currentScroll >= (maxScroll * 0.9);
   }
 
   @override
@@ -70,11 +60,12 @@ class _GhanshyamVijayScreenState extends State<GhanshyamVijayScreen> {
       value: widget.ghanshyamVijayBloc,
       child: Scaffold(
         appBar: AppBar(
-          leading: BackButtonWidget(),
+          leading: const BackButtonWidget(),
           title: AppbarTitle(title: context.loc.ghanshyam_vijay),
           actions: [
             GestureDetector(
-              onTap: () => _showFilterBottomSheet(context),
+              onTap: () =>
+                  _showFilterBottomSheet(context, widget.ghanshyamVijayBloc),
               child: Card(
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12),
@@ -96,34 +87,50 @@ class _GhanshyamVijayScreenState extends State<GhanshyamVijayScreen> {
         ),
         body: SafeArea(
           child: BlocBuilder<GhanshyamVijayBloc, GhanshyamVijayState>(
-            buildWhen: (previous, current) =>
-                previous.isLoading != current.isLoading ||
-                previous.isMoreLoading != current.isMoreLoading ||
-                previous.ghanshyamVijayList != current.ghanshyamVijayList,
+            buildWhen: (prev, curr) =>
+                prev.isLoading != curr.isLoading ||
+                prev.isMoreLoading != curr.isMoreLoading ||
+                prev.ghanshyamVijayList != curr.ghanshyamVijayList,
             builder: (context, state) {
               if (state.isLoading &&
                   (state.ghanshyamVijayList?.isEmpty ?? true)) {
-                return CircularProgressIndicator();
+                return const Center(child: CircularProgressIndicator());
               }
 
               final list = state.ghanshyamVijayList ?? [];
 
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const SizedBox(height: 4),
+              if (list.isEmpty) {
+                return Center(
+                  child: Text(
+                    context.loc.no_data_found,
+                    style: Theme.of(context).textTheme.titleMedium,
+                  ),
+                );
+              }
 
-                  // 🔹 Search
-                  if (showSearch)
-                    RoundedSearchFormField(onSearchClicked: (value) {}),
+              return NotificationListener<ScrollNotification>(
+                onNotification: (scrollInfo) {
+                  if (scrollInfo.metrics.pixels ==
+                      scrollInfo.metrics.maxScrollExtent) {
+                    _onScroll();
+                  }
+                  return false;
+                },
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SizedBox(height: 4),
 
-                  // 🔹 Grid Content
-                  Expanded(
-                    child: Container(
-                      margin: const EdgeInsets.symmetric(horizontal: 10),
+                    if (showSearch)
+                      RoundedSearchFormField(onSearchClicked: (value) {}),
+
+                    Expanded(
                       child: GridView.builder(
                         controller: _scrollController,
-                        padding: const EdgeInsets.only(top: 6),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 10,
+                          vertical: 6,
+                        ),
                         gridDelegate:
                             const SliverGridDelegateWithFixedCrossAxisCount(
                               crossAxisCount: 3,
@@ -132,23 +139,23 @@ class _GhanshyamVijayScreenState extends State<GhanshyamVijayScreen> {
                               childAspectRatio: 9 / 13,
                             ),
                         itemCount: list.length,
-                        itemBuilder: (context, index) =>
-                            GhanShyamVijayWidget(gvData: list[index]),
+                        itemBuilder: (context, index) {
+                          return GhanShyamVijayWidget(gvData: list[index]);
+                        },
                       ),
                     ),
-                  ),
 
-                  // 🔹 Pagination Loader
-                  if (_isMoreLoading || state.isMoreLoading)
-                    const Center(
-                      child: Padding(
-                        padding: EdgeInsets.all(12),
-                        child: CircularProgressIndicator(
-                          color: linecolor_light,
+                    if (state.isMoreLoading)
+                      const Padding(
+                        padding: EdgeInsets.symmetric(vertical: 10),
+                        child: Center(
+                          child: CircularProgressIndicator(
+                            color: linecolor_light,
+                          ),
                         ),
                       ),
-                    ),
-                ],
+                  ],
+                ),
               );
             },
           ),
@@ -157,7 +164,7 @@ class _GhanshyamVijayScreenState extends State<GhanshyamVijayScreen> {
     );
   }
 
-  void _showFilterBottomSheet(BuildContext context) {
+  void _showFilterBottomSheet(BuildContext context, GhanshyamVijayBloc bloc) {
     showModalBottomSheet(
       context: context,
       useSafeArea: true,
@@ -166,68 +173,77 @@ class _GhanshyamVijayScreenState extends State<GhanshyamVijayScreen> {
         borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
       ),
       builder: (BuildContext context) {
-        return StatefulBuilder(
-          builder: (BuildContext context, setModalState) {
-            return Padding(
-              padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    // Header Row
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        InkWell(
-                          onTap: () => Navigator.pop(context),
-                          child: Card(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(12),
-                              child: SvgPicture.asset(
-                                Assets.images.clear,
-                                height: 16,
-                                width: 16,
-                                color:
-                                    Theme.of(context).brightness ==
-                                        Brightness.dark
-                                    ? const Color(0xFF7D7F84)
-                                    : const Color(0xFF373A40),
+        return BlocProvider.value(
+          value: bloc,
+          child: StatefulBuilder(
+            builder: (BuildContext context, setModalState) {
+              final state = bloc.state;
+              final yearsList = state.yearsList ?? [];
+
+              return Padding(
+                padding: const EdgeInsets.symmetric(
+                  vertical: 12,
+                  horizontal: 16,
+                ),
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      // Header Row
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          InkWell(
+                            onTap: () => Navigator.pop(context),
+                            child: Card(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.all(12),
+                                child: SvgPicture.asset(
+                                  Assets.images.clear,
+                                  height: 16,
+                                  width: 16,
+                                  color:
+                                      Theme.of(context).brightness ==
+                                          Brightness.dark
+                                      ? const Color(0xFF7D7F84)
+                                      : const Color(0xFF373A40),
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                        Text(
-                          context.loc.filter,
-                          style: Theme.of(context).textTheme.titleMedium
-                              ?.copyWith(fontWeight: FontWeight.w500),
-                        ),
-                        InkWell(
-                          onTap: () {
-                            setModalState(() {
-                              for (final element in yearsList) {
-                                element.selected = false;
-                              }
-                            });
-                          },
-                          child: Text(
-                            context.loc.reset.toUpperCase(),
-                            style: const TextStyle(
-                              fontSize: 16,
-                              color: green_light,
-                              fontWeight: FontWeight.w600,
-                              fontFamily: 'OUTFIT',
+                          Text(
+                            context.loc.filter,
+                            style: Theme.of(context).textTheme.titleMedium
+                                ?.copyWith(fontWeight: FontWeight.w500),
+                          ),
+                          InkWell(
+                            onTap: () {
+                              final resetYears = yearsList
+                                  .map((e) => e.copyWith(selected: false))
+                                  .toList();
+                              setModalState(() {});
+                              bloc.add(ResetGhanshyamVijayFilter());
+                              bloc.emit(state.copyWith(yearsList: resetYears));
+                            },
+                            child: Text(
+                              context.loc.reset.toUpperCase(),
+                              style: const TextStyle(
+                                fontSize: 16,
+                                color: green_light,
+                                fontWeight: FontWeight.w600,
+                                fontFamily: 'OUTFIT',
+                              ),
                             ),
                           ),
-                        ),
-                      ],
-                    ),
+                        ],
+                      ),
 
-                    // Year Chips
-                    Container(
-                      margin: const EdgeInsets.only(top: 12),
-                      child: Wrap(
+                      const SizedBox(height: 12),
+
+                      // Year Chips
+                      Wrap(
                         spacing: 8,
                         children: List.generate(yearsList.length, (index) {
                           final yearItem = yearsList[index];
@@ -246,36 +262,32 @@ class _GhanshyamVijayScreenState extends State<GhanshyamVijayScreen> {
                           );
                         }),
                       ),
-                    ),
 
-                    // Apply Button
-                    RoundedButton(
-                      onPressed: () {
-                        final selectedYear = yearsList
-                            .where((e) => e.selected ?? false)
-                            .map((e) => e.year.toString())
-                            .join(', ');
-                        setState(() {
-                          page = 1;
-                          year = selectedYear;
-                        });
+                      const SizedBox(height: 16),
 
-                        final bloc = context.read<GhanshyamVijayBloc>();
-                        bloc.add(ResetGhanshyamVijayFilter());
-                        bloc.add(
-                          FetchGhanshyamVijayData(page: 1, year: selectedYear),
-                        );
-
-                        Navigator.pop(context);
-                      },
-                      text: context.loc.apply,
-                      key: const Key("Apply"),
-                    ),
-                  ],
+                      RoundedButton(
+                        onPressed: () {
+                          final selectedYear = yearsList
+                              .where((e) => e.selected ?? false)
+                              .map((e) => e.year.toString())
+                              .join(', ');
+                          bloc.add(
+                            FetchGhanshyamVijayData(
+                              page: 1,
+                              year: selectedYear,
+                            ),
+                          );
+                          Navigator.pop(context);
+                        },
+                        text: context.loc.apply,
+                        key: const Key("Apply"),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-            );
-          },
+              );
+            },
+          ),
         );
       },
     );
@@ -285,19 +297,5 @@ class _GhanshyamVijayScreenState extends State<GhanshyamVijayScreen> {
   void dispose() {
     _scrollController.dispose();
     super.dispose();
-  }
-}
-
-// 🔹 Helper Model for years
-class YearResponse {
-  bool? selected;
-  int? year;
-  YearResponse({this.selected, this.year});
-
-  YearResponse copyWith({bool? selected, int? year}) {
-    return YearResponse(
-      selected: selected ?? this.selected,
-      year: year ?? this.year,
-    );
   }
 }

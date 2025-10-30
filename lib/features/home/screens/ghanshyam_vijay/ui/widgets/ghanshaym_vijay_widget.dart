@@ -32,14 +32,6 @@ class _GhanShyamVijayWidgetState extends State<GhanShyamVijayWidget> {
     int year = dateTime.year;
     return InkWell(
       onTap: () {
-        // Navigator.of(context).push(
-        //   MaterialPageRoute(
-        //     builder: (context) => GhanshyamVijayDetails(
-        //       imageUrl: widget.gvData!.bannerImage.toString(),
-        //       pdfFile: widget.gvData!.pdfFile,
-        //     ),
-        //   ),
-        // );
         context.router.push(
           GhanshyamVijayDetailsRoute(
             pdfFile: widget.gvData!.pdfFile,
