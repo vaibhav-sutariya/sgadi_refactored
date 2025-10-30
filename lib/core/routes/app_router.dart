@@ -14,6 +14,7 @@ import '../../features/home/screens/ghanshyam_vijay/ui/ghanshyamvijay_details.da
 import '../../features/home/screens/home_screen/bloc/home_bloc.dart';
 import '../../features/home/screens/home_screen/ui/widgets/youtube_screen.dart';
 import '../../features/splash/screens/ui/splash_screen.dart';
+import '../../widgets/webview_screen.dart';
 import 'auth_guard.dart';
 
 part 'app_router.gr.dart';
@@ -33,5 +34,6 @@ class AppRouter extends RootStackRouter {
     AutoRoute(page: QuoteDetailsRoute.page),
     AutoRoute(page: GhanshyamVijayDetailsRoute.page),
     AutoRoute(page: GhanshyamVijayRoute.page),
+    AutoRoute(page: WebViewRoute.page),
   ];
 }

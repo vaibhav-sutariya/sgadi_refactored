@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:starter_app/core/helpers/extensions/locale_extensions.dart';
+import 'package:starter_app/cubit/theme_cubit.dart';
 
 import '../../../../../../core/routes/app_router.dart';
 import '../../../../../../widgets/view_all_widget.dart';
@@ -36,9 +37,10 @@ class GhanshyamVijaySection extends StatelessWidget {
                 children: [
                   Text(
                     context.loc.ghanshyam_vijay,
-                    style: Theme.of(
-                      context,
-                    ).textTheme.displayMedium?.copyWith(fontSize: 15),
+                    style: Theme.of(context).textTheme.displayMedium?.copyWith(
+                      fontSize: 15,
+                      color: context.colors.titleTextColor,
+                    ),
                   ),
                   GestureDetector(
                     onTap: () {

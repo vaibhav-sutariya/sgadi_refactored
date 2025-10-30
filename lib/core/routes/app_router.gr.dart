@@ -335,6 +335,78 @@ class SplashRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
+/// [WebViewScreen]
+class WebViewRoute extends PageRouteInfo<WebViewRouteArgs> {
+  WebViewRoute({
+    Key? key,
+    required String url,
+    required String title,
+    required bool fromGuru,
+    List<PageRouteInfo>? children,
+  }) : super(
+         WebViewRoute.name,
+         args: WebViewRouteArgs(
+           key: key,
+           url: url,
+           title: title,
+           fromGuru: fromGuru,
+         ),
+         initialChildren: children,
+       );
+
+  static const String name = 'WebViewRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      final args = data.argsAs<WebViewRouteArgs>();
+      return WebViewScreen(
+        key: args.key,
+        url: args.url,
+        title: args.title,
+        fromGuru: args.fromGuru,
+      );
+    },
+  );
+}
+
+class WebViewRouteArgs {
+  const WebViewRouteArgs({
+    this.key,
+    required this.url,
+    required this.title,
+    required this.fromGuru,
+  });
+
+  final Key? key;
+
+  final String url;
+
+  final String title;
+
+  final bool fromGuru;
+
+  @override
+  String toString() {
+    return 'WebViewRouteArgs{key: $key, url: $url, title: $title, fromGuru: $fromGuru}';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (other is! WebViewRouteArgs) return false;
+    return key == other.key &&
+        url == other.url &&
+        title == other.title &&
+        fromGuru == other.fromGuru;
+  }
+
+  @override
+  int get hashCode =>
+      key.hashCode ^ url.hashCode ^ title.hashCode ^ fromGuru.hashCode;
+}
+
+/// generated route for
 /// [YoutubeScreen]
 class YoutubeRoute extends PageRouteInfo<YoutubeRouteArgs> {
   YoutubeRoute({

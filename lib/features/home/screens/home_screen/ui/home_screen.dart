@@ -22,6 +22,7 @@ import '../../daily_quote_screen/widgets/daily_quote_widget.dart';
 import '../../ghanshyam_vijay/ui/widgets/ghanshyam_vijay_section.dart';
 import '../bloc/home_event.dart';
 import 'widgets/donate_button_fab.dart';
+import 'widgets/guru_parampara_section.dart';
 import 'widgets/home_banner.dart';
 import 'widgets/home_darshan_list.dart';
 import 'widgets/live_broadcast_widget.dart';
@@ -198,6 +199,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       DailyQuoteWidget(),
 
                       GhanshyamVijaySection(),
+
+                      GuruParamparaSection(),
                     ],
                   ),
                 );

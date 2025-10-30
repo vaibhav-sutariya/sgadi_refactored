@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:starter_app/core/helpers/extensions/locale_extensions.dart';
+import 'package:starter_app/cubit/theme_cubit.dart';
 import 'package:starter_app/features/dashboard/screens/bloc/dashboard_bloc.dart';
 import 'package:starter_app/features/dashboard/screens/bloc/dashboard_state.dart';
 
@@ -29,9 +30,10 @@ class DailyQuoteWidget extends StatelessWidget {
                 children: [
                   Text(
                     context.loc.daily_quotes,
-                    style: Theme.of(
-                      context,
-                    ).textTheme.displayMedium?.copyWith(fontSize: 15),
+                    style: Theme.of(context).textTheme.displayMedium?.copyWith(
+                      fontSize: 15,
+                      color: context.colors.titleTextColor,
+                    ),
                   ),
                   Visibility(
                     visible: false, // keeping same as before
