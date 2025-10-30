@@ -16,13 +16,11 @@ class LiveBroadcastWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<DashboardBloc, DashboardState>(
-      buildWhen: (previous, current) =>
-          previous.isLiveBroadcastLoading != current.isLiveBroadcastLoading ||
-          previous.liveBroadcastData != current.liveBroadcastData,
-      builder: (context, state) {
+    return BlocSelector<DashboardBloc, DashboardState, bool>(
+      selector: (state) => state.isLiveBroadcastLoading,
+      builder: (context, isLoading) {
         // ─────────────── LOADING ───────────────
-        if (state.isLiveBroadcastLoading) {
+        if (isLoading) {
           return const Center(
             child: SizedBox(
               height: 24,
@@ -32,89 +30,90 @@ class LiveBroadcastWidget extends StatelessWidget {
           );
         }
 
-        // ─────────────── EXTRACT DATA SAFELY ───────────────
-        final liveData = state.liveBroadcastData;
-        final List<Datum> broadcastList = (liveData?.data?.data) ?? [];
+        // ─────────────── SELECT ACTIVE BROADCAST LIST ───────────────
+        return BlocSelector<DashboardBloc, DashboardState, List<Datum>>(
+          selector: (state) => (state.liveBroadcastData?.data?.data ?? [])
+              .where((item) => item.status == "active")
+              .toList(),
+          builder: (context, broadcastList) {
+            // ─────────────── EMPTY STATE ───────────────
+            if (broadcastList.isEmpty) {
+              return const SizedBox.shrink();
+            }
 
-        // ─────────────── EMPTY STATE ───────────────
-        if (broadcastList.isEmpty) {
-          return const SizedBox.shrink(); // Nothing to show
-        }
-
-        // ─────────────── MAIN CONTENT ───────────────
-        return Column(
-          children: [
-            const SizedBox(height: 12),
-            // ─────────────── Title ───────────────
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    context.loc.live_broadcast,
-                    style: Theme.of(context).textTheme.displayMedium?.copyWith(
-                      fontSize: 15,
-                      color: context.colors.titleTextColor,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-
-            // const SizedBox(height: 8),
-
-            // ─────────────── Page Indicator ───────────────
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: BlocSelector<DashboardBloc, DashboardState, int?>(
-                selector: (state) => state.liveBroadcastIndex,
-                builder: (context, liveBroadcastIndex) {
-                  return Center(
-                    child: AnimatedSmoothIndicator(
-                      activeIndex: liveBroadcastIndex ?? 0,
-                      count: broadcastList
-                          .where((item) => item.status == "active")
-                          .length,
-                      effect: ExpandingDotsEffect(
-                        dotHeight: 8,
-                        dotWidth: 8,
-                        activeDotColor: context.colors.primary.withOpacity(0.3),
-                        dotColor: context.colors.primary,
+            // ─────────────── MAIN CONTENT ───────────────
+            return Column(
+              children: [
+                const SizedBox(height: 12),
+                // ─────────────── Title ───────────────
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        context.loc.live_broadcast,
+                        style: Theme.of(context).textTheme.displayMedium
+                            ?.copyWith(
+                              fontSize: 15,
+                              color: context.colors.titleTextColor,
+                            ),
                       ),
-                    ),
-                  );
-                },
-              ),
-            ),
+                    ],
+                  ),
+                ),
 
-            const SizedBox(height: 16),
+                const SizedBox(height: 8),
 
-            // ─────────────── Swiper for Broadcast Items ───────────────
-            SizedBox(
-              height: 160,
-              child: Swiper(
-                onIndexChanged: (index) {
-                  context.read<DashboardBloc>().add(
-                    UpdateLiveBroadcastIndex(index),
-                  );
-                },
-                fade: 0.9,
-                scale: 0.9,
-                itemCount: broadcastList
-                    .where((item) => item.status == "active")
-                    .length,
-                itemBuilder: (context, i) {
-                  final item = broadcastList[i];
-                  return item.status == "active"
-                      ? BroadCastPageItem(liveBroadcastData: item)
-                      : SizedBox.shrink();
-                },
-              ),
-            ),
+                // ─────────────── Page Indicator ───────────────
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: BlocSelector<DashboardBloc, DashboardState, int>(
+                    selector: (state) => state.liveBroadcastIndex ?? 0,
+                    builder: (context, liveBroadcastIndex) {
+                      return Center(
+                        child: AnimatedSmoothIndicator(
+                          activeIndex: liveBroadcastIndex,
+                          count: broadcastList.length,
+                          effect: ExpandingDotsEffect(
+                            dotHeight: 8,
+                            dotWidth: 8,
+                            activeDotColor: context.colors.primary.withOpacity(
+                              0.3,
+                            ),
+                            dotColor: context.colors.primary,
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
 
-            const SizedBox(height: 16),
-          ],
+                const SizedBox(height: 16),
+
+                // ─────────────── Swiper for Broadcast Items ───────────────
+                SizedBox(
+                  height: 160,
+                  child: Swiper(
+                    onIndexChanged: (index) {
+                      context.read<DashboardBloc>().add(
+                        UpdateLiveBroadcastIndex(index),
+                      );
+                    },
+                    fade: 0.9,
+                    scale: 0.9,
+                    itemCount: broadcastList.length,
+                    itemBuilder: (context, i) {
+                      final item = broadcastList[i];
+                      return BroadCastPageItem(liveBroadcastData: item);
+                    },
+                  ),
+                ),
+
+                const SizedBox(height: 16),
+              ],
+            );
+          },
         );
       },
     );

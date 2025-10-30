@@ -12,61 +12,78 @@ class HomeDarshanList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<HomeBloc, HomeState>(
-      builder: (context, state) {
-        if (state.isLoading) {
+    return BlocSelector<HomeBloc, HomeState, bool>(
+      selector: (state) => state.isLoading,
+      builder: (context, isLoading) {
+        if (isLoading) {
           return const SizedBox(
             height: 250,
             child: Center(child: CircularProgressIndicator()),
           );
         }
 
-        if (state.errorMessage != null) {
-          return SizedBox(
-            height: 250,
-            child: Center(
-              child: Text(
-                state.errorMessage!,
-                style: const TextStyle(color: Colors.red),
-              ),
-            ),
-          );
-        }
-
-        final imageList = state.homeScreenImageList;
-        final imageNames = state.homeScreenNameList;
-
-        if (imageList.isEmpty) {
-          return const SizedBox(
-            height: 250,
-            child: Center(child: Text("No Darshan data available")),
-          );
-        }
-
-        return SizedBox(
-          height: 250,
-          child: ListView.builder(
-            scrollDirection: Axis.horizontal,
-            padding: const EdgeInsets.symmetric(horizontal: 12),
-            itemCount: imageList.length,
-            itemBuilder: (context, index) {
-              final image = imageList[index];
-              final name = imageNames[index];
-
-              return Container(
-                width: 150,
-                margin: const EdgeInsets.only(right: 16),
-                child: GestureDetector(
-                  onTap: () {
-                    context.router.push(
-                      DailyDarshanRoute(homeBloc: context.read<HomeBloc>()),
-                    );
-                  },
-                  child: DailyDarshanWidget(name: name, image: image),
+        return BlocSelector<HomeBloc, HomeState, String?>(
+          selector: (state) => state.errorMessage,
+          builder: (context, errorMessage) {
+            if (errorMessage != null) {
+              return SizedBox(
+                height: 250,
+                child: Center(
+                  child: Text(
+                    errorMessage,
+                    style: const TextStyle(color: Colors.red),
+                  ),
                 ),
               );
-            },
-          ),
+            }
+
+            return BlocSelector<HomeBloc, HomeState, List<dynamic>>(
+              // select both lists as a single value to rebuild only when either list reference changes
+              selector: (state) => [
+                state.homeScreenImageList,
+                state.homeScreenNameList,
+              ],
+              builder: (context, lists) {
+                final imageList = lists[0] as List;
+                final imageNames = lists[1] as List;
+
+                if (imageList.isEmpty) {
+                  return const SizedBox(
+                    height: 250,
+                    child: Center(child: Text("No Darshan data available")),
+                  );
+                }
+
+                return SizedBox(
+                  height: 250,
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    padding: const EdgeInsets.symmetric(horizontal: 12),
+                    itemCount: imageList.length,
+                    itemBuilder: (context, index) {
+                      final image = imageList[index];
+                      final name = imageNames[index];
+
+                      return Container(
+                        width: 150,
+                        margin: const EdgeInsets.only(right: 16),
+                        child: GestureDetector(
+                          onTap: () {
+                            context.router.push(
+                              DailyDarshanRoute(
+                                homeBloc: context.read<HomeBloc>(),
+                              ),
+                            );
+                          },
+                          child: DailyDarshanWidget(name: name, image: image),
+                        ),
+                      );
+                    },
+                  ),
+                );
+              },
+            );
+          },
         );
       },
     );

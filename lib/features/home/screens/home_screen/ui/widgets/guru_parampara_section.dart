@@ -15,79 +15,81 @@ class GuruParamparaSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<DashboardBloc, DashboardState>(
-      builder: (context, state) {
-        // Handle loading
-        if (state.isLoading) {
+    return BlocSelector<DashboardBloc, DashboardState, bool>(
+      selector: (state) => state.isLoading,
+      builder: (context, isLoading) {
+        if (isLoading) {
           return const Padding(
             padding: EdgeInsets.symmetric(vertical: 20),
             child: Center(child: CircularProgressIndicator()),
           );
         }
 
-        // Handle error or null data
-        if (state.error != null ||
-            state.dashboardData == null ||
-            state.dashboardData?.data == null) {
-          return const SizedBox.shrink();
-        }
+        return BlocSelector<DashboardBloc, DashboardState, List<ImageJson>>(
+          selector: (state) {
+            if (state.error != null) return <ImageJson>[];
+            final dataList = state.dashboardData?.data;
+            if (dataList == null) return <ImageJson>[];
 
-        // Extract listGuruParamPara from dashboardData
-        List<ImageJson> listGuruParamPara = [];
-        state.dashboardData?.data?.forEach((element) {
-          if (element.tSlider == "4_column_popup" &&
-              element.status == "active") {
-            listGuruParamPara = element.imageJson ?? [];
-          }
-        });
+            for (final element in dataList) {
+              if (element.tSlider == "4_column_popup" &&
+                  element.status == "active") {
+                return element.imageJson ?? <ImageJson>[];
+              }
+            }
+            return <ImageJson>[];
+          },
+          builder: (context, listGuruParamPara) {
+            if (listGuruParamPara.isEmpty) {
+              return const SizedBox.shrink();
+            }
 
-        // If no data, show nothing
-        if (listGuruParamPara.isEmpty) {
-          return const SizedBox.shrink();
-        }
-
-        return Padding(
-          padding: const EdgeInsets.only(left: 12, right: 12, top: 30),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                context.loc.guru_parampara,
-                style: Theme.of(context).textTheme.displayMedium?.copyWith(
-                  fontSize: 15,
-                  color: context.colors.titleTextColor,
-                ),
-              ),
-              const SizedBox(height: 14),
-              GridView.builder(
-                padding: const EdgeInsets.only(top: 6),
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 3,
-                  crossAxisSpacing: 12,
-                  mainAxisExtent: 190,
-                  mainAxisSpacing: 4,
-                ),
-                physics: const NeverScrollableScrollPhysics(),
-                shrinkWrap: true,
-                itemCount: listGuruParamPara.length,
-                itemBuilder: (context, index) {
-                  final item = listGuruParamPara[index];
-                  return InkWell(
-                    onTap: () {
-                      context.router.push(
-                        WebViewRoute(
-                          fromGuru: true,
-                          title: item.sTitle ?? '',
-                          url: "https://www.swaminarayangadi.com${item.sLUrl}",
+            return Padding(
+              padding: const EdgeInsets.only(left: 12, right: 12, top: 30),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    context.loc.guru_parampara,
+                    style: Theme.of(context).textTheme.displayMedium?.copyWith(
+                      fontSize: 15,
+                      color: context.colors.titleTextColor,
+                    ),
+                  ),
+                  const SizedBox(height: 14),
+                  GridView.builder(
+                    padding: const EdgeInsets.only(top: 6),
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 3,
+                          crossAxisSpacing: 12,
+                          mainAxisExtent: 190,
+                          mainAxisSpacing: 4,
                         ),
+                    physics: const NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    itemCount: listGuruParamPara.length,
+                    itemBuilder: (context, index) {
+                      final item = listGuruParamPara[index];
+                      return InkWell(
+                        onTap: () {
+                          context.router.push(
+                            WebViewRoute(
+                              fromGuru: true,
+                              title: item.sTitle ?? '',
+                              url:
+                                  "https://www.swaminarayangadi.com${item.sLUrl}",
+                            ),
+                          );
+                        },
+                        child: GuruParamParaWidget(imageJson: item),
                       );
                     },
-                    child: GuruParamParaWidget(imageJson: item),
-                  );
-                },
+                  ),
+                ],
               ),
-            ],
-          ),
+            );
+          },
         );
       },
     );

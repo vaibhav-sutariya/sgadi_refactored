@@ -53,9 +53,11 @@ class _DailyDarshanScreenState extends State<DailyDarshanScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<HomeBloc, HomeState>(
-      builder: (context, state) {
-        if (state.isLoading) {
+    // Use nested BlocSelectors so only the parts that depend on a piece of state rebuild.
+    return BlocSelector<HomeBloc, HomeState, bool>(
+      selector: (s) => s.isLoading,
+      builder: (context, isLoading) {
+        if (isLoading) {
           return const Scaffold(
             body: SafeArea(
               child: Center(child: CircularProgressIndicator.adaptive()),
@@ -63,36 +65,53 @@ class _DailyDarshanScreenState extends State<DailyDarshanScreen> {
           );
         }
 
-        if (state.darshanList.isEmpty) {
-          return Scaffold(
-            body: SafeArea(
-              child: Center(child: Text(context.loc.no_live_darshan_available)),
-            ),
-          );
-        }
+        return BlocSelector<HomeBloc, HomeState, List<LiveJson>>(
+          selector: (s) => s.darshanList,
+          builder: (context, darshanList) {
+            if (darshanList.isEmpty) {
+              return Scaffold(
+                body: SafeArea(
+                  child: Center(
+                    child: Text(context.loc.no_live_darshan_available),
+                  ),
+                ),
+              );
+            }
 
-        final filteredList = state.darshanList;
-        final timings = state.timings;
-        log('timings: $timings');
-        return Scaffold(
-          appBar: AppBar(
-            leading: BackButtonWidget(),
-            title: AppbarTitle(title: context.loc.darshan),
-            actions: [
-              AppbarActionWidget(name: context.loc.live_shangar_darshan),
-            ],
-          ),
-          body: SafeArea(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                _buildTopTabs(filteredList),
-                _buildSubTabs(filteredList),
-                _buildSwiper(filteredList),
-                _buildBottomInfo(timings),
-              ],
-            ),
-          ),
+            // timings is independent; select separately so updates to timings don't rebuild the whole UI
+            return BlocSelector<HomeBloc, HomeState, List<Map<String, String>>>(
+              selector: (s) => s.timings,
+              builder: (context, timings) {
+                log('timings: $timings');
+                final filteredList = darshanList;
+
+                return Scaffold(
+                  appBar: AppBar(
+                    leading: BackButtonWidget(),
+                    title: AppbarTitle(title: context.loc.darshan),
+                    actions: [
+                      AppbarActionWidget(
+                        name: context.loc.live_shangar_darshan,
+                      ),
+                    ],
+                  ),
+                  body: SafeArea(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        // these widgets use the selectedIndex/subIndex from this State;
+                        // they will rebuild when darshanList or timings change because we pass filteredList/timings
+                        _buildTopTabs(filteredList),
+                        _buildSubTabs(filteredList),
+                        _buildSwiper(filteredList),
+                        _buildBottomInfo(timings),
+                      ],
+                    ),
+                  ),
+                );
+              },
+            );
+          },
         );
       },
     );

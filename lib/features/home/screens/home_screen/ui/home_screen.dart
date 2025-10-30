@@ -69,140 +69,140 @@ class _HomeScreenState extends State<HomeScreen> {
             extendBody: true,
             extendBodyBehindAppBar: true,
             resizeToAvoidBottomInset: true,
-            body: BlocBuilder<DashboardBloc, DashboardState>(
-              buildWhen: (previous, current) =>
-                  previous.dashboardData != current.dashboardData ||
-                  previous.isLoading != current.isLoading,
-              builder: (context, state) {
-                if (state.isLoading) {
+            // Top-level selector for loading to avoid rebuilding the whole UI on unrelated state changes
+            body: BlocSelector<DashboardBloc, DashboardState, bool>(
+              selector: (state) => state.isLoading,
+              builder: (context, isLoading) {
+                if (isLoading) {
                   return const Center(child: CircularProgressIndicator());
                 }
 
-                final dashboardData = state.dashboardData;
-                if (dashboardData == null) {
-                  return const Center(child: Text("No data available"));
-                }
+                // Separate selector for dashboard data so only the content depending on data rebuilds when it changes
+                return BlocSelector<
+                  DashboardBloc,
+                  DashboardState,
+                  DashboardModel?
+                >(
+                  selector: (state) => state.dashboardData,
+                  builder: (context, dashboardData) {
+                    if (dashboardData == null) {
+                      return const Center(child: Text("No data available"));
+                    }
 
-                // Collect active banner images
-                final List<ImageJson> bannerImages = [
-                  for (final element in dashboardData.data ?? [])
-                    if (element.tSlider == "full")
-                      for (final image in element.imageJson ?? [])
-                        if (image.imageStatus != "inactive") image,
-                ];
+                    // Collect active banner images
+                    final List<ImageJson> bannerImages = [
+                      for (final element in dashboardData.data ?? [])
+                        if (element.tSlider == "full")
+                          for (final image in element.imageJson ?? [])
+                            if (image.imageStatus != "inactive") image,
+                    ];
 
-                return SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      // Banner with overlay (kept Stack)
-                      Stack(
-                        clipBehavior: Clip.none,
+                    return SingleChildScrollView(
+                      child: Column(
                         children: [
-                          SizedBox(
-                            height: MediaQuery.of(context).size.width,
-                            width: double.infinity,
-                            child: Swiper(
-                              autoplay: true,
-                              autoplayDelay: 8000,
-                              fade: 0.9,
-                              scale: 0.9,
-                              itemCount: bannerImages.length,
-                              itemBuilder: (context, index) => HomeBanner(
-                                imageJson: bannerImages[index],
-                                currentDay: state.currentDay ?? "",
-                              ),
-                            ),
+                          // Banner with overlay (kept Stack)
+                          // Use a small selector for currentDay so only this portion rebuilds when currentDay changes
+                          BlocSelector<DashboardBloc, DashboardState, String?>(
+                            selector: (state) => state.currentDay,
+                            builder: (context, currentDay) {
+                              return Stack(
+                                clipBehavior: Clip.none,
+                                children: [
+                                  SizedBox(
+                                    height: MediaQuery.of(context).size.width,
+                                    width: double.infinity,
+                                    child: Swiper(
+                                      autoplay: true,
+                                      autoplayDelay: 8000,
+                                      fade: 0.9,
+                                      scale: 0.9,
+                                      itemCount: bannerImages.length,
+                                      itemBuilder: (context, index) =>
+                                          HomeBanner(
+                                            imageJson: bannerImages[index],
+                                            currentDay: currentDay ?? "",
+                                          ),
+                                    ),
+                                  ),
+                                  // Current Day card overlay
+                                  Positioned(
+                                    left: 18,
+                                    bottom: -16, // slightly overlaps the banner
+                                    child: Card(
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(16),
+                                      ),
+                                      color: Colors.white,
+                                      shadowColor: Colors.white,
+                                      elevation: 4,
+                                      child: Padding(
+                                        padding: EdgeInsets.all(8),
+                                        child: Text(
+                                          currentDay ?? '',
+                                          textAlign: TextAlign.center,
+                                          style: const TextStyle(
+                                            fontSize: 12,
+                                            color: title_light,
+                                            fontWeight: FontWeight.w500,
+                                            fontFamily: 'OUTFIT',
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              );
+                            },
                           ),
-                          // Current Day card overlay
-                          Positioned(
-                            left: 18,
-                            bottom: -16, // slightly overlaps the banner
-                            child: Card(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(16),
-                              ),
-                              color: Colors.white,
-                              shadowColor: Colors.white,
-                              elevation: 4,
-                              child: Padding(
-                                padding: EdgeInsets.all(8),
-                                child: Text(
-                                  dashboardBloc.state.currentDay ?? '',
-                                  textAlign: TextAlign.center,
-                                  style: const TextStyle(
-                                    fontSize: 12,
-                                    color: title_light,
-                                    fontWeight: FontWeight.w500,
-                                    fontFamily: 'OUTFIT',
+                          SizedBox(height: 20),
+
+                          LiveBroadcastWidget(),
+                          Padding(
+                            padding: const EdgeInsets.only(
+                              left: 16,
+                              right: 16,
+                              top: 8,
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                GestureDetector(
+                                  onTap: () async {
+                                    context.router.push(
+                                      DailyDarshanRoute(
+                                        homeBloc: context.read<HomeBloc>(),
+                                      ),
+                                    );
+                                  },
+                                  child: Text(
+                                    "${context.loc.daily_darshan} (Live)",
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .displayMedium
+                                        ?.copyWith(
+                                          fontSize: 15,
+                                          decoration: TextDecoration.underline,
+                                          color: context.colors.titleTextColor,
+                                        ),
                                   ),
                                 ),
-                              ),
+                              ],
                             ),
                           ),
+
+                          const SizedBox(height: 12),
+
+                          HomeDarshanList(),
+
+                          DailyQuoteWidget(),
+
+                          GhanshyamVijaySection(),
+
+                          GuruParamparaSection(),
                         ],
                       ),
-                      SizedBox(height: 20),
-
-                      // BlocSelector<ThemeCubit, AppTheme, bool>(
-                      //   selector: (state) => state is DarkTheme,
-                      //   builder: (context, isDark) {
-                      //     return CupertinoSwitch(
-                      //       thumbIcon: WidgetStateProperty.all(
-                      //         Icon(
-                      //           isDark ? Icons.nightlight_round : Icons.wb_sunny,
-                      //           color: isDark ? Colors.yellow : Colors.orange,
-                      //         ),
-                      //       ),
-                      //       value: isDark,
-                      //       onChanged: (value) => context.toggleTheme(),
-                      //       activeTrackColor: context.colors.primary,
-                      //       thumbColor: context.colors.dividerColor,
-                      //     );
-                      //   },
-                      // ),
-                      LiveBroadcastWidget(),
-                      Padding(
-                        padding: const EdgeInsets.only(
-                          left: 16,
-                          right: 16,
-                          top: 8,
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            GestureDetector(
-                              onTap: () async {
-                                context.router.push(
-                                  DailyDarshanRoute(
-                                    homeBloc: context.read<HomeBloc>(),
-                                  ),
-                                );
-                              },
-                              child: Text(
-                                "${context.loc.daily_darshan} (Live)",
-                                style: Theme.of(context).textTheme.displayMedium
-                                    ?.copyWith(
-                                      fontSize: 15,
-                                      decoration: TextDecoration.underline,
-                                      color: context.colors.titleTextColor,
-                                    ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-
-                      const SizedBox(height: 12),
-
-                      HomeDarshanList(),
-
-                      DailyQuoteWidget(),
-
-                      GhanshyamVijaySection(),
-
-                      GuruParamparaSection(),
-                    ],
-                  ),
+                    );
+                  },
                 );
               },
             ),

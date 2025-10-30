@@ -126,17 +126,20 @@ class MyApp extends StatelessWidget {
             ..add(FetchDailyQuoteData()),
         ),
       ],
-      child: BlocBuilder<ThemeCubit, AppTheme>(
-        builder: (context, themeState) {
-          return BlocBuilder<LocaleCubit, Locale?>(
-            buildWhen: (previous, current) =>
-                previous?.languageCode != current?.languageCode,
-            builder: (context, localeState) {
+      child: BlocSelector<ThemeCubit, AppTheme, ThemeData>(
+        selector: (state) => state.theme,
+        builder: (context, themeData) {
+          return BlocSelector<LocaleCubit, Locale?, String?>(
+            selector: (state) => state?.languageCode,
+            builder: (context, languageCode) {
+              final locale = languageCode != null
+                  ? Locale(languageCode)
+                  : const Locale('en');
               return MaterialApp.router(
                 title: 'Swaminarayan Gadi',
                 debugShowCheckedModeBanner: false,
-                theme: themeState.theme,
-                locale: localeState ?? const Locale('en'),
+                theme: themeData,
+                locale: locale,
                 supportedLocales: S.supportedLocales,
                 localizationsDelegates: const [
                   S.delegate,
@@ -144,9 +147,6 @@ class MyApp extends StatelessWidget {
                   GlobalWidgetsLocalizations.delegate,
                   GlobalCupertinoLocalizations.delegate,
                 ],
-                // routerConfig: _appRouter.config(
-                //   navigatorObservers: () => [autoRouteObserver],
-                // ),
                 routerDelegate: _appRouter.delegate(
                   navigatorObservers: () => [
                     // Add a global observer to handle snackbars
