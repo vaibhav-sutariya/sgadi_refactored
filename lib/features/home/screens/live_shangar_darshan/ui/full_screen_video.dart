@@ -110,7 +110,20 @@ class _FullScreenVideoScreenState extends State<FullScreenVideoScreen>
                     for (final liveJson in item.liveJson!) {
                       if ((liveJson.stream?.isNotEmpty ?? false) ||
                           (liveJson.streamWeb?.isNotEmpty ?? false)) {
-                        filteredLiveJson.add(liveJson);
+                        if (liveJson.imgSlug != null &&
+                            liveJson.imgSlug!.startsWith('gm-')) {
+                          // Insert gm- items at the front while preserving their relative order
+                          final firstNonGmIndex = filteredLiveJson.indexWhere(
+                            (e) => !(e.imgSlug?.startsWith('gm-') ?? false),
+                          );
+                          if (firstNonGmIndex == -1) {
+                            filteredLiveJson.add(liveJson);
+                          } else {
+                            filteredLiveJson.insert(firstNonGmIndex, liveJson);
+                          }
+                        } else {
+                          filteredLiveJson.add(liveJson);
+                        }
                       }
                     }
                   }

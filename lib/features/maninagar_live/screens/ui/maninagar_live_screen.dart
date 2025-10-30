@@ -114,8 +114,20 @@ class _ManinagarLiveScreenState extends State<ManinagarLiveScreen>
                   }
 
                   /// --- Base list from Maninagar model ---
-                  final maninagarList =
+                  final rawManinagarList =
                       maninagarModel.data?.first.liveJson ?? [];
+
+                  // Put items whose `slug` value is "gm-" (or starts with "gm-") first,
+                  // then append the remaining items.
+                  const gmPrefix = 'gm-';
+                  final gmItems = rawManinagarList
+                      .where((e) => (e.imgSlug ?? '').startsWith(gmPrefix))
+                      .toList();
+                  final otherItems = rawManinagarList
+                      .where((e) => !(e.imgSlug ?? '').startsWith(gmPrefix))
+                      .toList();
+
+                  final maninagarList = [...gmItems, ...otherItems];
 
                   /// --- Merge Mandir model data if available ---
                   final mandirList = mandirModel?.data?.first.liveJson ?? [];
