@@ -20,10 +20,6 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
     on<ChangeTabEvent>(_onChangeTab);
     on<FetchDashboardData>(_onFetchDashboardData);
     on<FetchDynamicPageId>(_onFetchDynamicPageId);
-    on<FetchManinagarShangarDarshan>(_onFetchManinagarShangarDarshan);
-    on<FetchManinagarMandirShangarDarshan>(
-      _onFetchManinagarMandirShangarDarshan,
-    );
     on<FetchLiveBroadcastData>(_onFetchLiveBroadcastData);
     on<FetchCalenderData>(_onFetchCalenderData);
     on<NotificationReceived>(_onNotificationReceived);
@@ -72,57 +68,6 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
           emit(state.copyWith(isDynamicPageLoading: false, error: failure)),
       (data) => emit(
         state.copyWith(isDynamicPageLoading: false, dynamicPageData: data),
-      ),
-    );
-  }
-
-  Future<void> _onFetchManinagarShangarDarshan(
-    FetchManinagarShangarDarshan event,
-    Emitter<DashboardState> emit,
-  ) async {
-    emit(state.copyWith(isManinagarShangarDarshanLoading: true, error: null));
-
-    final result = await _repository.fetchManinagarShangarDarshan(
-      maninagarPageId: event.maninagarPageId,
-    );
-
-    result.fold(
-      (failure) => emit(
-        state.copyWith(isManinagarShangarDarshanLoading: false, error: failure),
-      ),
-      (data) => emit(
-        state.copyWith(
-          isManinagarShangarDarshanLoading: false,
-          maninagarShangarDarshan: data,
-        ),
-      ),
-    );
-  }
-
-  Future<void> _onFetchManinagarMandirShangarDarshan(
-    FetchManinagarMandirShangarDarshan event,
-    Emitter<DashboardState> emit,
-  ) async {
-    emit(
-      state.copyWith(isManinagarMandirShangarDarshanLoading: true, error: null),
-    );
-
-    final result = await _repository.fetchManinagarMandirShangarDarshan(
-      maninagarMandirPageId: event.maninagarMandirPageId,
-    );
-
-    result.fold(
-      (failure) => emit(
-        state.copyWith(
-          isManinagarMandirShangarDarshanLoading: false,
-          error: failure,
-        ),
-      ),
-      (data) => emit(
-        state.copyWith(
-          isManinagarMandirShangarDarshanLoading: false,
-          maninagarMandirShangarDarshan: data,
-        ),
       ),
     );
   }

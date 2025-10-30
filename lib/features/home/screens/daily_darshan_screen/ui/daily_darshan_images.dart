@@ -16,7 +16,7 @@ import '../../../../../widgets/appbar_title.dart';
 import '../../../../../widgets/back_button.dart';
 import '../../../../../widgets/circle_indicator.dart';
 import '../../../../../widgets/error_widget.dart';
-import '../../../../dashboard/model/maninagar_shangar_darshan_model.dart';
+import '../../../../maninagar_live/model/maninagar_shangar_darshan_model.dart';
 
 @RoutePage()
 class DailyDarshanImages extends StatefulWidget {

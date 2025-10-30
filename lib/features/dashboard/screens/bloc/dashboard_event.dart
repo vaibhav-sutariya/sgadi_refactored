@@ -31,27 +31,11 @@ class FetchDashboardData extends DashboardEvent {
 
 class FetchDynamicPageId extends DashboardEvent {}
 
-class FetchManinagarShangarDarshan extends DashboardEvent {
-  final String maninagarPageId;
-  const FetchManinagarShangarDarshan(this.maninagarPageId);
-
-  @override
-  List<Object?> get props => [maninagarPageId];
-}
-
 class FetchCalenderData extends DashboardEvent {
   const FetchCalenderData();
 
   @override
   List<Object?> get props => [];
-}
-
-class FetchManinagarMandirShangarDarshan extends DashboardEvent {
-  final String maninagarMandirPageId;
-  const FetchManinagarMandirShangarDarshan(this.maninagarMandirPageId);
-
-  @override
-  List<Object?> get props => [maninagarMandirPageId];
 }
 
 class FetchLiveBroadcastData extends DashboardEvent {

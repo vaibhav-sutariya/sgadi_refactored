@@ -15,8 +15,6 @@ import '../model/daily_quote_model.dart';
 import '../model/dashboard_model.dart';
 import '../model/dynamic_page_id_model.dart';
 import '../model/live_broadcast_model.dart';
-import '../model/maninagar_mandir_shangar_darshan_model.dart';
-import '../model/maninagar_shangar_darshan_model.dart';
 
 @Injectable(as: DashboardRepository)
 class DashboardRepositoryImpl implements DashboardRepository {
@@ -57,42 +55,6 @@ class DashboardRepositoryImpl implements DashboardRepository {
         response['data'],
       );
       return dynamicPageIdData;
-    });
-  }
-
-  @override
-  Future<Either<Failure, ManinagarShangarDarshanModel>>
-  fetchManinagarShangarDarshan({required String maninagarPageId}) async {
-    ApiRepository apiRepository = ApiRepositoryImpl(sl.get());
-    return _performRequest(() async {
-      final response = await apiRepository.getWithPath(
-        ApiConstants.maninagarShangarDarshan,
-        maninagarPageId,
-      );
-      final maninagarShangarDarshanData = await IsolateParser.parse(
-        (json) => ManinagarShangarDarshanModel.fromJson(json),
-        response['data'],
-      );
-      return maninagarShangarDarshanData;
-    });
-  }
-
-  @override
-  Future<Either<Failure, ManinagarMandirShangarDarshanModel>>
-  fetchManinagarMandirShangarDarshan({
-    required String maninagarMandirPageId,
-  }) async {
-    ApiRepository apiRepository = ApiRepositoryImpl(sl.get());
-    return _performRequest(() async {
-      final response = await apiRepository.getWithPath(
-        ApiConstants.maninagarMandirLive,
-        maninagarMandirPageId,
-      );
-      final maninagarMandirShangarDarshanData = await IsolateParser.parse(
-        (json) => ManinagarMandirShangarDarshanModel.fromJson(json),
-        response['data'],
-      );
-      return maninagarMandirShangarDarshanData;
     });
   }
 

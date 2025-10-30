@@ -11,7 +11,7 @@ import 'package:starter_app/widgets/appbar_title.dart';
 import '../../../../../core/constant/app_colors.dart';
 import '../../../../../core/routes/app_router.dart';
 import '../../../../../widgets/back_button.dart';
-import '../../../../dashboard/model/maninagar_shangar_darshan_model.dart';
+import '../../../../maninagar_live/model/maninagar_shangar_darshan_model.dart';
 import '../../home_screen/bloc/home_bloc.dart';
 import '../../home_screen/bloc/home_state.dart';
 import 'widgets/daily_darshan_widget1.dart';

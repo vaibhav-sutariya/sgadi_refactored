@@ -2,9 +2,9 @@ import 'dart:developer';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:html/parser.dart' show parse;
-import 'package:starter_app/features/dashboard/model/maninagar_shangar_darshan_model.dart';
 import 'package:starter_app/features/home/screens/home_screen/bloc/home_event.dart';
 import 'package:starter_app/features/home/screens/home_screen/bloc/home_state.dart';
+import 'package:starter_app/features/maninagar_live/model/maninagar_shangar_darshan_model.dart';
 
 import '../../../model/shangar_darshan_model.dart';
 
