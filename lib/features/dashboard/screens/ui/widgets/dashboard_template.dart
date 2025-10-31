@@ -3,10 +3,11 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:starter_app/features/maninagar_live/screens/bloc/maninagar_live_bloc.dart';
+import 'package:starter_app/features/news/screens/bloc/news_bloc.dart';
 
 import '../../../../home/screens/home_screen/ui/home_screen.dart';
 import '../../../../more/screens/more_screen.dart';
-import '../../../../news/screens/news_screen.dart';
+import '../../../../news/screens/ui/news_screen.dart';
 import '../../../../niyams/screens/niyams_screen.dart';
 import '../../bloc/dashboard_bloc.dart';
 import '../../bloc/dashboard_event.dart';
@@ -16,7 +17,12 @@ import 'home_fab.dart';
 
 class DashboardTemplate extends StatelessWidget {
   final ManinagarLiveBloc maninagarLiveBloc;
-  const DashboardTemplate({super.key, required this.maninagarLiveBloc});
+  final NewsBloc newsBloc;
+  const DashboardTemplate({
+    super.key,
+    required this.maninagarLiveBloc,
+    required this.newsBloc,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -34,14 +40,14 @@ class DashboardTemplate extends StatelessWidget {
       builder: (context, state) {
         return SafeArea(
           child: Scaffold(
-            resizeToAvoidBottomInset: true,
+            resizeToAvoidBottomInset: false,
             extendBody: true,
             extendBodyBehindAppBar: true,
             body: IndexedStack(
               index: state.currentTab,
-              children: const [
+              children: [
                 MoreScreen(key: PageStorageKey("More")),
-                NewsScreen(key: PageStorageKey("News")),
+                NewsScreen(key: PageStorageKey("News"), newsBloc: newsBloc),
                 HomeScreen(key: PageStorageKey("Home")),
                 NiyamsScreen(key: PageStorageKey("Niyam")),
                 MoreScreen(key: PageStorageKey("More")),

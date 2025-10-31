@@ -25,6 +25,10 @@ import 'package:starter_app/features/maninagar_live/repositories/maninagar_live_
     as _i625;
 import 'package:starter_app/features/maninagar_live/repositories/maninagar_live_repository_impl.dart'
     as _i1;
+import 'package:starter_app/features/news/repositories/news_repository.dart'
+    as _i457;
+import 'package:starter_app/features/news/repositories/news_repository_impl.dart'
+    as _i79;
 import 'package:starter_app/features/splash/repositories/splash_repository.dart'
     as _i452;
 import 'package:starter_app/features/splash/repositories/splash_repository_impl.dart'
@@ -48,6 +52,7 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i839.HomeRepository>(() => _i708.HomeRepositoryImpl.new());
     gh.factory<_i452.SplashRepository>(() => _i119.SplashRepositoryImpl.new());
+    gh.factory<_i457.NewsRepository>(() => _i79.NewsRepositoryImpl.new());
     return this;
   }
 }

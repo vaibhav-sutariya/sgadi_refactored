@@ -122,7 +122,10 @@ class _GhanshyamVijayScreenState extends State<GhanshyamVijayScreen> {
                     const SizedBox(height: 4),
 
                     if (showSearch)
-                      RoundedSearchFormField(onSearchClicked: (value) {}),
+                      RoundedSearchFormField(
+                        onSearchClicked: (value) {},
+                        // onClearClicked: (value) {},
+                      ),
 
                     Expanded(
                       child: GridView.builder(
