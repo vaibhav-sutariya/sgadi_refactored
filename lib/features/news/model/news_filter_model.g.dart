@@ -112,6 +112,7 @@ _NewsDatum _$NewsDatumFromJson(Map<String, dynamic> json) => _NewsDatum(
       ?.map((e) => PublishLocation.fromJson(e as Map<String, dynamic>))
       .toList(),
   slug: json['_slug'] as String?,
+  mandirNames: json['mandirNames'] as String?,
 );
 
 Map<String, dynamic> _$NewsDatumToJson(_NewsDatum instance) =>
@@ -161,6 +162,7 @@ Map<String, dynamic> _$NewsDatumToJson(_NewsDatum instance) =>
       'publishLocationName': instance.publishLocationName,
       'publishLocationSlug': instance.publishLocationSlug,
       '_slug': instance.slug,
+      'mandirNames': instance.mandirNames,
     };
 
 _Category _$CategoryFromJson(Map<String, dynamic> json) => _Category(

@@ -93,6 +93,7 @@ abstract class NewsDatum with _$NewsDatum {
     @JsonKey(name: "publishLocationSlug")
     List<PublishLocation>? publishLocationSlug,
     @JsonKey(name: "_slug") String? slug,
+    @JsonKey(name: "mandirNames") String? mandirNames,
   }) = _NewsDatum;
 
   factory NewsDatum.fromJson(Map<String, dynamic> json) =>

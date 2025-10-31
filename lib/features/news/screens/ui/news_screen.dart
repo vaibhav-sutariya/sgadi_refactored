@@ -113,38 +113,8 @@ class _NewsScreenState extends State<NewsScreen> {
                         padding: const EdgeInsets.symmetric(horizontal: 12),
                         itemCount: list.length + 1, // +1 for loader slot
                         itemBuilder: (context, index) {
-                          final publishData = list[index].publishLocationName;
-                          String mandirName = '';
-
-                          if (publishData is List) {
-                            for (final item in publishData!) {
-                              if (item is Map) {
-                                final map = item as Map;
-                                for (final value in map.values) {
-                                  final s = value?.toString() ?? '';
-                                  if (s.isNotEmpty &&
-                                      s.toLowerCase() != 'null') {
-                                    mandirName = mandirName.isEmpty
-                                        ? s
-                                        : '$mandirName, $s';
-                                  }
-                                }
-                              } else {
-                                final s = item.toString();
-                                if (s.isNotEmpty && s.toLowerCase() != 'null') {
-                                  mandirName = mandirName.isEmpty
-                                      ? s
-                                      : '$mandirName, $s';
-                                }
-                              }
-                            }
-                          }
-                          log('🏛️ Mandir Names: $mandirName');
                           if (index < list.length) {
-                            return NewsWidget(
-                              newsData: list[index],
-                              mandirName: mandirName,
-                            );
+                            return NewsWidget(newsData: list[index]);
                           }
 
                           // 🔹 BlocSelector → rebuilds only when isNewsLoadingMore changes

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -13,11 +15,11 @@ import '../../../../../widgets/error_widget.dart';
 class NewsWidget extends StatelessWidget {
   final NewsDatum? newsData;
   final DateTime? compareDate = DateTime(2023, 03, 14);
-  final String mandirName;
-  NewsWidget({super.key, required this.newsData, required this.mandirName});
+  NewsWidget({super.key, required this.newsData});
 
   @override
   Widget build(BuildContext context) {
+    log(newsData!.mandirNames.toString(), name: 'Mandir Names');
     DateTime dateTime = DateTime.parse(newsData!.publishOn.toString());
     String imageUrl = "";
     if (dateTime.isBefore(compareDate!)) {
@@ -31,18 +33,7 @@ class NewsWidget extends StatelessWidget {
     String month = getMonthName(dateTime.month);
     int year = dateTime.year;
     return GestureDetector(
-      onTap: () {
-        // Navigator.of(context).push(
-        //   MaterialPageRoute(
-        //     builder: (context) => NewsDetailsScreen(
-        //       newsId: newsData.sId!,
-        //       image: newsData.image!,
-        //       slug: newsData.slug!,
-        //       title: newsData.title!,
-        //     ),
-        //   ),
-        // );
-      },
+      onTap: () {},
       child: Card(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
         elevation: 4,
@@ -201,7 +192,7 @@ class NewsWidget extends StatelessWidget {
                   children: [
                     Expanded(
                       child: Text(
-                        mandirName,
+                        newsData!.mandirNames.toString(),
                         maxLines: 1,
                         textAlign: TextAlign.start,
                         style: TextStyle(
